@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="icon" type="image/png" href="dau-logo.png" />
 <link rel="apple-touch-icon" href="dau-logo.png" />
-<title>Rà soát Văn bản — Phát hiện căn cứ hết hiệu lực</title>
+<title>Rà soát Văn bản: Phát hiện căn cứ hết hiệu lực</title>
 <style>
   :root{
-    /* Trục màu đỏ maroon — đồng bộ logo/website DAU (#990000). */
+    /* Trục màu đỏ maroon, đồng bộ logo/website DAU (#990000). */
     --blue:#990000; --blue-d:#7a0000; --blue-50:#fdf3f3; --blue-100:#f7d9d9;
     --ink:#1e293b; --muted:#64748b; --line:#e2e8f0; --bg:#ffffff; --soft:#faf7f7;
     --amber:#b45309; --amber-bg:#fffbeb; --red:#b91c1c; --red-bg:#fef2f2; --green:#15803d;
@@ -164,7 +164,7 @@
 <div class="hero"><div class="wrap">
   <div class="kick">Bảo đảm văn bản hành chính</div>
   <h1>Phát hiện văn bản đang viện dẫn căn cứ pháp lý đã hết hiệu lực</h1>
-  <p class="lead">Khi một nghị định, thông tư bị thay thế hoặc bãi bỏ, hàng loạt văn bản nội bộ của trường bỗng đứng trên một căn cứ đã chết. Hệ thống dựng đồ thị toàn bộ văn bản và đối chiếu với hiệu lực pháp luật, chỉ ra <b>đúng văn bản nào</b> cần rà lại — kèm căn cứ thay thế.</p>
+  <p class="lead">Khi một nghị định, thông tư bị thay thế hoặc bãi bỏ, hàng loạt văn bản nội bộ của trường bỗng đứng trên một căn cứ đã chết. Hệ thống dựng đồ thị toàn bộ văn bản và đối chiếu với hiệu lực pháp luật, chỉ ra <b>đúng văn bản nào</b> cần rà lại, kèm căn cứ thay thế.</p>
   <div class="stats" id="stats"></div>
 </div></div>
 
@@ -176,7 +176,7 @@
 
 <section style="background:var(--soft)"><div class="wrap">
   <h2>Phân tích nhanh</h2>
-  <p class="sub">Rút trực tiếp từ kết quả rà soát — không phải số minh hoạ.</p>
+  <p class="sub">Rút trực tiếp từ kết quả rà soát, không phải số minh hoạ.</p>
   <div class="metrics" id="metrics"></div>
   <div class="panels">
     <div class="panel">
@@ -258,7 +258,7 @@ function initApp(){
     '<div class="metric"><b>'+I.luotVien+'</b><span>lượt viện dẫn căn cứ đã hết hiệu lực</span></div>'+
     '<div class="metric"><b>'+I.thayThe+' / '+I.baiBo+'</b><span>bị thay thế / bị bãi bỏ</span></div>'+
     '<div class="metric"><b>'+I.vbNhieuCanCu+'</b><span>văn bản dính từ 2 căn cứ hỏng trở lên</span></div>'+
-    '<div class="metric"><b>'+I.luotLuatMoi+'</b><span>lượt do luật mới 2025–2026</span></div>';
+    '<div class="metric"><b>'+I.luotLuatMoi+'</b><span>lượt do luật mới 2025 tới 2026</span></div>';
 
   function bars(host, rows, cls){
     var max = Math.max.apply(null, rows.map(function(r){return r.n;}));
@@ -291,9 +291,9 @@ function initApp(){
 
   document.getElementById("whyNow").innerHTML =
     '<b>Vì sao bây giờ:</b> '+I.luotLuatMoi+'/'+I.luotVien+' lượt viện căn cứ hết hiệu lực là do đợt sửa luật lớn '+
-    '<b>2025–2026</b> (Luật Giáo dục ĐH 125/2025, Nghị định 91/2026…). Càng để lâu, số văn bản đứng trên căn cứ đã chết càng dồn.';
+    '<b>2025 tới 2026</b> (Luật Giáo dục ĐH 125/2025, Nghị định 91/2026…). Càng để lâu, số văn bản đứng trên căn cứ đã chết càng dồn.';
 
-  // ① Ưu tiên xử lý — bảng xếp hạng
+  // ① Ưu tiên xử lý: bảng xếp hạng
   (function(){
     var rows=I.uuTien||[];
     var host=document.getElementById("priority");
@@ -303,7 +303,7 @@ function initApp(){
       return '<div class="prow" data-did="'+r.docId+'">'+
         '<span class="pk">'+(i+1)+'</span>'+
         '<span class="pd">'+r.soHieu+'</span>'+
-        '<span class="pl">'+(r.loai||'—')+'</span>'+
+        '<span class="pl">'+(r.loai||"")+'</span>'+
         '<span class="pn">'+r.n+'</span>'+
         '<span>'+lvl+'</span></div>';
     }).join("");
@@ -312,7 +312,7 @@ function initApp(){
     });
   })();
 
-  // ③ Rủi ro tập trung — loại VB + chủ đề
+  // ③ Rủi ro tập trung: loại VB + chủ đề
   (function(){
     var T=I.tapTrung||{theoLoai:[],theoChuDe:[]};
     bars("riskLoai", T.theoLoai.map(function(x){return {label:x.loai,n:x.n};}));
@@ -334,7 +334,7 @@ function initApp(){
         '<div style="font-size:13px;color:var(--muted)">Độ tin cậy trung bình khi AI bóc tách '+t.tong+' văn bản cảnh báo.</div>'+
       '</div>'+
       '<div class="tline"><b>'+t.ocr+'/'+t.tong+'</b> văn bản đọc bằng OCR (ảnh scan)</div>'+
-      '<div class="tline"><b>'+t.duoi80+'/'+t.tong+'</b> văn bản có độ tin cậy dưới 80% — <span style="color:var(--amber)">nên có người kiểm lại</span></div>'+
+      '<div class="tline"><b>'+t.duoi80+'/'+t.tong+'</b> văn bản có độ tin cậy dưші 80%: <span style="color:var(--amber)">nên có người kiểm lại</span></div>'+
       '<div class="tline" style="color:var(--muted);font-size:12px;margin-top:8px">Hệ thống không tự quyết; con người duyệt cuối (HITL) + lưu vết.</div>';
   })();
 
@@ -457,7 +457,7 @@ function initApp(){
     var w = D.warnings.filter(function(x){return x.docId===docId;})[0];
     return w ? w.items : null;
   }
-  function fmtDate(s){ if(!s) return "—"; var p=String(s).split("-"); return p.length===3? p[2]+"/"+p[1]+"/"+p[0] : s; }
+  function fmtDate(s){ if(!s) return ""; var p=String(s).split("-"); return p.length===3? p[2]+"/"+p[1]+"/"+p[0] : s; }
   function openDetail(docId){
     var m = D.docMeta[docId];
     var ov=document.getElementById("ov"), dr=document.getElementById("drawer");

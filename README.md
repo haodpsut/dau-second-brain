@@ -1,4 +1,4 @@
-# Rà soát Văn bản — bản demo tĩnh (gửi trường)
+# Rà soát Văn bản: bản demo tĩnh (gửi trường)
 
 Web **tĩnh hoàn toàn** (chỉ `index.html` + `data.js`), không cần backend, không cần cơ sở dữ liệu.
 Tái hiện phần giá trị của DocOps: **26 văn bản của trường đang viện dẫn căn cứ pháp lý đã hết hiệu lực**,
@@ -7,7 +7,7 @@ gộp theo **10 lần luật thay đổi**, kèm **đồ thị tác động**. D
 Nền trắng + nhấn xanh dương (đồng bộ hệ thống của trường). Trung tính, không gắn thương hiệu.
 
 ## Xem thử tại máy
-Mở thẳng `index.html` bằng trình duyệt (nhấp đúp) — chạy ngay, không cần cài gì.
+Mở thẳng `index.html` bằng trình duyệt (nhấp đúp), chạy ngay, không cần cài gì.
 
 ## Đưa lên mạng cho trường xem (GitHub cá nhân → Vercel)
 1. Tạo repo mới trên **GitHub cá nhân** (không phải tài khoản công ty), ví dụ `ra-soat-van-ban-demo`.
@@ -22,7 +22,7 @@ Mở thẳng `index.html` bằng trình duyệt (nhấp đúp) — chạy ngay, 
 3. Vào https://vercel.com → **Add New Project** → chọn repo vừa đẩy → **Deploy**.
    Vercel tự nhận là site tĩnh, không cần cấu hình. Có link `https://<tên>.vercel.app` để gửi trường.
 
-> Không cần `vercel.json` hay build step — Vercel phục vụ trực tiếp `index.html`.
+> Không cần `vercel.json` hay build step. Vercel phục vụ trực tiếp `index.html`.
 
 ## Cổng đăng nhập (mã hoá)
 Trang có cổng mật khẩu dùng chung. Dữ liệu **được mã hoá** thành `data.enc` (AES-GCM +
