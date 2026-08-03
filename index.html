@@ -1,0 +1,566 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/png" href="dau-logo.png" />
+<link rel="apple-touch-icon" href="dau-logo.png" />
+<title>Rà soát Văn bản — Phát hiện căn cứ hết hiệu lực</title>
+<style>
+  :root{
+    /* Trục màu đỏ maroon — đồng bộ logo/website DAU (#990000). */
+    --blue:#990000; --blue-d:#7a0000; --blue-50:#fdf3f3; --blue-100:#f7d9d9;
+    --ink:#1e293b; --muted:#64748b; --line:#e2e8f0; --bg:#ffffff; --soft:#faf7f7;
+    --amber:#b45309; --amber-bg:#fffbeb; --red:#b91c1c; --red-bg:#fef2f2; --green:#15803d;
+    --gold:#FBAE40;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,"Segoe UI","Be Vietnam Pro",Roboto,system-ui,sans-serif;line-height:1.55}
+  a{color:var(--blue);text-decoration:none}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+  header{background:var(--blue);position:sticky;top:0;z-index:10;box-shadow:0 1px 0 rgba(0,0,0,.15)}
+  header .wrap{display:flex;align-items:center;gap:12px;height:58px}
+  .logo{width:34px;height:34px;border-radius:8px;background:#fff;display:grid;place-items:center;padding:3px}
+  .logo img{width:100%;height:100%;object-fit:contain;display:block}
+  .brand{font-weight:700;color:#fff}
+  .tag{margin-left:auto;font-size:12px;color:#fff;border:1px solid rgba(255,255,255,.45);padding:3px 10px;border-radius:999px}
+  .hero{padding:52px 0 30px;background:linear-gradient(#fff,var(--soft))}
+  .hero .kick{color:var(--blue)}
+  .kick{color:var(--blue);font-weight:700;font-size:13px;letter-spacing:.04em;text-transform:uppercase}
+  h1{font-size:34px;line-height:1.2;margin:10px 0 12px;max-width:760px}
+  .lead{color:var(--muted);font-size:17px;max-width:720px}
+  .stats{display:flex;gap:14px;flex-wrap:wrap;margin-top:22px}
+  .stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 18px;min-width:150px}
+  .stat b{display:block;font-size:30px;color:var(--blue);line-height:1}
+  .stat span{color:var(--muted);font-size:13px}
+  section{padding:34px 0}
+  h2{font-size:22px;margin:0 0 6px}
+  .sub{color:var(--muted);margin:0 0 20px}
+  /* Phân tích nhanh */
+  .metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:20px}
+  .metric{border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:10px;padding:14px 16px;background:#fff}
+  .metric b{display:block;font-size:26px;color:var(--blue);line-height:1.1}
+  .metric span{color:var(--muted);font-size:13px}
+  .panels{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:760px){.panels{grid-template-columns:1fr}}
+  .panel{border:1px solid var(--line);border-radius:12px;padding:16px 18px;background:#fff}
+  .panel-h{font-weight:700;font-size:14px;margin-bottom:12px}
+  .bar{display:grid;grid-template-columns:150px 1fr 34px;align-items:center;gap:10px;margin:7px 0;font-size:13px}
+  .bar .lbl{color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .bar .track{display:block;background:var(--soft);border-radius:6px;height:16px;overflow:hidden}
+  .bar .fill{display:block;height:100%;min-width:6px;background:var(--blue);border-radius:6px}
+  .bar .val{text-align:right;font-weight:700;color:var(--blue)}
+  .barY .fill{background:var(--gold)}
+  .barY .val{color:var(--amber)}
+  /* Ưu tiên xử lý */
+  .prow{display:grid;grid-template-columns:34px 1fr 130px 90px 120px;align-items:center;gap:10px;
+    padding:11px 14px;border:1px solid var(--line);border-radius:10px;background:#fff;margin-bottom:8px;font-size:14px;cursor:pointer;transition:.15s}
+  .prow:hover{border-color:var(--blue);box-shadow:0 2px 12px rgba(153,0,0,.08)}
+  .phead{background:var(--soft);font-weight:700;font-size:12px;color:var(--muted);cursor:default;text-transform:uppercase;letter-spacing:.02em}
+  .phead:hover{border-color:var(--line);box-shadow:none}
+  .prow .pk{font-weight:800;color:var(--blue);text-align:center}
+  .prow .pd{font-weight:700}
+  .prow .pl{color:var(--muted);font-size:13px}
+  .prow .pn{text-align:center;font-weight:700;color:var(--red)}
+  .lv{font-size:11px;padding:3px 9px;border-radius:999px;white-space:nowrap}
+  .lv-hi{background:var(--red-bg);color:var(--red);border:1px solid #fecaca}
+  .lv-md{background:var(--amber-bg);color:var(--amber);border:1px solid #fde68a}
+  @media(max-width:680px){.prow{grid-template-columns:26px 1fr 70px;}.prow .pl,.phead span:nth-child(3){display:none}}
+  .tline{font-size:14px;padding:6px 0}
+  /* Cổng đăng nhập */
+  #gate{position:fixed;inset:0;z-index:100;background:linear-gradient(135deg,#7a0000,#990000);display:flex;align-items:center;justify-content:center;padding:20px}
+  .gcard{background:#fff;border-radius:16px;padding:34px 30px;width:360px;max-width:92vw;box-shadow:0 20px 60px rgba(0,0,0,.3);text-align:center}
+  .glogo{width:56px;height:56px;object-fit:contain;margin-bottom:12px}
+  .gt{font-size:20px;font-weight:800;color:var(--blue)}
+  .gs{font-size:13px;color:var(--muted);margin:4px 0 22px}
+  .gl{display:block;text-align:left;font-size:13px;font-weight:600;color:var(--ink);margin-bottom:6px}
+  #gpw{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:10px;font-size:15px;outline:none}
+  #gpw:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(153,0,0,.12)}
+  #gbtn{width:100%;margin-top:14px;padding:12px;border:none;border-radius:10px;background:var(--blue);color:#fff;font-size:15px;font-weight:700;cursor:pointer}
+  #gbtn:disabled{opacity:.6;cursor:default}
+  .gerr{color:var(--red);font-size:13px;min-height:18px;margin-top:10px}
+  .gnote{color:var(--muted);font-size:12px;margin-top:6px}
+  .events{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px}
+  .ev{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:#fff;cursor:pointer;transition:.15s}
+  .ev:hover{border-color:var(--blue);box-shadow:0 2px 12px rgba(37,99,235,.10)}
+  .ev.active{border-color:var(--blue);background:var(--blue-50)}
+  .ev .n{font-size:22px;font-weight:800;color:var(--blue)}
+  .ev .chain{font-size:14px;margin-top:4px}
+  .ev .old{color:var(--red);font-weight:600}
+  .ev .new{color:var(--green);font-weight:600}
+  .pill{display:inline-block;font-size:11px;padding:2px 8px;border-radius:999px;margin-top:8px}
+  .pill.replace{background:var(--amber-bg);color:var(--amber);border:1px solid #fde68a}
+  .pill.repeal{background:var(--red-bg);color:var(--red);border:1px solid #fecaca}
+  .filterbar{display:flex;align-items:center;gap:10px;margin:6px 0 16px;flex-wrap:wrap}
+  .chip{font-size:13px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 12px;cursor:pointer}
+  .chip.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:12px}
+  .card{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
+  .card .h{padding:12px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px;background:var(--soft)}
+  .card .h .doc{font-weight:700;font-size:15px}
+  .card .b{padding:6px 16px 14px}
+  .item{padding:9px 0;border-bottom:1px dashed var(--line);font-size:14px}
+  .item:last-child{border-bottom:0}
+  .item .row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .arrow{color:var(--muted)}
+  .badge{font-size:11px;padding:1px 7px;border-radius:6px}
+  .badge.replace{background:var(--amber-bg);color:var(--amber)}
+  .badge.repeal{background:var(--red-bg);color:var(--red)}
+  .impact{border:1px solid var(--line);border-radius:12px;padding:18px;background:#fff}
+  .impact select{font-size:14px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;min-width:280px}
+  .dep{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line);font-size:14px}
+  .dep:last-child{border-bottom:0}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--blue)}
+  footer{border-top:1px solid var(--line);color:var(--muted);font-size:13px;padding:22px 0;margin-top:20px}
+  .note{background:var(--blue-50);border:1px solid var(--blue-100);border-radius:12px;padding:14px 16px;color:#5a0000;font-size:14px}
+  .card,.dnode{cursor:pointer}
+  .card{transition:.15s}
+  .card:hover{border-color:var(--blue);box-shadow:0 2px 12px rgba(153,0,0,.10)}
+  /* Drawer chi tiết */
+  .ov{position:fixed;inset:0;background:rgba(15,23,42,.45);opacity:0;pointer-events:none;transition:.2s;z-index:40}
+  .ov.show{opacity:1;pointer-events:auto}
+  .drawer{position:fixed;top:0;right:0;height:100%;width:440px;max-width:92vw;background:#fff;z-index:41;
+    box-shadow:-8px 0 30px rgba(0,0,0,.18);transform:translateX(100%);transition:.25s;overflow-y:auto}
+  .drawer.show{transform:translateX(0)}
+  .dr-h{position:sticky;top:0;background:var(--blue);color:#fff;padding:16px 20px;display:flex;align-items:flex-start;gap:10px}
+  .dr-h .x{margin-left:auto;cursor:pointer;font-size:22px;line-height:1;opacity:.9}
+  .dr-h .t{font-weight:700;font-size:16px}
+  .dr-h .s{font-size:12px;opacity:.85;margin-top:2px}
+  .dr-b{padding:18px 20px}
+  .kv{display:grid;grid-template-columns:110px 1fr;gap:6px 12px;font-size:14px;margin-bottom:16px}
+  .kv .k{color:var(--muted)}
+  .kv .v{color:var(--ink);font-weight:600}
+  .sec-t{font-weight:700;font-size:13px;color:var(--blue);text-transform:uppercase;letter-spacing:.03em;margin:16px 0 8px}
+  .sum{font-size:14px;color:#334155;line-height:1.6;background:var(--soft);border-radius:10px;padding:12px 14px}
+  .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .chip2{font-size:12px;background:var(--blue-50);color:#5a0000;border:1px solid var(--blue-100);border-radius:999px;padding:3px 10px}
+  .conf{display:inline-flex;align-items:center;gap:6px;font-size:12px}
+  .conf .bar2{width:90px;height:7px;background:var(--soft);border-radius:4px;overflow:hidden}
+  .conf .bar2 i{display:block;height:100%;background:var(--green)}
+  .cc-item{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px;padding:7px 0;border-bottom:1px dashed var(--line)}
+  .cc-item:last-child{border-bottom:0}
+</style>
+</head>
+<body style="overflow:hidden">
+<div id="gate">
+  <div class="gcard">
+    <img src="dau-logo.png" alt="DAU" class="glogo">
+    <div class="gt">Rà soát Văn bản</div>
+    <div class="gs">Trường Đại học Kiến trúc Đà Nẵng · bản demo</div>
+    <label class="gl" for="gpw">Mật khẩu truy cập</label>
+    <input id="gpw" type="password" autocomplete="off" placeholder="Nhập mật khẩu được cấp">
+    <button id="gbtn">Vào xem</button>
+    <div id="gerr" class="gerr"></div>
+    <div class="gnote">Nội dung được mã hoá; chỉ mở được bằng mật khẩu.</div>
+  </div>
+</div>
+<header><div class="wrap">
+  <div class="logo"><img src="dau-logo.png" alt="Logo Trường Đại học Kiến trúc Đà Nẵng"></div>
+  <div class="brand">Rà soát Văn bản</div>
+  <div class="tag">Bản demo · dữ liệu rà soát thực tế</div>
+</div></header>
+
+<div class="hero"><div class="wrap">
+  <div class="kick">Bảo đảm văn bản hành chính</div>
+  <h1>Phát hiện văn bản đang viện dẫn căn cứ pháp lý đã hết hiệu lực</h1>
+  <p class="lead">Khi một nghị định, thông tư bị thay thế hoặc bãi bỏ, hàng loạt văn bản nội bộ của trường bỗng đứng trên một căn cứ đã chết. Hệ thống dựng đồ thị toàn bộ văn bản và đối chiếu với hiệu lực pháp luật, chỉ ra <b>đúng văn bản nào</b> cần rà lại — kèm căn cứ thay thế.</p>
+  <div class="stats" id="stats"></div>
+</div></div>
+
+<section><div class="wrap">
+  <h2>Ưu tiên xử lý trước</h2>
+  <p class="sub">Xếp theo mức độ: văn bản có căn cứ <b>bị bãi bỏ</b> và dính <b>nhiều căn cứ hỏng</b> lên đầu. Bấm để xem chi tiết.</p>
+  <div id="priority"></div>
+</div></section>
+
+<section style="background:var(--soft)"><div class="wrap">
+  <h2>Phân tích nhanh</h2>
+  <p class="sub">Rút trực tiếp từ kết quả rà soát — không phải số minh hoạ.</p>
+  <div class="metrics" id="metrics"></div>
+  <div class="panels">
+    <div class="panel">
+      <div class="panel-h">Căn cứ bị viện nhiều nhất</div>
+      <div id="barTop"></div>
+    </div>
+    <div class="panel">
+      <div class="panel-h">Thay thế / bãi bỏ</div>
+      <div id="donut" style="display:flex;align-items:center;gap:18px"></div>
+      <div class="panel-h" style="margin-top:18px">Văn bản thay thế theo năm</div>
+      <div id="barYear"></div>
+    </div>
+  </div>
+  <div class="panels" style="margin-top:16px">
+    <div class="panel">
+      <div class="panel-h">Rủi ro tập trung ở đâu</div>
+      <div id="riskLoai"></div>
+      <div class="panel-h" style="margin-top:16px">Chủ đề hay gặp</div>
+      <div id="riskChuDe" class="chips"></div>
+    </div>
+    <div class="panel">
+      <div class="panel-h">Độ tin cậy trích xuất (chất lượng đọc)</div>
+      <div id="trust"></div>
+    </div>
+  </div>
+  <div class="note" id="whyNow" style="margin-top:16px"></div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Cảnh báo theo sự kiện thay đổi luật</h2>
+  <p class="sub">Mỗi thẻ là một lần luật thay đổi, kéo theo nhiều văn bản nội bộ. Bấm để lọc danh sách bên dưới.</p>
+  <div class="events" id="events"></div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Văn bản cần rà soát</h2>
+  <p class="sub">Mỗi văn bản kèm danh sách căn cứ đã hết hiệu lực và văn bản thay thế.</p>
+  <div class="filterbar" id="filterbar"></div>
+  <div class="cards" id="cards"></div>
+</div></section>
+
+<section style="background:var(--soft)"><div class="wrap">
+  <h2>Đồ thị tác động</h2>
+  <p class="sub">Chọn một căn cứ đã hết hiệu lực để xem những văn bản nội bộ phụ thuộc vào nó.</p>
+  <div class="impact">
+    <select id="impactSel"></select>
+    <div id="impactOut" style="margin-top:14px"></div>
+  </div>
+</div></section>
+
+<div class="ov" id="ov"></div>
+<aside class="drawer" id="drawer">
+  <div class="dr-h">
+    <div><div class="t" id="drTitle"></div><div class="s" id="drSub"></div></div>
+    <div class="x" id="drClose">&times;</div>
+  </div>
+  <div class="dr-b" id="drBody"></div>
+</aside>
+
+<footer><div class="wrap">
+  Bản demo tĩnh · dữ liệu minh hoạ trích từ rà soát thực tế trên kho văn bản trường đại học.
+  Không thu thập dữ liệu người dùng; toàn bộ chạy trong trình duyệt.
+</div></footer>
+
+<script>
+function initApp(){
+  var D = window.DEMO_DATA;
+  var badge = function(ly){ return ly.indexOf("bãi bỏ")>=0 ? "repeal" : "replace"; };
+
+  // stats
+  document.getElementById("stats").innerHTML =
+    '<div class="stat"><b>'+D.soCanhBao+(D.tongCorpus?' <span style="font-size:16px;color:var(--muted)">/ '+D.tongCorpus+'</span>':'')+'</b><span>văn bản viện căn cứ hết hiệu lực'+(D.tongCorpus?' trên tổng kho':'')+'</span></div>'+
+    '<div class="stat"><b>'+D.soSuKien+'</b><span>lần luật thay đổi (thay thế / bãi bỏ)</span></div>'+
+    '<div class="stat"><b>on-prem</b><span>dữ liệu không rời tổ chức</span></div>';
+
+  // ---- Phân tích nhanh ----
+  var I = D.insights;
+  document.getElementById("metrics").innerHTML =
+    '<div class="metric"><b>'+I.luotVien+'</b><span>lượt viện dẫn căn cứ đã hết hiệu lực</span></div>'+
+    '<div class="metric"><b>'+I.thayThe+' / '+I.baiBo+'</b><span>bị thay thế / bị bãi bỏ</span></div>'+
+    '<div class="metric"><b>'+I.vbNhieuCanCu+'</b><span>văn bản dính từ 2 căn cứ hỏng trở lên</span></div>'+
+    '<div class="metric"><b>'+I.luotLuatMoi+'</b><span>lượt do luật mới 2025–2026</span></div>';
+
+  function bars(host, rows, cls){
+    var max = Math.max.apply(null, rows.map(function(r){return r.n;}));
+    document.getElementById(host).className = cls||"";
+    document.getElementById(host).innerHTML = rows.map(function(r){
+      return '<div class="bar"><span class="lbl" title="'+r.label+'">'+r.label+'</span>'+
+        '<span class="track"><span class="fill" style="width:'+(r.n/max*100).toFixed(0)+'%"></span></span>'+
+        '<span class="val">'+r.n+'</span></div>';
+    }).join("");
+  }
+  bars("barTop", I.topCanCu.map(function(x){return {label:x.canCu,n:x.n};}));
+  bars("barYear", I.theoNam.map(function(x){return {label:x.nam,n:x.n};}), "barY");
+
+  // donut thay thế / bãi bỏ (SVG)
+  (function(){
+    var a=I.thayThe, b=I.baiBo, tot=a+b, r=42, c=2*Math.PI*r;
+    var segA=(a/tot*c), segB=(b/tot*c);
+    document.getElementById("donut").innerHTML =
+      '<svg width="120" height="120" viewBox="0 0 120 120">'+
+      '<circle cx="60" cy="60" r="'+r+'" fill="none" stroke="var(--amber)" stroke-width="16" '+
+        'stroke-dasharray="'+segA+' '+(c-segA)+'" transform="rotate(-90 60 60)"/>'+
+      '<circle cx="60" cy="60" r="'+r+'" fill="none" stroke="var(--red)" stroke-width="16" '+
+        'stroke-dasharray="'+segB+' '+(c-segB)+'" stroke-dashoffset="'+(-segA)+'" transform="rotate(-90 60 60)"/>'+
+      '<text x="60" y="58" text-anchor="middle" font-size="22" font-weight="800" fill="var(--ink)">'+tot+'</text>'+
+      '<text x="60" y="74" text-anchor="middle" font-size="10" fill="var(--muted)">lượt</text></svg>'+
+      '<div style="font-size:13px">'+
+      '<div><span style="display:inline-block;width:10px;height:10px;background:var(--amber);border-radius:2px;margin-right:6px"></span>Bị thay thế · <b>'+a+'</b></div>'+
+      '<div style="margin-top:6px"><span style="display:inline-block;width:10px;height:10px;background:var(--red);border-radius:2px;margin-right:6px"></span>Bị bãi bỏ · <b>'+b+'</b></div></div>';
+  })();
+
+  document.getElementById("whyNow").innerHTML =
+    '<b>Vì sao bây giờ:</b> '+I.luotLuatMoi+'/'+I.luotVien+' lượt viện căn cứ hết hiệu lực là do đợt sửa luật lớn '+
+    '<b>2025–2026</b> (Luật Giáo dục ĐH 125/2025, Nghị định 91/2026…). Càng để lâu, số văn bản đứng trên căn cứ đã chết càng dồn.';
+
+  // ① Ưu tiên xử lý — bảng xếp hạng
+  (function(){
+    var rows=I.uuTien||[];
+    var host=document.getElementById("priority");
+    var head='<div class="prow phead"><span>#</span><span>Văn bản</span><span>Loại</span><span>Căn cứ hỏng</span><span>Mức độ</span></div>';
+    host.innerHTML=head+rows.map(function(r,i){
+      var lvl=r.baiBo?'<span class="lv lv-hi">Ưu tiên cao</span>':'<span class="lv lv-md">Cần rà</span>';
+      return '<div class="prow" data-did="'+r.docId+'">'+
+        '<span class="pk">'+(i+1)+'</span>'+
+        '<span class="pd">'+r.soHieu+'</span>'+
+        '<span class="pl">'+(r.loai||'—')+'</span>'+
+        '<span class="pn">'+r.n+'</span>'+
+        '<span>'+lvl+'</span></div>';
+    }).join("");
+    Array.prototype.forEach.call(host.querySelectorAll(".prow[data-did]"),function(el){
+      el.onclick=function(){ openDetail(el.dataset.did); };
+    });
+  })();
+
+  // ③ Rủi ro tập trung — loại VB + chủ đề
+  (function(){
+    var T=I.tapTrung||{theoLoai:[],theoChuDe:[]};
+    bars("riskLoai", T.theoLoai.map(function(x){return {label:x.loai,n:x.n};}));
+    document.getElementById("riskChuDe").innerHTML =
+      T.theoChuDe.map(function(c){return '<span class="chip2">'+esc(c.chuDe)+' · '+c.n+'</span>';}).join("");
+  })();
+
+  // ② Độ tin cậy trích xuất
+  (function(){
+    var t=I.tinCay; if(!t) return;
+    document.getElementById("trust").innerHTML =
+      '<div style="display:flex;align-items:center;gap:14px;margin-bottom:12px">'+
+        '<svg width="86" height="86" viewBox="0 0 86 86">'+
+          '<circle cx="43" cy="43" r="34" fill="none" stroke="var(--soft)" stroke-width="12"/>'+
+          '<circle cx="43" cy="43" r="34" fill="none" stroke="var(--green)" stroke-width="12" '+
+            'stroke-dasharray="'+(t.tb/100*2*Math.PI*34)+' '+(2*Math.PI*34)+'" stroke-linecap="round" transform="rotate(-90 43 43)"/>'+
+          '<text x="43" y="48" text-anchor="middle" font-size="20" font-weight="800" fill="var(--ink)">'+t.tb+'%</text>'+
+        '</svg>'+
+        '<div style="font-size:13px;color:var(--muted)">Độ tin cậy trung bình khi AI bóc tách '+t.tong+' văn bản cảnh báo.</div>'+
+      '</div>'+
+      '<div class="tline"><b>'+t.ocr+'/'+t.tong+'</b> văn bản đọc bằng OCR (ảnh scan)</div>'+
+      '<div class="tline"><b>'+t.duoi80+'/'+t.tong+'</b> văn bản có độ tin cậy dưới 80% — <span style="color:var(--amber)">nên có người kiểm lại</span></div>'+
+      '<div class="tline" style="color:var(--muted);font-size:12px;margin-top:8px">Hệ thống không tự quyết; con người duyệt cuối (HITL) + lưu vết.</div>';
+  })();
+
+  // events
+  var evWrap = document.getElementById("events");
+  var activeEvent = null;
+  D.events.forEach(function(e, i){
+    var el = document.createElement("div");
+    el.className="ev"; el.dataset.i=i;
+    el.innerHTML =
+      '<div class="n">'+e.docs.length+' <span style="font-size:13px;color:var(--muted);font-weight:600">văn bản</span></div>'+
+      '<div class="chain"><span class="old">'+e.canCu+'</span> <span class="arrow">→</span> <span class="new">'+e.thayBang+'</span></div>'+
+      '<span class="pill '+badge(e.lyDo)+'">'+e.lyDo+'</span>';
+    el.onclick=function(){
+      if(activeEvent===i){ activeEvent=null; } else { activeEvent=i; }
+      renderChips(); renderCards();
+      Array.prototype.forEach.call(evWrap.children,function(c){c.classList.toggle("active", c.dataset.i==activeEvent);});
+    };
+    evWrap.appendChild(el);
+  });
+
+  // filter chips (theo lý do)
+  var filterReason = "all";
+  function renderChips(){
+    var fb = document.getElementById("filterbar");
+    var reasons = [["all","Tất cả"],["thay","Bị thay thế"],["bãi","Bị bãi bỏ"]];
+    fb.innerHTML = reasons.map(function(r){
+      return '<span class="chip'+(filterReason===r[0]?' active':'')+'" data-r="'+r[0]+'">'+r[1]+'</span>';
+    }).join("") + (activeEvent!==null ? '<span style="color:var(--muted);font-size:13px">· đang lọc theo sự kiện: <b>'+D.events[activeEvent].canCu+'</b> <a href="#" id="clearEv">bỏ lọc</a></span>' : '');
+    Array.prototype.forEach.call(fb.querySelectorAll(".chip"),function(c){
+      c.onclick=function(){ filterReason=c.dataset.r; renderChips(); renderCards(); };
+    });
+    var ce=document.getElementById("clearEv");
+    if(ce) ce.onclick=function(ev){ev.preventDefault();activeEvent=null;renderChips();renderCards();Array.prototype.forEach.call(evWrap.children,function(c){c.classList.remove("active");});};
+  }
+
+  // cards
+  function renderCards(){
+    var evDocs = activeEvent!==null ? new Set(D.events[activeEvent].docs) : null;
+    var host = document.getElementById("cards");
+    host.innerHTML="";
+    D.warnings.forEach(function(w){
+      if(evDocs && !evDocs.has(w.soHieu)) return;
+      var items = w.items.filter(function(it){
+        if(filterReason==="thay") return it.lyDo.indexOf("thay")>=0;
+        if(filterReason==="bãi") return it.lyDo.indexOf("bãi")>=0;
+        return true;
+      });
+      if(!items.length) return;
+      var worst = items.some(function(it){return it.lyDo.indexOf("bãi")>=0;}) ? "repeal":"replace";
+      var card=document.createElement("div"); card.className="card";
+      card.innerHTML =
+        '<div class="h"><span class="badge '+worst+'">'+(worst==="repeal"?"bãi bỏ":"thay thế")+'</span><span class="doc">'+w.soHieu+'</span>'+
+          '<span style="margin-left:auto;color:var(--muted);font-size:12px">xem chi tiết →</span></div>'+
+        '<div class="b">'+items.map(function(it){
+          return '<div class="item"><div class="row"><span style="color:var(--red)">'+it.canCu+'</span>'+
+            '<span class="arrow">→</span><span style="color:var(--green)">'+it.thayBang+'</span>'+
+            '<span class="badge '+badge(it.lyDo)+'">'+it.lyDo+'</span></div></div>';
+        }).join("")+'</div>';
+      card.onclick=function(){ openDetail(w.docId); };
+      host.appendChild(card);
+    });
+    if(!host.children.length) host.innerHTML='<p class="sub">Không có văn bản khớp bộ lọc.</p>';
+  }
+
+  // impact
+  var sel=document.getElementById("impactSel");
+  D.impact.forEach(function(x,i){
+    var o=document.createElement("option"); o.value=i;
+    o.textContent=x.canCu+"  ("+x.dependents.length+" văn bản phụ thuộc)";
+    sel.appendChild(o);
+  });
+  function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;");}
+  function renderImpact(){
+    var x=D.impact[sel.value];
+    var out=document.getElementById("impactOut");
+    if(!x){out.innerHTML="";return;}
+    var deps=x.dependents;
+    var note='<div class="note">Nếu <b>'+esc(x.canCu)+'</b> thay đổi ('+x.lyDo+' → <b>'+esc(x.thayBang)+'</b>), '+
+      deps.length+' văn bản dưới đây cần rà lại.</div>';
+    if(!deps.length){ out.innerHTML=note+'<p class="sub">Không có văn bản phụ thuộc trong kho.</p>'; return; }
+
+    var W=740, rowH=50, pad=44, bx=18, bw=214, dx=474, dw=250, dh=38;
+    var H=Math.max(240, pad*2 + deps.length*rowH);
+    var by=H/2;
+    var svg='<svg viewBox="0 0 '+W+' '+H+'" width="100%" style="max-width:'+W+'px;font-family:inherit">';
+    svg+='<defs><marker id="ah" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">'+
+         '<path d="M0,0 L7,3 L0,6 Z" fill="#b91c1c"/></marker></defs>';
+    // đường nối căn cứ -> từng văn bản phụ thuộc
+    deps.forEach(function(d,i){
+      var dy=pad + i*rowH + dh/2;
+      var x1=bx+bw, y1=by, x2=dx, y2=dy, mx=(x1+x2)/2;
+      svg+='<path d="M'+x1+','+y1+' C'+mx+','+y1+' '+mx+','+y2+' '+(x2-2)+','+y2+'" '+
+           'fill="none" stroke="#d99" stroke-width="1.6" marker-end="url(#ah)"/>';
+    });
+    // node căn cứ hết hiệu lực (đỏ, viền đứt = đã "chết")
+    svg+='<g><rect x="'+bx+'" y="'+(by-28)+'" width="'+bw+'" height="56" rx="10" '+
+         'fill="#fef2f2" stroke="#b91c1c" stroke-width="1.8" stroke-dasharray="5 3"/>'+
+         '<text x="'+(bx+bw/2)+'" y="'+(by-6)+'" text-anchor="middle" font-size="9.5" fill="#b91c1c" font-weight="700">CĂN CỨ HẾT HIỆU LỰC</text>'+
+         '<text x="'+(bx+bw/2)+'" y="'+(by+12)+'" text-anchor="middle" font-size="13" fill="#1e293b" font-weight="700">'+esc(x.canCu)+'</text></g>';
+    // chip văn bản thay thế (xanh) dưới căn cứ
+    svg+='<g><rect x="'+bx+'" y="'+(by+40)+'" width="'+bw+'" height="30" rx="8" fill="#f0fdf4" stroke="#15803d" stroke-width="1.4"/>'+
+         '<text x="'+(bx+bw/2)+'" y="'+(by+59)+'" text-anchor="middle" font-size="11.5" fill="#15803d">thay bằng: <tspan font-weight="700">'+esc(x.thayBang)+'</tspan></text></g>';
+    svg+='<line x1="'+(bx+bw/2)+'" y1="'+(by+28)+'" x2="'+(bx+bw/2)+'" y2="'+(by+40)+'" stroke="#15803d" stroke-width="1.2"/>';
+    // node văn bản phụ thuộc
+    deps.forEach(function(d,i){
+      var dy=pad + i*rowH + dh/2;
+      svg+='<g class="dnode" style="cursor:pointer" onclick="window.__openDetail(\''+(d.docId||'')+'\')">'+
+           '<rect x="'+dx+'" y="'+(dy-dh/2)+'" width="'+dw+'" height="'+dh+'" rx="8" fill="#fff" stroke="#990000" stroke-width="1.3"/>'+
+           '<text x="'+(dx+12)+'" y="'+(dy+2)+'" font-size="12.5" fill="#1e293b" font-weight="600">'+esc(d.soHieu)+'</text>'+
+           (d.loai?'<text x="'+(dx+12)+'" y="'+(dy+15)+'" font-size="9.5" fill="#64748b">'+esc(d.loai)+' · bấm xem chi tiết</text>':'')+'</g>';
+    });
+    svg+='</svg>';
+    out.innerHTML = note + '<div style="overflow-x:auto;margin-top:14px">'+svg+'</div>';
+  }
+  sel.onchange=renderImpact;
+
+  // ---- Drawer chi tiết văn bản ----
+  function warnItemsOf(docId){
+    var w = D.warnings.filter(function(x){return x.docId===docId;})[0];
+    return w ? w.items : null;
+  }
+  function fmtDate(s){ if(!s) return "—"; var p=String(s).split("-"); return p.length===3? p[2]+"/"+p[1]+"/"+p[0] : s; }
+  function openDetail(docId){
+    var m = D.docMeta[docId];
+    var ov=document.getElementById("ov"), dr=document.getElementById("drawer");
+    if(!m){
+      document.getElementById("drTitle").textContent="Không có dữ liệu chi tiết";
+      document.getElementById("drSub").textContent="";
+      document.getElementById("drBody").innerHTML='<p class="sub">Văn bản này chưa có bản trích xuất trong demo.</p>';
+    } else {
+      document.getElementById("drTitle").textContent = m.soHieu || "Văn bản";
+      document.getElementById("drSub").textContent = [m.loai, m.coQuan].filter(Boolean).join(" · ");
+      var conf = m.conf!=null ? Math.round(m.conf*100) : null;
+      var items = warnItemsOf(docId);
+      var html = '<div class="kv">'+
+        row("Loại", m.loai)+
+        row("Cơ quan", m.coQuan)+
+        row("Người ký", m.nguoiKy)+
+        row("Ngày ký", fmtDate(m.ngayKy))+
+        row("Hiệu lực", fmtDate(m.hieuLucTu) + (m.hieuLucDen? " → "+fmtDate(m.hieuLucDen) : " → nay"))+
+        row("Trạng thái", m.status)+
+      '</div>';
+      // độ tin cậy trích xuất + OCR (thông tin DocOps bóc ra)
+      html += '<div style="display:flex;gap:18px;align-items:center;margin-bottom:6px">';
+      if(conf!=null) html += '<span class="conf">Độ tin cậy trích xuất <span class="bar2"><i style="width:'+conf+'%"></i></span> <b>'+conf+'%</b></span>';
+      html += '<span class="conf">'+(m.ocr? "📄 có dùng OCR":"📄 lớp chữ số")+'</span></div>';
+      // tóm tắt
+      if(m.tomTat){ html += '<div class="sec-t">Tóm tắt (AI trích)</div><div class="sum">'+esc(m.tomTat)+'</div>'; }
+      // căn cứ hết hiệu lực (nếu là văn bản cảnh báo)
+      if(items){
+        html += '<div class="sec-t">Căn cứ đã hết hiệu lực</div>';
+        html += items.map(function(it){
+          return '<div class="cc-item"><span style="color:var(--red);font-weight:600">'+esc(it.canCu)+'</span>'+
+            '<span class="arrow">→</span><span style="color:var(--green);font-weight:600">'+esc(it.thayBang)+'</span>'+
+            '<span class="badge '+badge(it.lyDo)+'">'+it.lyDo+'</span></div>';
+        }).join("");
+      }
+      // chủ đề + tags
+      if(m.chuDe&&m.chuDe.length){ html += '<div class="sec-t">Chủ đề</div><div class="chips">'+m.chuDe.map(function(c){return '<span class="chip2">'+esc(c)+'</span>';}).join("")+'</div>'; }
+      if(m.tags&&m.tags.length){ html += '<div class="sec-t">Từ khoá</div><div class="chips">'+m.tags.map(function(t){return '<span class="chip2">'+esc(t)+'</span>';}).join("")+'</div>'; }
+      document.getElementById("drBody").innerHTML = html;
+    }
+    ov.classList.add("show"); dr.classList.add("show");
+  }
+  function row(k,v){ return v? '<span class="k">'+k+'</span><span class="v">'+esc(v)+'</span>' : ''; }
+  function closeDetail(){ document.getElementById("ov").classList.remove("show"); document.getElementById("drawer").classList.remove("show"); }
+  document.getElementById("ov").onclick=closeDetail;
+  document.getElementById("drClose").onclick=closeDetail;
+  document.addEventListener("keydown",function(e){ if(e.key==="Escape") closeDetail(); });
+  window.__openDetail = openDetail; // cho node SVG gọi
+
+  renderChips(); renderCards(); renderImpact();
+  // deep-link: mở sẵn 1 văn bản nếu URL có #doc=<id>
+  var hm = location.hash.match(/doc=([^&]+)/); if(hm) openDetail(decodeURIComponent(hm[1]));
+}
+
+// ===== Cổng đăng nhập (mã hoá dữ liệu, web tĩnh) =====
+(function(){
+  var b64d=function(s){return Uint8Array.from(atob(s),function(c){return c.charCodeAt(0);});};
+  function deriveKey(pw, salt){
+    return crypto.subtle.importKey("raw", new TextEncoder().encode(pw), "PBKDF2", false, ["deriveKey"])
+      .then(function(km){
+        return crypto.subtle.deriveKey(
+          {name:"PBKDF2", salt:salt, iterations:150000, hash:"SHA-256"},
+          km, {name:"AES-GCM", length:256}, false, ["decrypt"]);
+      });
+  }
+  function unlock(pw){
+    return fetch("data.enc").then(function(r){return r.text();}).then(function(txt){
+      var p=txt.trim().split(".");
+      var salt=b64d(p[0]), iv=b64d(p[1]), ct=b64d(p[2]);
+      return deriveKey(pw, salt).then(function(key){
+        return crypto.subtle.decrypt({name:"AES-GCM", iv:iv}, key, ct);
+      }).then(function(buf){
+        var json=new TextDecoder().decode(buf);
+        window.DEMO_DATA=JSON.parse(json);
+      });
+    });
+  }
+  function showApp(){
+    document.getElementById("gate").style.display="none";
+    document.body.style.overflow="";
+    initApp();
+  }
+  function submit(){
+    var pw=document.getElementById("gpw").value;
+    var err=document.getElementById("gerr"), btn=document.getElementById("gbtn");
+    err.textContent=""; btn.disabled=true; btn.textContent="Đang mở…";
+    unlock(pw).then(function(){
+      try{ sessionStorage.setItem("gate_pw", pw); }catch(e){}
+      showApp();
+    }).catch(function(){
+      err.textContent="Mật khẩu không đúng. Thử lại.";
+      btn.disabled=false; btn.textContent="Vào xem";
+    });
+  }
+  window.addEventListener("DOMContentLoaded", function(){
+    document.getElementById("gbtn").onclick=submit;
+    document.getElementById("gpw").addEventListener("keydown",function(e){ if(e.key==="Enter") submit(); });
+    // tự mở lại trong phiên nếu đã nhập đúng
+    var saved=null; try{ saved=sessionStorage.getItem("gate_pw"); }catch(e){}
+    if(saved){ unlock(saved).then(showApp).catch(function(){ document.getElementById("gpw").focus(); }); }
+    else document.getElementById("gpw").focus();
+  });
+})();
+</script>
+</body>
+</html>
