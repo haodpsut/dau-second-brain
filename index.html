@@ -140,6 +140,93 @@
   .conf .bar2 i{display:block;height:100%;background:var(--green)}
   .cc-item{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px;padding:7px 0;border-bottom:1px dashed var(--line)}
   .cc-item:last-child{border-bottom:0}
+
+  /* ===== Thanh điều hướng nhóm mục ===== */
+  .navtabs{position:sticky;top:58px;z-index:9;background:#fff;border-bottom:1px solid var(--line)}
+  .navtabs .wrap{display:flex;gap:4px;overflow-x:auto;padding-top:8px;padding-bottom:8px}
+  .navtabs a{font-size:13px;font-weight:600;color:var(--muted);padding:7px 13px;border-radius:999px;white-space:nowrap}
+  .navtabs a:hover{background:var(--soft);color:var(--ink)}
+  .navtabs a.on{background:var(--blue);color:#fff}
+  section[id]{scroll-margin-top:112px}
+
+  /* ===== Ô tìm kiếm dùng chung ===== */
+  .inp{width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:10px;font-size:15px;
+    outline:none;font-family:inherit;background:#fff}
+  .inp:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(153,0,0,.10)}
+  .srow{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+  .srow .inp{flex:1;min-width:260px}
+  .sel{padding:10px 12px;border:1px solid var(--line);border-radius:10px;font-size:14px;
+    font-family:inherit;background:#fff;color:var(--ink)}
+  .cnt{font-size:13px;color:var(--muted)}
+  .cnt b{color:var(--blue)}
+  mark{background:#fde68a;color:inherit;padding:0 2px;border-radius:3px}
+
+  /* ===== Danh sách kết quả ===== */
+  .rlist{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
+  .r{display:grid;grid-template-columns:210px 1fr 96px;gap:12px;align-items:start;padding:12px 16px;
+    border-bottom:1px solid var(--line);font-size:14px;cursor:pointer;transition:.12s}
+  .r:last-child{border-bottom:0}
+  .r:hover{background:var(--blue-50)}
+  .r .rs{font-weight:700;color:var(--blue);word-break:break-word}
+  .r .rt{color:#334155}
+  .r .rm{font-size:12px;color:var(--muted);margin-top:3px}
+  .r .rr{text-align:right;font-size:11px;color:var(--muted)}
+  @media(max-width:720px){.r{grid-template-columns:1fr}.r .rr{text-align:left}}
+  .src{display:inline-block;font-size:10px;padding:2px 7px;border-radius:999px;font-weight:700;letter-spacing:.02em}
+  .src.bo{background:#eef2ff;color:#3730a3;border:1px solid #c7d2fe}
+  .src.truong{background:var(--blue-50);color:#7a0000;border:1px solid var(--blue-100)}
+  .empty{padding:26px 16px;text-align:center;color:var(--muted);font-size:14px}
+
+  /* ===== Khối bằng chứng nguyên văn ===== */
+  .ev-q{border-left:3px solid var(--blue);background:var(--soft);padding:10px 14px;margin:8px 0;
+    font-size:13px;color:#334155;line-height:1.6;border-radius:0 8px 8px 0}
+  .ev-q .lbl{display:block;font-size:10px;font-weight:800;letter-spacing:.04em;color:var(--blue);
+    text-transform:uppercase;margin-bottom:5px}
+  .toggle{font-size:12px;color:var(--blue);cursor:pointer;font-weight:600;user-select:none}
+  .toggle:hover{text-decoration:underline}
+
+  /* ===== Dòng thời gian hạn chót ===== */
+  .tl{position:relative;padding-left:28px}
+  .tl:before{content:"";position:absolute;left:8px;top:6px;bottom:6px;width:2px;background:var(--line)}
+  .tlr{position:relative;padding:11px 0;border-bottom:1px dashed var(--line);font-size:14px;cursor:pointer}
+  .tlr:last-child{border-bottom:0}
+  .tlr:before{content:"";position:absolute;left:-24px;top:17px;width:11px;height:11px;border-radius:50%;
+    background:#fff;border:2.5px solid var(--blue)}
+  .tlr.qua:before{border-color:var(--red);background:var(--red)}
+  .tlr.gan:before{border-color:var(--amber);background:var(--amber)}
+  .tlr .d{font-weight:800;color:var(--blue);font-size:13px}
+  .tlr.qua .d{color:var(--red)}
+  .tlr.gan .d{color:var(--amber)}
+  .tlr .w{color:#334155;margin-top:2px}
+  .tlr .m{font-size:12px;color:var(--muted);margin-top:2px}
+  .dleft{font-size:11px;padding:2px 8px;border-radius:999px;background:var(--soft);color:var(--muted);margin-left:6px}
+  .dleft.qua{background:var(--red-bg);color:var(--red)}
+  .dleft.gan{background:var(--amber-bg);color:var(--amber)}
+
+  /* ===== Thẻ số liệu nhỏ ===== */
+  .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:18px}
+  .tile{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:#fff}
+  .tile b{display:block;font-size:22px;color:var(--blue);line-height:1.15}
+  .tile span{font-size:12px;color:var(--muted)}
+
+  /* ===== Cảnh báo mức nặng ===== */
+  .alert{border:1px solid #fecaca;background:var(--red-bg);border-radius:12px;padding:14px 16px;
+    font-size:14px;color:#7f1d1d;margin-bottom:16px}
+  .alert b{color:var(--red)}
+  .warnbox{border:1px solid #fde68a;background:var(--amber-bg);border-radius:12px;padding:13px 16px;
+    font-size:13px;color:#78350f;margin-top:14px}
+
+  /* ===== Điều khoản trong drawer ===== */
+  .dk{font-size:13px;padding:6px 0;border-bottom:1px dashed var(--line);display:grid;
+    grid-template-columns:74px 1fr;gap:10px}
+  .dk:last-child{border-bottom:0}
+  .dk .n{font-weight:700;color:var(--blue)}
+  .nvrow{font-size:13px;padding:9px 0;border-bottom:1px dashed var(--line)}
+  .nvrow:last-child{border-bottom:0}
+  .nvrow .h{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:3px}
+  .tag2{font-size:10px;padding:2px 7px;border-radius:999px;background:var(--soft);color:var(--muted);
+    border:1px solid var(--line);white-space:nowrap}
+  .tag2.han{background:var(--amber-bg);color:var(--amber);border-color:#fde68a;font-weight:700}
 </style>
 </head>
 <body style="overflow:hidden">
@@ -161,20 +248,63 @@
   <div class="tag">Bản demo · dữ liệu rà soát thực tế</div>
 </div></header>
 
+<nav class="navtabs"><div class="wrap">
+  <a href="#uu-tien">Ưu tiên</a>
+  <a href="#khai-tu">Đã bị khai tử</a>
+  <a href="#han-chot">Hạn chót</a>
+  <a href="#phan-tich">Phân tích</a>
+  <a href="#su-kien">Sự kiện luật</a>
+  <a href="#ra-soat">Cần rà soát</a>
+  <a href="#tra-cuu">Tra cứu</a>
+  <a href="#viec">Việc phải làm</a>
+  <a href="#nguong">Sổ ngưỡng</a>
+  <a href="#do-thi">Đồ thị</a>
+  <a href="#chua-biet">Chỗ chưa biết</a>
+</div></nav>
+
 <div class="hero"><div class="wrap">
   <div class="kick">Bảo đảm văn bản hành chính</div>
   <h1>Phát hiện văn bản đang viện dẫn căn cứ pháp lý đã hết hiệu lực</h1>
-  <p class="lead">Khi một nghị định, thông tư bị thay thế hoặc bãi bỏ, hàng loạt văn bản nội bộ của trường bỗng đứng trên một căn cứ đã chết. Hệ thống dựng đồ thị toàn bộ văn bản và đối chiếu với hiệu lực pháp luật, chỉ ra <b>đúng văn bản nào</b> cần rà lại, kèm căn cứ thay thế.</p>
+  <p class="lead">Khi một nghị định, thông tư bị thay thế hoặc bãi bỏ, hàng loạt văn bản nội bộ của trường bỗng đứng trên một căn cứ đã chết. Hệ thống dựng đồ thị toàn bộ văn bản và đối chiếu với hiệu lực pháp luật, chỉ ra <b>đúng văn bản nào</b> cần rà lại, kèm căn cứ thay thế.
+  Bản này đã nạp thêm <b>18 văn bản mới nhất của Bộ</b> (đợt 2024 tới 2026, gồm Luật Giáo dục đại học 125/2025),
+  bóc tới mức <b>điều khoản</b>: mỗi khẳng định trên trang đều mở ra được <b>nguyên văn</b> điều khoản làm bằng chứng.</p>
   <div class="stats" id="stats"></div>
 </div></div>
 
-<section><div class="wrap">
+<section id="uu-tien"><div class="wrap">
   <h2>Ưu tiên xử lý trước</h2>
   <p class="sub">Xếp theo mức độ: văn bản có căn cứ <b>bị bãi bỏ</b> và dính <b>nhiều căn cứ hỏng</b> lên đầu. Bấm để xem chi tiết.</p>
   <div id="priority"></div>
 </div></section>
 
-<section style="background:var(--soft)"><div class="wrap">
+<section id="khai-tu" style="background:var(--soft)"><div class="wrap">
+  <h2>Chính văn bản đã bị khai tử</h2>
+  <p class="sub">Nặng hơn một bậc so với mục trên. Ở trên là văn bản <b>viện dẫn</b> căn cứ đã chết.
+  Ở đây là <b>bản thân văn bản</b> đã hết hiệu lực, nên mọi điều khoản đang trích từ nó đều không còn giá trị.
+  Phát hiện được nhờ đối chiếu với đợt thông tư mới của Bộ.</p>
+  <div id="tuChetBox"></div>
+</div></section>
+
+<section id="han-chot"><div class="wrap">
+  <h2>Hạn chót và mốc chưa tới</h2>
+  <p class="sub">Rút từ điều khoản chuyển tiếp và điều khoản thi hành của các văn bản Bộ.
+  Mốc <b>đỏ</b> là đã qua, <b>vàng</b> là còn dưới 120 ngày.</p>
+  <div class="tiles" id="hanTiles"></div>
+  <div class="srow">
+    <input id="hanTim" class="inp" placeholder="Lọc theo nội dung hoặc số hiệu: quy chế, công khai, 56/2026">
+    <select id="hanLoc" class="sel">
+      <option value="all">Tất cả mốc</option>
+      <option value="qua">Đã qua hạn</option>
+      <option value="gan">Còn dưới 120 ngày</option>
+      <option value="sau">Còn xa</option>
+    </select>
+    <span class="cnt" id="hanCnt"></span>
+  </div>
+  <div class="tl" id="hanList"></div>
+  <div class="warnbox" id="hanNote"></div>
+</div></section>
+
+<section id="phan-tich" style="background:var(--soft)"><div class="wrap">
   <h2>Phân tích nhanh</h2>
   <p class="sub">Rút trực tiếp từ kết quả rà soát, không phải số minh hoạ.</p>
   <div class="metrics" id="metrics"></div>
@@ -205,26 +335,85 @@
   <div class="note" id="whyNow" style="margin-top:16px"></div>
 </div></section>
 
-<section><div class="wrap">
+<section id="su-kien"><div class="wrap">
   <h2>Cảnh báo theo sự kiện thay đổi luật</h2>
   <p class="sub">Mỗi thẻ là một lần luật thay đổi, kéo theo nhiều văn bản nội bộ. Bấm để lọc danh sách bên dưới.</p>
   <div class="events" id="events"></div>
+
+  <h2 style="margin-top:34px">Mọi lần đổi hiệu lực mà kho biết</h2>
+  <p class="sub">Bóc từ chính điều khoản thi hành của các văn bản Bộ, mỗi dòng kèm nguyên văn.
+  Nhiều văn bản 2026 dùng chữ <b>hết hiệu lực thi hành</b> chứ không dùng <b>thay thế</b> hay <b>bãi bỏ</b>,
+  nên tra theo hai từ khoá quen thuộc sẽ bỏ sót.</p>
+  <div class="srow">
+    <input id="skTim" class="inp" type="search" placeholder="Lọc: 17/2021, tuyen sinh, kiem dinh, 1982">
+    <span class="cnt" id="skCnt"></span>
+  </div>
+  <div class="rlist" id="skList"></div>
 </div></section>
 
-<section><div class="wrap">
+<section id="ra-soat"><div class="wrap">
   <h2>Văn bản cần rà soát</h2>
   <p class="sub">Mỗi văn bản kèm danh sách căn cứ đã hết hiệu lực và văn bản thay thế.</p>
   <div class="filterbar" id="filterbar"></div>
   <div class="cards" id="cards"></div>
 </div></section>
 
-<section style="background:var(--soft)"><div class="wrap">
+<section id="tra-cuu" style="background:var(--soft)"><div class="wrap">
+  <h2>Tra cứu kho văn bản</h2>
+  <p class="sub" id="traSub"></p>
+  <div class="srow">
+    <input id="traTim" class="inp" type="search" autocomplete="off"
+      placeholder="Gõ không dấu cũng được: tuyen sinh, kiem dinh, 54/2026, giao trinh, van bang">
+    <select id="traNguon" class="sel">
+      <option value="all">Cả hai nguồn</option>
+      <option value="bộ">Văn bản Bộ (mới bóc)</option>
+      <option value="trường">Văn bản của trường</option>
+    </select>
+    <select id="traLoai" class="sel"><option value="all">Mọi loại</option></select>
+    <span class="cnt" id="traCnt"></span>
+  </div>
+  <div class="rlist" id="traList"></div>
+</div></section>
+
+<section id="viec"><div class="wrap">
+  <h2>Việc phải làm theo văn bản Bộ</h2>
+  <p class="sub">Nghĩa vụ bóc trực tiếp từ điều khoản, mỗi dòng giữ nguyên văn để đối chiếu.
+  Chủ thể chịu trách nhiệm ghi trong nội dung: có mục thuộc về trường, có mục thuộc về cơ quan quản lý.</p>
+  <div class="srow">
+    <input id="nvTim" class="inp" type="search" placeholder="Lọc: cong khai, bao cao, ban hanh quy che, luu tru">
+    <select id="nvVb" class="sel"><option value="all">Mọi văn bản</option></select>
+    <select id="nvLoai" class="sel"><option value="all">Mọi loại việc</option></select>
+    <span class="cnt" id="nvCnt"></span>
+  </div>
+  <div class="rlist" id="nvList"></div>
+</div></section>
+
+<section id="nguong" style="background:var(--soft)"><div class="wrap">
+  <h2>Sổ tra ngưỡng và con số luật đòi</h2>
+  <p class="sub">Mọi con số định lượng bóc được: tín chỉ, điểm sàn, tỉ lệ, số ngày, số năm.
+  Đây là chỗ hay bị soi nhất khi kiểm định, và là chỗ quy chế nội bộ hay chép sai.</p>
+  <div class="srow">
+    <input id="csTim" class="inp" type="search" placeholder="Tra thử: tin chi, diem, nam, ngay lam viec, ty le">
+    <select id="csVb" class="sel"><option value="all">Mọi văn bản</option></select>
+    <span class="cnt" id="csCnt"></span>
+  </div>
+  <div class="rlist" id="csList"></div>
+</div></section>
+
+<section id="do-thi" style="background:var(--soft)"><div class="wrap">
   <h2>Đồ thị tác động</h2>
   <p class="sub">Chọn một căn cứ đã hết hiệu lực để xem những văn bản nội bộ phụ thuộc vào nó.</p>
   <div class="impact">
     <select id="impactSel"></select>
     <div id="impactOut" style="margin-top:14px"></div>
   </div>
+</div></section>
+
+<section id="chua-biet"><div class="wrap">
+  <h2>Chỗ hệ thống chưa biết</h2>
+  <p class="sub">Phần này liệt kê giới hạn của chính bản demo. Một hệ thống rà soát mà không nói được
+  nó <b>không</b> phủ tới đâu thì con số nào cũng đáng ngờ.</p>
+  <div id="muBox"></div>
 </div></section>
 
 <div class="ov" id="ov"></div>
@@ -237,7 +426,10 @@
 </aside>
 
 <footer><div class="wrap">
-  Bản demo tĩnh · dữ liệu minh hoạ trích từ rà soát thực tế trên kho văn bản trường đại học.
+  Bản demo tĩnh · dữ liệu trích từ rà soát thực tế trên kho văn bản của trường, đối chiếu với
+  18 văn bản pháp quy công khai của Bộ Giáo dục và Đào tạo, Chính phủ và Quốc hội (đợt 2024 tới 2026).
+  Nghĩa vụ và con số đều kèm nguyên văn điều khoản để đối chiếu ngược về bản gốc.
+  Giới hạn của bản demo được liệt kê ở mục <a href="#chua-biet">Chỗ hệ thống chưa biết</a>.
   Không thu thập dữ liệu người dùng; toàn bộ chạy trong trình duyệt.
 </div></footer>
 
@@ -249,7 +441,9 @@ function initApp(){
   // stats
   document.getElementById("stats").innerHTML =
     '<div class="stat"><b>'+D.soCanhBao+(D.tongCorpus?' <span style="font-size:16px;color:var(--muted)">/ '+D.tongCorpus+'</span>':'')+'</b><span>văn bản viện căn cứ hết hiệu lực'+(D.tongCorpus?' trên tổng kho':'')+'</span></div>'+
-    '<div class="stat"><b>'+D.soSuKien+'</b><span>lần luật thay đổi (thay thế / bãi bỏ)</span></div>'+
+    '<div class="stat"><b>'+((D.vbTuChet||[]).length)+'</b><span>văn bản trong kho đã hết hiệu lực toàn bộ</span></div>'+
+    '<div class="stat"><b>'+(D.soVanBanBo||0)+'</b><span>văn bản Bộ mới bóc, '+(D.tongDieu||0)+' điều</span></div>'+
+    '<div class="stat"><b>'+((D.suKienHieuLuc||[]).length)+'</b><span>lần đổi hiệu lực có nguyên văn</span></div>'+
     '<div class="stat"><b>on-prem</b><span>dữ liệu không rời tổ chức</span></div>';
 
   // ---- Phân tích nhanh ----
@@ -334,7 +528,7 @@ function initApp(){
         '<div style="font-size:13px;color:var(--muted)">Độ tin cậy trung bình khi AI bóc tách '+t.tong+' văn bản cảnh báo.</div>'+
       '</div>'+
       '<div class="tline"><b>'+t.ocr+'/'+t.tong+'</b> văn bản đọc bằng OCR (ảnh scan)</div>'+
-      '<div class="tline"><b>'+t.duoi80+'/'+t.tong+'</b> văn bản có độ tin cậy dưші 80%: <span style="color:var(--amber)">nên có người kiểm lại</span></div>'+
+      '<div class="tline"><b>'+t.duoi80+'/'+t.tong+'</b> văn bản có độ tin cậy dưới 80%: <span style="color:var(--amber)">nên có người kiểm lại</span></div>'+
       '<div class="tline" style="color:var(--muted);font-size:12px;margin-top:8px">Hệ thống không tự quyết; con người duyệt cuối (HITL) + lưu vết.</div>';
   })();
 
@@ -461,6 +655,13 @@ function initApp(){
   function openDetail(docId){
     var m = D.docMeta[docId];
     var ov=document.getElementById("ov"), dr=document.getElementById("drawer");
+    // Văn bản của Bộ: id dạng "bo:<số hiệu>". Có điều khoản, nghĩa vụ, con số nên
+    // trình bày khác hẳn văn bản của trường (vốn chỉ có metadata và tóm tắt).
+    if(String(docId).indexOf("bo:")===0){
+      var so = String(docId).slice(3);
+      var o = (D.vbBo||[]).filter(function(x){ return x.soHieu===so; })[0];
+      if(o){ veChiTietBo(o); ov.classList.add("show"); dr.classList.add("show"); return; }
+    }
     if(!m){
       document.getElementById("drTitle").textContent="Không có dữ liệu chi tiết";
       document.getElementById("drSub").textContent="";
@@ -501,11 +702,436 @@ function initApp(){
     ov.classList.add("show"); dr.classList.add("show");
   }
   function row(k,v){ return v? '<span class="k">'+k+'</span><span class="v">'+esc(v)+'</span>' : ''; }
+
+  // Chi tiết một văn bản của Bộ: mọi khẳng định đều mở ra được nguyên văn.
+  function veChiTietBo(o){
+    document.getElementById("drTitle").textContent = o.soHieu;
+    document.getElementById("drSub").textContent = [o.loai, o.coQuan].filter(Boolean).join(" · ");
+    var hl0 = o.hieuLucTu||{}, ad = o.apDungTu||{};
+    var h = '';
+    if(o.ngayNghiNgo) h += '<div class="alert" style="margin-bottom:14px">Văn bản này đọc từ '+
+      '<b>bản scan qua OCR</b>. Các con số đã được đối chiếu bằng mắt trên ảnh trang gốc, '+
+      'nhưng vẫn nên kiểm lại Công báo trước khi dùng cho việc có hậu quả pháp lý.</div>';
+    h += '<div class="kv">'+
+      row("Loại", o.loai)+ row("Cơ quan", o.coQuan)+
+      row("Ban hành", fmtDate(o.ngayBanHanh))+
+      row("Người ký", [o.chucVu,o.nguoiKy].filter(Boolean).join(" · "))+
+      row("Hiệu lực", fmtDate(hl0.ngay))+
+      (ad.ngay? row("Áp dụng từ", fmtDate(ad.ngay)) : "")+
+    '</div>';
+    if(o.trichYeu) h += '<div class="sec-t">Trích yếu</div><div class="sum">'+esc(o.trichYeu)+'</div>';
+    if(hl0.nguon) h += '<div class="sec-t">Điều khoản hiệu lực</div>'+
+      '<div class="ev-q"><span class="lbl">Nguyên văn</span>'+esc(hl0.nguon)+'</div>';
+    if(ad.nguon) h += '<div class="sec-t">Mốc áp dụng tách riêng</div>'+
+      (ad.mo_ta? '<div class="sum" style="margin-bottom:6px">'+esc(ad.mo_ta)+'</div>':"")+
+      '<div class="ev-q"><span class="lbl">Nguyên văn</span>'+esc(ad.nguon)+'</div>';
+
+    var tt = o.thayThe||[], bb = o.baiBo||[];
+    if(tt.length || bb.length){
+      h += '<div class="sec-t">Làm văn bản khác hết hiệu lực ('+(tt.length+bb.length)+')</div>';
+      h += tt.map(function(t){
+        return '<div class="cc-item"><span style="color:var(--red);font-weight:700">'+esc(t.soHieu||"(không nêu số hiệu)")+
+          '</span><span class="badge replace">bị thay thế</span>'+
+          '<div style="flex-basis:100%">'+esc(t.ten||"")+'</div>'+
+          '<div style="flex-basis:100%">'+bangChung(t.nguon)+'</div></div>';
+      }).join("");
+      h += bb.map(function(b){
+        return '<div class="cc-item"><span style="color:var(--red);font-weight:700">'+esc(b.soHieu||"(không nêu số hiệu)")+
+          '</span><span class="badge repeal">bị bãi bỏ</span>'+
+          (b.phamVi&&b.phamVi!=="toàn bộ"?'<span class="tag2">phạm vi: '+esc(b.phamVi)+'</span>':"")+
+          '<div style="flex-basis:100%">'+esc(b.ten||"")+'</div>'+
+          '<div style="flex-basis:100%">'+bangChung(b.nguon)+'</div></div>';
+      }).join("");
+    }
+
+    var cc = o.canCu||[];
+    if(cc.length) h += '<div class="sec-t">Căn cứ ('+cc.length+')</div><div class="chips">'+
+      cc.map(function(c){ return '<span class="chip2">'+esc(c.soHieu||c.ten||"")+'</span>'; }).join("")+'</div>';
+
+    var qc = o.quyCheKemTheo;
+    if(qc) h += '<div class="sec-t">Quy chế ban hành kèm</div><div class="sum">'+esc(qc.ten||"")+
+      (qc.soChuong?' · '+qc.soChuong+' chương':"")+(qc.soDieu?' · '+qc.soDieu+' điều':"")+'</div>';
+
+    var dk = o.dieuKhoan||[];
+    if(dk.length){
+      h += '<div class="sec-t">Mục lục điều khoản ('+dk.length+')</div>';
+      h += dk.map(function(d){
+        return '<div class="dk"><span class="n">'+esc(d.so||"")+'</span><span>'+esc(d.ten||"")+
+          (d.thuoc?' <span class="tag2">'+esc(d.thuoc)+'</span>':"")+'</span></div>';
+      }).join("");
+    }
+
+    var nv = o.nghiaVu||[];
+    if(nv.length){
+      h += '<div class="sec-t">Nghĩa vụ ('+nv.length+')</div>';
+      h += nv.map(function(n){
+        return '<div class="nvrow"><div class="h"><span class="tag2">'+esc(n.dieu||"")+'</span>'+
+          '<span class="tag2">'+esc(n.loai||"khác")+'</span>'+
+          (n.hanChot?'<span class="tag2 han">hạn '+nhanNgay(n.hanChot)+'</span>':"")+'</div>'+
+          '<div>'+esc(n.noiDung||"")+'</div>'+bangChung(n.nguon)+'</div>';
+      }).join("");
+    }
+
+    var cs = o.conSoChot||[];
+    if(cs.length){
+      h += '<div class="sec-t">Con số chốt ('+cs.length+')</div>';
+      h += cs.map(function(c){
+        return '<div class="nvrow"><div class="h"><b style="color:var(--blue)">'+esc(c.giaTri||"")+'</b>'+
+          (c.dieu?'<span class="tag2">'+esc(c.dieu)+'</span>':"")+'</div>'+
+          '<div>'+esc(c.yNghia||"")+'</div>'+bangChung(c.nguon)+'</div>';
+      }).join("");
+    }
+
+    if(o.ghiChu) h += '<div class="sec-t">Ghi chú khi bóc tách</div><div class="sum">'+esc(o.ghiChu)+'</div>';
+
+    var body = document.getElementById("drBody");
+    body.innerHTML = h;
+    body.scrollTop = 0;
+    noiToggle(body);
+  }
   function closeDetail(){ document.getElementById("ov").classList.remove("show"); document.getElementById("drawer").classList.remove("show"); }
   document.getElementById("ov").onclick=closeDetail;
   document.getElementById("drClose").onclick=closeDetail;
   document.addEventListener("keydown",function(e){ if(e.key==="Escape") closeDetail(); });
   window.__openDetail = openDetail; // cho node SVG gọi
+
+  // =====================================================================
+  // ===== Phần bổ sung: tra cứu, nghĩa vụ, ngưỡng, hạn chót, điểm mù =====
+  // =====================================================================
+
+  // Bỏ dấu để gõ không dấu vẫn tìm được. Người dùng ở trường gõ nhanh, ít bỏ dấu.
+  function fold(s){ return String(s==null?"":s).normalize("NFD").replace(/[̀-ͯ]/g,"")
+    .replace(/đ/g,"d").replace(/Đ/g,"D").toLowerCase(); }
+
+  // Tô vàng đoạn khớp. Tìm trên chuỗi đã bỏ dấu nhưng tô trên chuỗi GỐC, nên phải
+  // dò theo chỉ số: normalize("NFD") có thể làm lệch độ dài, vì vậy dựng bảng ánh xạ.
+  function hl(goc, q){
+    var s = String(goc==null?"":goc);
+    if(!q) return esc(s);
+    var map = [], f = "";
+    for(var i=0;i<s.length;i++){
+      var c = s[i].normalize("NFD").replace(/[̀-ͯ]/g,"")
+        .replace(/đ/g,"d").replace(/Đ/g,"D").toLowerCase();
+      for(var k=0;k<c.length;k++) map.push(i);
+      f += c;
+    }
+    var at = f.indexOf(q);
+    if(at < 0) return esc(s);
+    var a = map[at], b = (at+q.length < map.length) ? map[at+q.length] : s.length;
+    return esc(s.slice(0,a)) + "<mark>" + esc(s.slice(a,b)) + "</mark>" + esc(s.slice(b));
+  }
+
+  var HOM_NAY = D.mocHomNay || "2026-08-19";
+  function ngayTu(a,b){ // số ngày từ a tới b, cả hai dạng YYYY-MM-DD
+    return Math.round((Date.parse(b+"T00:00:00Z") - Date.parse(a+"T00:00:00Z"))/86400000);
+  }
+  function mucDo(ngay){
+    if(!ngay || ngay.slice(0,2)==="--") return "lap";
+    var d = ngayTu(HOM_NAY, ngay);
+    return d < 0 ? "qua" : (d <= 120 ? "gan" : "sau");
+  }
+  function nhanNgay(ngay){
+    if(!ngay) return "";
+    if(ngay.slice(0,2)==="--"){ var p=ngay.split("-"); return "hằng năm, ngày "+p[3]+"/"+p[2]; }
+    return fmtDate(ngay);
+  }
+  function conLai(ngay){
+    if(!ngay || ngay.slice(0,2)==="--") return '<span class="dleft">lặp hằng năm</span>';
+    var d = ngayTu(HOM_NAY, ngay), c = mucDo(ngay);
+    return '<span class="dleft '+c+'">'+(d<0 ? "quá "+(-d)+" ngày" : (d===0 ? "hôm nay" : "còn "+d+" ngày"))+'</span>';
+  }
+  // Khối bằng chứng: mọi khẳng định đều mở ra được nguyên văn điều khoản.
+  var _q = 0;
+  function bangChung(nguon, nhan){
+    if(!nguon) return "";
+    var id = "q"+(++_q);
+    return '<span class="toggle" data-q="'+id+'">Xem nguyên văn</span>'+
+      '<div class="ev-q" id="'+id+'" style="display:none"><span class="lbl">'+(nhan||"Nguyên văn điều khoản")+'</span>'+
+      esc(nguon)+'</div>';
+  }
+  function noiToggle(host){
+    Array.prototype.forEach.call(host.querySelectorAll(".toggle[data-q]"), function(t){
+      t.onclick = function(e){
+        e.stopPropagation();
+        var b = document.getElementById(t.dataset.q);
+        var mo = b.style.display === "none";
+        b.style.display = mo ? "block" : "none";
+        t.textContent = mo ? "Ẩn nguyên văn" : "Xem nguyên văn";
+      };
+    });
+  }
+
+  // ---------- Chính văn bản đã bị khai tử ----------
+  (function(){
+    var host = document.getElementById("tuChetBox");
+    var rows = D.vbTuChet || [];
+    if(!rows.length){ host.innerHTML='<p class="sub">Không phát hiện văn bản nào trong kho đã hết hiệu lực.</p>'; return; }
+    var html = '<div class="alert"><b>'+rows.length+' văn bản</b> trong kho đã hết hiệu lực toàn bộ. '+
+      'Trang này trước đây chỉ báo được rằng chúng <b>viện dẫn</b> căn cứ đã chết. '+
+      'Nay đối chiếu với đợt văn bản mới của Bộ cho thấy chính chúng cũng đã bị thay.</div>';
+    html += '<div class="rlist">' + rows.map(function(r){
+      return '<div class="r" data-did="'+esc(r.docId)+'">'+
+        '<div><span class="rs">'+esc(r.soHieu)+'</span><div class="rm">'+esc(r.loai||"")+'</div></div>'+
+        '<div><div class="rt">'+esc(r.lyDo)+' bởi <b style="color:var(--green)">'+esc(r.thayBang.join(", "))+
+          '</b>, từ '+fmtDate(r.tuNgay)+'</div>'+ bangChung(r.nguon) +'</div>'+
+        '<div class="rr">bấm xem<br>chi tiết</div></div>';
+    }).join("") + '</div>';
+    host.innerHTML = html;
+    noiToggle(host);
+    Array.prototype.forEach.call(host.querySelectorAll(".r[data-did]"), function(el){
+      el.onclick = function(){ openDetail(el.dataset.did); };
+    });
+  })();
+
+  // ---------- Hạn chót và mốc chưa tới ----------
+  (function(){
+    var moc = [];
+    (D.hanChot||[]).forEach(function(n){
+      moc.push({ ngay:n.hanChot, viec:n.noiDung, vb:n.vb, dieu:n.dieu,
+                 loai:n.loai||"nghĩa vụ", nguon:n.nguon });
+    });
+    (D.chuaHieuLuc||[]).forEach(function(c){
+      moc.push({ ngay:c.ngay, viec:(c.loai==="áp dụng" ? "Bắt đầu áp dụng: " : "Bắt đầu có hiệu lực: ")+
+                 (c.trichYeu||c.soHieu), vb:c.soHieu, dieu:"", loai:c.loai, nguon:c.nguon });
+    });
+    var host = document.getElementById("hanList"), cnt = document.getElementById("hanCnt");
+    var qua = moc.filter(function(m){return mucDo(m.ngay)==="qua";}).length;
+    var gan = moc.filter(function(m){return mucDo(m.ngay)==="gan";}).length;
+    var lap = moc.filter(function(m){return mucDo(m.ngay)==="lap";}).length;
+    document.getElementById("hanTiles").innerHTML =
+      '<div class="tile"><b>'+moc.length+'</b><span>mốc bóc được từ văn bản Bộ</span></div>'+
+      '<div class="tile"><b style="color:var(--red)">'+qua+'</b><span>đã qua hạn</span></div>'+
+      '<div class="tile"><b style="color:var(--amber)">'+gan+'</b><span>còn dưới 120 ngày</span></div>'+
+      '<div class="tile"><b>'+lap+'</b><span>hạn lặp hằng năm</span></div>';
+    document.getElementById("hanNote").innerHTML =
+      'Một số mốc là do <b>cộng ra</b> chứ không in trong văn bản, ví dụ "36 tháng kể từ ngày có hiệu lực". '+
+      'Các mốc đó vẫn giữ nguyên văn câu gốc ở nút xem nguyên văn để đối chiếu. '+
+      'Mốc ghi "hằng năm" thì không suy ra năm cụ thể.';
+
+    function ve(){
+      var q = fold(document.getElementById("hanTim").value.trim());
+      var loc = document.getElementById("hanLoc").value;
+      var kq = moc.filter(function(m){
+        if(loc!=="all" && mucDo(m.ngay)!==loc) return false;
+        if(!q) return true;
+        return fold([m.viec,m.vb,m.dieu,m.loai].join(" ")).indexOf(q)>=0;
+      });
+      kq.sort(function(a,b){
+        var ma=mucDo(a.ngay), mb=mucDo(b.ngay);
+        if((ma==="lap")!==(mb==="lap")) return ma==="lap"?1:-1;
+        return String(a.ngay).localeCompare(String(b.ngay));
+      });
+      cnt.innerHTML = "<b>"+kq.length+"</b> / "+moc.length+" mốc";
+      host.innerHTML = kq.length ? kq.map(function(m){
+        return '<div class="tlr '+mucDo(m.ngay)+'">'+
+          '<div class="d">'+nhanNgay(m.ngay)+conLai(m.ngay)+'</div>'+
+          '<div class="w">'+hl(m.viec,q)+'</div>'+
+          '<div class="m">'+esc(m.vb)+(m.dieu?" · "+esc(m.dieu):"")+' · '+esc(m.loai)+'</div>'+
+          bangChung(m.nguon)+'</div>';
+      }).join("") : '<div class="empty">Không có mốc nào khớp.</div>';
+      noiToggle(host);
+    }
+    document.getElementById("hanTim").addEventListener("input", ve);
+    document.getElementById("hanLoc").addEventListener("change", ve);
+    ve();
+  })();
+
+  // ---------- Tra cứu kho ----------
+  (function(){
+    var C = D.corpus || [];
+    if(!C.length) return;
+    var nBo = C.filter(function(r){return r.nguon==="bộ";}).length;
+    var nTr = C.length - nBo;
+    document.getElementById("traSub").innerHTML =
+      '<b>'+C.length+'</b> bản ghi tra được: <b>'+nTr+'</b> văn bản của trường và <b>'+nBo+
+      '</b> văn bản của Bộ vừa bóc. Đây <b>không</b> phải toàn bộ kho: hệ thống khai '+
+      (D.tongCorpus||"?")+' văn bản nhưng chỉ '+nTr+' cái có bản trích xuất. '+
+      'Phần chênh được nói rõ ở mục <a href="#chua-biet">Chỗ hệ thống chưa biết</a>.';
+    var loais = {}; C.forEach(function(r){ if(r.loai) loais[r.loai]=1; });
+    var selL = document.getElementById("traLoai");
+    Object.keys(loais).sort().forEach(function(l){
+      var o=document.createElement("option"); o.value=l; o.textContent=l; selL.appendChild(o);
+    });
+    var host=document.getElementById("traList"), cnt=document.getElementById("traCnt");
+    function ve(){
+      var q = fold(document.getElementById("traTim").value.trim());
+      var ng = document.getElementById("traNguon").value, lo = selL.value;
+      var kq = C.filter(function(r){
+        if(ng!=="all" && r.nguon!==ng) return false;
+        if(lo!=="all" && r.loai!==lo) return false;
+        if(!q) return true;
+        return fold([r.soHieu,r.tomTat,(r.chuDe||[]).join(" "),(r.tags||[]).join(" "),r.coQuan].join(" ")).indexOf(q)>=0;
+      });
+      cnt.innerHTML = "<b>"+kq.length+"</b> / "+C.length+" bản ghi";
+      var show = kq.slice(0,120);
+      host.innerHTML = show.length ? show.map(function(r){
+        return '<div class="r" data-did="'+esc(r.id)+'">'+
+          '<div><span class="rs">'+hl(r.soHieu,q)+'</span>'+
+            '<div class="rm"><span class="src '+(r.nguon==="bộ"?"bo":"truong")+'">'+
+            (r.nguon==="bộ"?"BỘ":"TRƯỜNG")+'</span> '+esc(r.loai||"")+'</div></div>'+
+          '<div><div class="rt">'+hl((r.tomTat||"").slice(0,240),q)+'</div>'+
+            (r.soDieu?'<div class="rm">'+r.soDieu+' điều · '+(r.soNghiaVu||0)+' nghĩa vụ</div>':"")+
+            ((r.chuDe&&r.chuDe.length)?'<div class="rm">'+esc(r.chuDe.join(" · "))+'</div>':"")+'</div>'+
+          '<div class="rr">'+esc(r.ngay||"")+(r.ocr?'<br>nguồn scan':"")+'</div></div>';
+      }).join("") : '<div class="empty">Không tìm thấy. Thử gõ số hiệu, ví dụ 54/2026, hoặc từ khoá không dấu.</div>';
+      if(kq.length>show.length)
+        host.innerHTML += '<div class="empty">Còn '+(kq.length-show.length)+' bản ghi nữa, gõ thêm để thu hẹp.</div>';
+      Array.prototype.forEach.call(host.querySelectorAll(".r[data-did]"), function(el){
+        el.onclick=function(){ openDetail(el.dataset.did); };
+      });
+    }
+    document.getElementById("traTim").addEventListener("input", ve);
+    document.getElementById("traNguon").addEventListener("change", ve);
+    selL.addEventListener("change", ve);
+    ve();
+  })();
+
+  // ---------- Việc phải làm ----------
+  (function(){
+    var NV = D.nghiaVu || [];
+    if(!NV.length) return;
+    var selVb=document.getElementById("nvVb"), selLo=document.getElementById("nvLoai");
+    var vbs={}, los={};
+    NV.forEach(function(n){ vbs[n.vb]=1; if(n.loai) los[n.loai]=1; });
+    Object.keys(vbs).sort().forEach(function(v){
+      var o=document.createElement("option"); o.value=v; o.textContent=v; selVb.appendChild(o); });
+    Object.keys(los).sort().forEach(function(l){
+      var o=document.createElement("option"); o.value=l; o.textContent=l; selLo.appendChild(o); });
+    var host=document.getElementById("nvList"), cnt=document.getElementById("nvCnt");
+    function ve(){
+      var q=fold(document.getElementById("nvTim").value.trim());
+      var v=selVb.value, l=selLo.value;
+      var kq=NV.filter(function(n){
+        if(v!=="all"&&n.vb!==v) return false;
+        if(l!=="all"&&n.loai!==l) return false;
+        if(!q) return true;
+        return fold([n.noiDung,n.vb,n.dieu,n.loai].join(" ")).indexOf(q)>=0;
+      });
+      cnt.innerHTML="<b>"+kq.length+"</b> / "+NV.length+" nghĩa vụ";
+      var show=kq.slice(0,150);
+      host.innerHTML = show.length ? show.map(function(n){
+        return '<div class="r" style="grid-template-columns:190px 1fr" data-vb="'+esc(n.vb)+'">'+
+          '<div><span class="rs">'+esc(n.vb)+'</span><div class="rm">'+esc(n.dieu||"")+'</div></div>'+
+          '<div><div class="h" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:4px">'+
+            '<span class="tag2">'+esc(n.loai||"khác")+'</span>'+
+            (n.hanChot?'<span class="tag2 han">hạn '+nhanNgay(n.hanChot)+'</span>':"")+'</div>'+
+            '<div class="rt">'+hl(n.noiDung,q)+'</div>'+bangChung(n.nguon)+'</div></div>';
+      }).join("") : '<div class="empty">Không có nghĩa vụ nào khớp.</div>';
+      if(kq.length>show.length)
+        host.innerHTML += '<div class="empty">Còn '+(kq.length-show.length)+' mục nữa, gõ thêm để thu hẹp.</div>';
+      noiToggle(host);
+      Array.prototype.forEach.call(host.querySelectorAll(".r[data-vb]"), function(el){
+        el.onclick=function(){ openDetail("bo:"+el.dataset.vb); };
+      });
+    }
+    document.getElementById("nvTim").addEventListener("input", ve);
+    selVb.addEventListener("change", ve); selLo.addEventListener("change", ve);
+    ve();
+  })();
+
+  // ---------- Sổ tra ngưỡng ----------
+  (function(){
+    var CS = D.conSoChot || [];
+    if(!CS.length) return;
+    var selVb=document.getElementById("csVb"); var vbs={};
+    CS.forEach(function(c){ vbs[c.vb]=1; });
+    Object.keys(vbs).sort().forEach(function(v){
+      var o=document.createElement("option"); o.value=v; o.textContent=v; selVb.appendChild(o); });
+    var host=document.getElementById("csList"), cnt=document.getElementById("csCnt");
+    function ve(){
+      var q=fold(document.getElementById("csTim").value.trim()), v=selVb.value;
+      var kq=CS.filter(function(c){
+        if(v!=="all"&&c.vb!==v) return false;
+        if(!q) return true;
+        return fold([c.giaTri,c.yNghia,c.vb,c.dieu].join(" ")).indexOf(q)>=0;
+      });
+      cnt.innerHTML="<b>"+kq.length+"</b> / "+CS.length+" con số";
+      var show=kq.slice(0,150);
+      host.innerHTML = show.length ? show.map(function(c){
+        return '<div class="r" style="grid-template-columns:150px 1fr 150px" data-vb="'+esc(c.vb)+'">'+
+          '<div><span class="rs">'+hl(c.giaTri,q)+'</span></div>'+
+          '<div><div class="rt">'+hl(c.yNghia,q)+'</div>'+bangChung(c.nguon)+'</div>'+
+          '<div class="rr">'+esc(c.vb)+'<br>'+esc(c.dieu||"")+'</div></div>';
+      }).join("") : '<div class="empty">Không có con số nào khớp.</div>';
+      if(kq.length>show.length)
+        host.innerHTML += '<div class="empty">Còn '+(kq.length-show.length)+' con số nữa, gõ thêm để thu hẹp.</div>';
+      noiToggle(host);
+      Array.prototype.forEach.call(host.querySelectorAll(".r[data-vb]"), function(el){
+        el.onclick=function(){ openDetail("bo:"+el.dataset.vb); };
+      });
+    }
+    document.getElementById("csTim").addEventListener("input", ve);
+    selVb.addEventListener("change", ve);
+    ve();
+  })();
+
+  // ---------- Mọi lần đổi hiệu lực ----------
+  (function(){
+    var SK = D.suKienHieuLuc || [];
+    if(!SK.length) return;
+    var host=document.getElementById("skList"), cnt=document.getElementById("skCnt");
+    function ve(){
+      var q=fold(document.getElementById("skTim").value.trim());
+      var kq=SK.filter(function(s){
+        if(!q) return true;
+        return fold([s.cu,s.tenCu,s.moi,s.tenMoi,s.lyDo].join(" ")).indexOf(q)>=0;
+      });
+      cnt.innerHTML="<b>"+kq.length+"</b> / "+SK.length+" lần đổi hiệu lực";
+      host.innerHTML = kq.length ? kq.map(function(s){
+        return '<div class="r" style="grid-template-columns:1fr 1fr 110px" data-vb="'+esc(s.moi)+'">'+
+          '<div><span class="rs" style="color:var(--red)">'+hl(s.cu||"(không nêu số hiệu)",q)+'</span>'+
+            '<div class="rm">'+esc((s.tenCu||"").slice(0,90))+'</div></div>'+
+          '<div><div class="rt">'+esc(s.lyDo)+' bởi <b style="color:var(--green)">'+hl(s.moi,q)+'</b>'+
+            (s.phamVi&&s.phamVi!=="toàn bộ"?' <span class="tag2">phạm vi: '+esc(s.phamVi)+'</span>':"")+'</div>'+
+            bangChung(s.nguon)+'</div>'+
+          '<div class="rr">'+(s.tuNgay?fmtDate(s.tuNgay):"")+'</div></div>';
+      }).join("") : '<div class="empty">Không có lần đổi nào khớp.</div>';
+      noiToggle(host);
+      Array.prototype.forEach.call(host.querySelectorAll(".r[data-vb]"), function(el){
+        el.onclick=function(){ openDetail("bo:"+el.dataset.vb); };
+      });
+    }
+    document.getElementById("skTim").addEventListener("input", ve);
+    ve();
+  })();
+
+  // ---------- Chỗ hệ thống chưa biết ----------
+  (function(){
+    var M = D.diemMu || {}; var host=document.getElementById("muBox");
+    var ds = [];
+    if(M.thieuBanGoc) ds.push(['<b>'+M.thieuBanGoc+' văn bản</b> được tính trong tổng kho '+
+      M.tongCorpusKhai+' nhưng không có bản trích xuất, nên không tra cứu được và không bị rà.']);
+    if(M.khongCoCanCu) ds.push(['<b>'+M.khongCoCanCu+' văn bản</b> có bản ghi nhưng chưa bóc danh sách căn cứ, '+
+      'nên nếu chúng đang viện dẫn căn cứ đã chết thì hệ thống cũng không biết.']);
+    if((M.canCuChuaCoVBThay||[]).length) ds.push(['<b>'+M.canCuChuaCoVBThay.length+' căn cứ đã chết</b> '+
+      'chưa tìm được văn bản thay trong đợt 18 văn bản này: '+
+      esc(M.canCuChuaCoVBThay.join(", "))+'. Cần bổ sung văn bản nguồn mới trả lời được.']);
+    if((M.vbOCR||[]).length) ds.push(['<b>'+M.vbOCR.join(", ")+'</b> đọc từ bản scan bằng OCR. '+
+      'Ngày hiệu lực trong bản gốc điền bằng phông chữ nghiêng, máy đọc sai thành tháng 7; '+
+      'giá trị hiện dùng là 26/9/2026, đọc lại bằng mắt trên ảnh trang gốc. '+
+      'Nên đối chiếu Công báo trước khi dùng cho việc có hậu quả pháp lý.']);
+    ds.push(['Phụ lục hướng dẫn đánh giá của hai thông tư kiểm định là bảng nhiều cột, '+
+      'công cụ bóc trộn chữ giữa các cột nên <b>không lấy nguyên văn từ vùng đó</b>. '+
+      'Số điều khoản và nghĩa vụ chỉ tính phần thân thông tư.']);
+    ds.push(['Kho trường ghi số hiệu không nhất quán, ví dụ cùng một văn bản xuất hiện dưới cả '+
+      '"QĐ 43/2007/QĐ-BGDĐT" lẫn "43/2007/QĐ-BGD". Việc nối cạnh dựa trên số và năm, '+
+      'nên vài trường hợp dị dạng có thể chưa nối được.']);
+    host.innerHTML = '<div class="rlist">'+ds.map(function(d){
+      return '<div class="r" style="grid-template-columns:1fr;cursor:default"><div class="rt">'+d[0]+'</div></div>';
+    }).join("")+'</div>';
+  })();
+
+  // ---------- Cuộn tới đâu thì sáng mục đó ----------
+  (function(){
+    var links = Array.prototype.slice.call(document.querySelectorAll(".navtabs a"));
+    var secs = links.map(function(a){ return document.getElementById(a.getAttribute("href").slice(1)); });
+    function sang(){
+      var y = window.scrollY + 130, cur = 0;
+      secs.forEach(function(s,i){ if(s && s.offsetTop <= y) cur = i; });
+      links.forEach(function(a,i){ a.classList.toggle("on", i===cur); });
+    }
+    window.addEventListener("scroll", sang, {passive:true}); sang();
+  })();
 
   renderChips(); renderCards(); renderImpact();
   // deep-link: mở sẵn 1 văn bản nếu URL có #doc=<id>
