@@ -95,7 +95,7 @@
   .filterbar{display:flex;align-items:center;gap:10px;margin:6px 0 16px;flex-wrap:wrap}
   .chip{font-size:13px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 12px;cursor:pointer}
   .chip.active{background:var(--blue);color:#fff;border-color:var(--blue)}
-  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:12px}
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
   .card{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
   .card .h{padding:12px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px;background:var(--soft)}
   .card .h .doc{font-weight:700;font-size:15px}
@@ -108,7 +108,7 @@
   .badge.replace{background:var(--amber-bg);color:var(--amber)}
   .badge.repeal{background:var(--red-bg);color:var(--red)}
   .impact{border:1px solid var(--line);border-radius:12px;padding:18px;background:#fff}
-  .impact select{font-size:14px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;min-width:280px}
+  .impact select{font-size:14px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;width:100%;max-width:420px}
   .dep{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line);font-size:14px}
   .dep:last-child{border-bottom:0}
   .dot{width:8px;height:8px;border-radius:50%;background:var(--blue)}
@@ -143,7 +143,12 @@
 
   /* ===== Thanh điều hướng nhóm mục ===== */
   .navtabs{position:sticky;top:58px;z-index:9;background:#fff;border-bottom:1px solid var(--line)}
-  .navtabs .wrap{display:flex;gap:4px;overflow-x:auto;padding-top:8px;padding-bottom:8px}
+  .navtabs{position:relative}
+  .navtabs:after{content:"";position:absolute;right:0;top:0;bottom:0;width:36px;pointer-events:none;
+    background:linear-gradient(90deg,rgba(255,255,255,0),#fff)}
+  .navtabs .wrap{display:flex;gap:4px;overflow-x:auto;padding-top:8px;padding-bottom:8px;
+    scrollbar-width:none}
+  .navtabs .wrap::-webkit-scrollbar{display:none}
   .navtabs a{font-size:13px;font-weight:600;color:var(--muted);padding:7px 13px;border-radius:999px;white-space:nowrap}
   .navtabs a:hover{background:var(--soft);color:var(--ink)}
   .navtabs a.on{background:var(--blue);color:#fff}
@@ -171,7 +176,22 @@
   .r .rt{color:#334155}
   .r .rm{font-size:12px;color:var(--muted);margin-top:3px}
   .r .rr{text-align:right;font-size:11px;color:var(--muted)}
-  @media(max-width:720px){.r{grid-template-columns:1fr}.r .rr{text-align:left}}
+  /* Các biến thể lưới phải là CLASS, không được đặt bằng inline style trong JS:
+     inline style luôn thắng media query nên hàng sẽ không bao giờ thu gọn, và vì
+     .rlist có overflow:hidden nên phần tràn bị cắt cứng, người dùng mất chữ mà
+     không cuộn lại được. Đo thực tế ở khổ 375 có hàng tràn 705px. */
+  .r-nv{grid-template-columns:190px 1fr}
+  .r-cs{grid-template-columns:150px 1fr 150px}
+  .r-sk{grid-template-columns:1fr 1fr 110px}
+  .r-mu{grid-template-columns:1fr;cursor:default}
+  @media(max-width:720px){
+    .r,.r-nv,.r-cs,.r-sk{grid-template-columns:1fr}
+    .r .rr{text-align:left}
+  }
+  /* Chip không được ép chiều rộng tối thiểu của cả cột: chip phạm vi dài tới mức
+     đẩy min-content cột lên 852px ở mọi khổ dưới 1024. */
+  .tag2.dai{white-space:normal}
+  .rlist{overflow-x:auto}
   .src{display:inline-block;font-size:10px;padding:2px 7px;border-radius:999px;font-weight:700;letter-spacing:.02em}
   .src.bo{background:#eef2ff;color:#3730a3;border:1px solid #c7d2fe}
   .src.truong{background:var(--blue-50);color:#7a0000;border:1px solid var(--blue-100)}
@@ -254,6 +274,7 @@
   <a href="#han-chot">Hạn chót</a>
   <a href="#phan-tich">Phân tích</a>
   <a href="#su-kien">Sự kiện luật</a>
+  <a href="#doi-hieu-luc">Mọi lần đổi</a>
   <a href="#ra-soat">Cần rà soát</a>
   <a href="#tra-cuu">Tra cứu</a>
   <a href="#viec">Việc phải làm</a>
@@ -265,9 +286,11 @@
 <div class="hero"><div class="wrap">
   <div class="kick">Bảo đảm văn bản hành chính</div>
   <h1>Phát hiện văn bản đang viện dẫn căn cứ pháp lý đã hết hiệu lực</h1>
-  <p class="lead">Khi một nghị định, thông tư bị thay thế hoặc bãi bỏ, hàng loạt văn bản nội bộ của trường bỗng đứng trên một căn cứ đã chết. Hệ thống dựng đồ thị toàn bộ văn bản và đối chiếu với hiệu lực pháp luật, chỉ ra <b>đúng văn bản nào</b> cần rà lại, kèm căn cứ thay thế.
-  Bản này đã nạp thêm <b>18 văn bản mới nhất của Bộ</b> (đợt 2024 tới 2026, gồm Luật Giáo dục đại học 125/2025),
-  bóc tới mức <b>điều khoản</b>: mỗi khẳng định trên trang đều mở ra được <b>nguyên văn</b> điều khoản làm bằng chứng.</p>
+  <p class="lead">Khi một nghị định, thông tư bị thay thế hoặc bãi bỏ, hàng loạt văn bản của trường bỗng đứng trên một căn cứ đã chết. Hệ thống dựng đồ thị các văn bản <b>đã bóc được căn cứ</b> và đối chiếu với hiệu lực pháp luật, chỉ ra <b>đúng văn bản nào</b> cần rà lại.
+  Bản này đã nạp thêm <b id="ldSoVB">18</b> văn bản pháp quy công khai, bóc tới mức <b>điều khoản</b>.
+  Phần lớn khẳng định mở ra được <b>nguyên văn</b> làm bằng chứng; phần chưa có nguyên văn được
+  <b>gắn nhãn riêng</b> chứ không trộn lẫn. Giới hạn của bản demo liệt kê ở mục
+  <a href="#chua-biet">Chỗ hệ thống chưa biết</a>.</p>
   <div class="stats" id="stats"></div>
 </div></div>
 
@@ -340,7 +363,7 @@
   <p class="sub">Mỗi thẻ là một lần luật thay đổi, kéo theo nhiều văn bản nội bộ. Bấm để lọc danh sách bên dưới.</p>
   <div class="events" id="events"></div>
 
-  <h2 style="margin-top:34px">Mọi lần đổi hiệu lực mà kho biết</h2>
+  <h2 id="doi-hieu-luc" style="margin-top:34px;scroll-margin-top:112px">Mọi lần đổi hiệu lực mà kho biết</h2>
   <p class="sub">Bóc từ chính điều khoản thi hành của các văn bản Bộ, mỗi dòng kèm nguyên văn.
   Nhiều văn bản 2026 dùng chữ <b>hết hiệu lực thi hành</b> chứ không dùng <b>thay thế</b> hay <b>bãi bỏ</b>,
   nên tra theo hai từ khoá quen thuộc sẽ bỏ sót.</p>
@@ -378,9 +401,15 @@
 <section id="viec"><div class="wrap">
   <h2>Việc phải làm theo văn bản Bộ</h2>
   <p class="sub">Nghĩa vụ bóc trực tiếp từ điều khoản, mỗi dòng giữ nguyên văn để đối chiếu.
-  Chủ thể chịu trách nhiệm ghi trong nội dung: có mục thuộc về trường, có mục thuộc về cơ quan quản lý.</p>
+  Không phải mục nào cũng là việc của trường: bộ lọc <b>Chủ thể</b> mặc định chỉ hiện việc của trường.
+  Dòng thuộc văn bản <b>đã hết hiệu lực</b> được đánh dấu đỏ.</p>
   <div class="srow">
     <input id="nvTim" class="inp" type="search" placeholder="Lọc: cong khai, bao cao, ban hanh quy che, luu tru">
+    <select id="nvChuThe" class="sel">
+      <option value="trường">Chỉ việc của trường</option>
+      <option value="all">Mọi chủ thể</option>
+      <option value="khac">Chỉ việc của cơ quan khác</option>
+    </select>
     <select id="nvVb" class="sel"><option value="all">Mọi văn bản</option></select>
     <select id="nvLoai" class="sel"><option value="all">Mọi loại việc</option></select>
     <span class="cnt" id="nvCnt"></span>
@@ -427,8 +456,9 @@
 
 <footer><div class="wrap">
   Bản demo tĩnh · dữ liệu trích từ rà soát thực tế trên kho văn bản của trường, đối chiếu với
-  18 văn bản pháp quy công khai của Bộ Giáo dục và Đào tạo, Chính phủ và Quốc hội (đợt 2024 tới 2026).
+  18 văn bản pháp quy công khai của <span id="ftCq">Bộ Giáo dục và Đào tạo, Thủ tướng Chính phủ, Quốc hội và Bộ Thông tin và Truyền thông</span>.
   Nghĩa vụ và con số đều kèm nguyên văn điều khoản để đối chiếu ngược về bản gốc.
+  Kiến trúc bản đầy đủ chạy on-prem; bản demo này là web tĩnh trên hosting công cộng, dữ liệu đã mã hoá.
   Giới hạn của bản demo được liệt kê ở mục <a href="#chua-biet">Chỗ hệ thống chưa biết</a>.
   Không thu thập dữ liệu người dùng; toàn bộ chạy trong trình duyệt.
 </div></footer>
@@ -439,12 +469,20 @@ function initApp(){
   var badge = function(ly){ return ly.indexOf("bãi bỏ")>=0 ? "repeal" : "replace"; };
 
   // stats
+  // Dải số liệu. Bản trước in "26 / 181" và người đọc hiểu thành "đã soi 181, hỏng 26,
+  // còn 155 sạch". Cả ba mệnh đề đó đều sai: 155 văn bản kia CHƯA HỀ được kiểm, và tỉ lệ
+  // hỏng trên phần đã kiểm là 100%. Nay tách hẳn phần đã rà khỏi phần chưa rà.
+  var MU = D.diemMu || {};
   document.getElementById("stats").innerHTML =
-    '<div class="stat"><b>'+D.soCanhBao+(D.tongCorpus?' <span style="font-size:16px;color:var(--muted)">/ '+D.tongCorpus+'</span>':'')+'</b><span>văn bản viện căn cứ hết hiệu lực'+(D.tongCorpus?' trên tổng kho':'')+'</span></div>'+
-    '<div class="stat"><b>'+((D.vbTuChet||[]).length)+'</b><span>văn bản trong kho đã hết hiệu lực toàn bộ</span></div>'+
-    '<div class="stat"><b>'+(D.soVanBanBo||0)+'</b><span>văn bản Bộ mới bóc, '+(D.tongDieu||0)+' điều</span></div>'+
-    '<div class="stat"><b>'+((D.suKienHieuLuc||[]).length)+'</b><span>lần đổi hiệu lực có nguyên văn</span></div>'+
-    '<div class="stat"><b>on-prem</b><span>dữ liệu không rời tổ chức</span></div>';
+    '<div class="stat"><b>'+D.soCanhBao+' <span style="font-size:16px;color:var(--muted)">/ '+
+      (MU.daRaCanCu||D.soCanhBao)+'</span></b><span>văn bản đã rà được căn cứ thì <b>tất cả</b> đều đang viện dẫn căn cứ hết hiệu lực</span></div>'+
+    '<div class="stat"><b style="color:var(--amber)">'+(MU.chuaKiem||0)+'</b><span>văn bản <b>chưa hề được kiểm</b> ('+
+      (MU.thieuBanGoc||0)+' không có bản gốc, '+(MU.khongCoCanCu||0)+' chưa bóc căn cứ)</span></div>'+
+    '<div class="stat"><b>'+((D.vbTuChet||[]).length)+
+      ((D.vbSapChet||[]).length?' <span style="font-size:16px;color:var(--muted)">+'+(D.vbSapChet||[]).length+'</span>':'')+
+      '</b><span>văn bản trong kho đã hết hiệu lực'+((D.vbSapChet||[]).length?', thêm '+(D.vbSapChet||[]).length+' sắp hết':'')+'</span></div>'+
+    '<div class="stat"><b>'+(D.soVanBanBo||0)+'</b><span>văn bản pháp quy mới bóc, '+(D.tongDieu||0)+' điều</span></div>'+
+    '<div class="stat"><b>'+((D.suKienHieuLuc||[]).length)+'</b><span>lần đổi hiệu lực có nguyên văn</span></div>';
 
   // ---- Phân tích nhanh ----
   var I = D.insights;
@@ -458,7 +496,10 @@ function initApp(){
     var max = Math.max.apply(null, rows.map(function(r){return r.n;}));
     document.getElementById(host).className = cls||"";
     document.getElementById(host).innerHTML = rows.map(function(r){
-      return '<div class="bar"><span class="lbl" title="'+r.label+'">'+r.label+'</span>'+
+      // esc() không thoát dấu nháy kép, mà đây là chỗ duy nhất nhét dữ liệu vào THUỘC TÍNH.
+      // Một tên căn cứ có dấu nháy sẽ làm vỡ thẻ, nên thoát riêng tại đây.
+      var t = String(r.label).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+      return '<div class="bar"><span class="lbl" title="'+t+'">'+esc(r.label)+'</span>'+
         '<span class="track"><span class="fill" style="width:'+(r.n/max*100).toFixed(0)+'%"></span></span>'+
         '<span class="val">'+r.n+'</span></div>';
     }).join("");
@@ -485,7 +526,8 @@ function initApp(){
 
   document.getElementById("whyNow").innerHTML =
     '<b>Vì sao bây giờ:</b> '+I.luotLuatMoi+'/'+I.luotVien+' lượt viện căn cứ hết hiệu lực là do đợt sửa luật lớn '+
-    '<b>2025 tới 2026</b> (Luật Giáo dục ĐH 125/2025, Nghị định 91/2026…). Càng để lâu, số văn bản đứng trên căn cứ đã chết càng dồn.';
+    '<b>2025 tới 2026</b>. Riêng <b>Luật Giáo dục đại học 125/2025</b> đã có nguyên văn điều khoản thi hành trong kho '+
+    'và tự khai làm 5 luật cũ hết hiệu lực. Càng để lâu, số văn bản đứng trên căn cứ đã chết càng dồn.';
 
   // ① Ưu tiên xử lý: bảng xếp hạng
   (function(){
@@ -584,9 +626,20 @@ function initApp(){
         '<div class="h"><span class="badge '+worst+'">'+(worst==="repeal"?"bãi bỏ":"thay thế")+'</span><span class="doc">'+w.soHieu+'</span>'+
           '<span style="margin-left:auto;color:var(--muted);font-size:12px">xem chi tiết →</span></div>'+
         '<div class="b">'+items.map(function(it){
-          return '<div class="item"><div class="row"><span style="color:var(--red)">'+it.canCu+'</span>'+
-            '<span class="arrow">→</span><span style="color:var(--green)">'+it.thayBang+'</span>'+
-            '<span class="badge '+badge(it.lyDo)+'">'+it.lyDo+'</span></div></div>';
+          // Hai điều phải nói ngay tại chỗ, không được giấu xuống cuối trang:
+          // (1) mũi tên này có nguyên văn đối chứng hay chỉ là suy luận từ số hiệu;
+          // (2) văn bản được đề xuất thay thế có phải CHÍNH NÓ cũng đã chết không.
+          var dc = it.thayBangDaChet;
+          return '<div class="item"><div class="row"><span style="color:var(--red)">'+esc(it.canCu)+'</span>'+
+            '<span class="arrow">→</span><span style="color:'+(dc&&dc.daQua?'var(--red)':'var(--green)')+'">'+esc(it.thayBang)+'</span>'+
+            '<span class="badge '+badge(it.lyDo)+'">'+esc(it.lyDo)+'</span>'+
+            (it.coNguon?'<span class="tag2" style="background:#f0fdf4;color:var(--green);border-color:#bbf7d0">có nguyên văn</span>'
+                       :'<span class="tag2" style="background:var(--amber-bg);color:var(--amber);border-color:#fde68a">suy luận, chưa có nguyên văn</span>')+
+            '</div>'+
+            (dc?'<div class="cc-ev" style="color:var(--red);font-size:12px;margin-top:4px">'+
+              (dc.daQua?'Cảnh báo: ':'Sắp tới: ')+esc(it.thayBang)+' '+(dc.daQua?'cũng đã hết hiệu lực từ ':'sẽ hết hiệu lực từ ')+
+              fmtDate(dc.tuNgay)+'. Căn cứ dùng được là <b>'+esc(dc.thayTiepBang.join(", "))+'</b></div>':"")+
+            '</div>';
         }).join("")+'</div>';
       card.onclick=function(){ openDetail(w.docId); };
       host.appendChild(card);
@@ -614,7 +667,7 @@ function initApp(){
     var W=740, rowH=50, pad=44, bx=18, bw=214, dx=474, dw=250, dh=38;
     var H=Math.max(240, pad*2 + deps.length*rowH);
     var by=H/2;
-    var svg='<svg viewBox="0 0 '+W+' '+H+'" width="100%" style="max-width:'+W+'px;font-family:inherit">';
+    var svg='<svg viewBox="0 0 '+W+' '+H+'" width="'+W+'" style="min-width:'+W+'px;max-width:'+W+'px;font-family:inherit">';
     svg+='<defs><marker id="ah" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">'+
          '<path d="M0,0 L7,3 L0,6 Z" fill="#b91c1c"/></marker></defs>';
     // đường nối căn cứ -> từng văn bản phụ thuộc
@@ -821,6 +874,15 @@ function initApp(){
     return esc(s.slice(0,a)) + "<mark>" + esc(s.slice(a,b)) + "</mark>" + esc(s.slice(b));
   }
 
+  // Cắt chuỗi thì phải cắt ở ranh giới từ và có dấu ba chấm, nếu không người đọc
+  // tưởng văn bản gốc viết cụt ("...ban hành t", "...như: đoa").
+  function cat(s, n){
+    s = String(s==null?"":s);
+    if(s.length <= n) return s;
+    var c = s.slice(0, n), k = c.lastIndexOf(" ");
+    return (k > n*0.6 ? c.slice(0,k) : c) + "…";
+  }
+
   var HOM_NAY = D.mocHomNay || "2026-08-19";
   function ngayTu(a,b){ // số ngày từ a tới b, cả hai dạng YYYY-MM-DD
     return Math.round((Date.parse(b+"T00:00:00Z") - Date.parse(a+"T00:00:00Z"))/86400000);
@@ -864,18 +926,34 @@ function initApp(){
   // ---------- Chính văn bản đã bị khai tử ----------
   (function(){
     var host = document.getElementById("tuChetBox");
-    var rows = D.vbTuChet || [];
-    if(!rows.length){ host.innerHTML='<p class="sub">Không phát hiện văn bản nào trong kho đã hết hiệu lực.</p>'; return; }
-    var html = '<div class="alert"><b>'+rows.length+' văn bản</b> trong kho đã hết hiệu lực toàn bộ. '+
+    var rows = D.vbTuChet || [], sap = D.vbSapChet || [];
+    if(!rows.length && !sap.length){ host.innerHTML='<p class="sub">Không phát hiện văn bản nào trong kho đã hết hiệu lực.</p>'; return; }
+    // "Hết hiệu lực" KHÔNG đồng nghĩa "mọi thứ trích từ đây vô giá trị ngay": các văn bản
+    // thay thế đều có điều khoản chuyển tiếp. Nói tuyệt đối là nói quá, nên hiển thị kèm.
+    var html = '<div class="alert"><b>'+rows.length+' văn bản</b> trong kho đã hết hiệu lực'+
+      (sap.length? ', thêm <b>'+sap.length+'</b> văn bản sẽ hết hiệu lực trong thời gian tới':'')+'. '+
       'Trang này trước đây chỉ báo được rằng chúng <b>viện dẫn</b> căn cứ đã chết. '+
-      'Nay đối chiếu với đợt văn bản mới của Bộ cho thấy chính chúng cũng đã bị thay.</div>';
-    html += '<div class="rlist">' + rows.map(function(r){
+      'Nay đối chiếu với đợt văn bản mới cho thấy chính chúng cũng đã bị thay. '+
+      'Điều khoản trích từ chúng <b>không còn là căn cứ để ban hành mới</b>, nhưng phần lớn văn bản thay thế '+
+      'có <b>điều khoản chuyển tiếp</b> cho phép áp dụng tiếp với khoá tuyển sinh hoặc hồ sơ đã có.</div>';
+    function dong(r, sapToi){
+      var con = sapToi ? Math.round((Date.parse(r.tuNgay+"T00:00:00Z")-Date.parse(HOM_NAY+"T00:00:00Z"))/86400000) : 0;
       return '<div class="r" data-did="'+esc(r.docId)+'">'+
         '<div><span class="rs">'+esc(r.soHieu)+'</span><div class="rm">'+esc(r.loai||"")+'</div></div>'+
         '<div><div class="rt">'+esc(r.lyDo)+' bởi <b style="color:var(--green)">'+esc(r.thayBang.join(", "))+
-          '</b>, từ '+fmtDate(r.tuNgay)+'</div>'+ bangChung(r.nguon) +'</div>'+
+          '</b>, từ '+fmtDate(r.tuNgay)+
+          (sapToi? ' <span class="dleft gan">còn '+con+' ngày, HIỆN VẪN CÒN HIỆU LỰC</span>':'')+'</div>'+
+          (r.phamVi && r.phamVi!=="toàn bộ" ? '<div class="rm" style="color:var(--amber)">phạm vi: '+esc(r.phamVi)+'</div>' : '')+
+          ((r.chuyenTiep||[]).length ? '<div class="rm">Có '+r.chuyenTiep.length+
+             ' điều khoản chuyển tiếp: '+esc(r.chuyenTiep.map(function(c){return c.vb+" "+(c.dieu||"");}).join("; "))+'</div>' : '')+
+          bangChung(r.nguon)+'</div>'+
         '<div class="rr">bấm xem<br>chi tiết</div></div>';
-    }).join("") + '</div>';
+    }
+    html += '<div class="rlist">' + rows.map(function(r){ return dong(r,false); }).join("") + '</div>';
+    if(sap.length){
+      html += '<div class="sec-t" style="margin-top:20px">Sắp hết hiệu lực, hiện vẫn còn giá trị</div>'+
+        '<div class="rlist">' + sap.map(function(r){ return dong(r,true); }).join("") + '</div>';
+    }
     host.innerHTML = html;
     noiToggle(host);
     Array.prototype.forEach.call(host.querySelectorAll(".r[data-did]"), function(el){
@@ -888,25 +966,37 @@ function initApp(){
     var moc = [];
     (D.hanChot||[]).forEach(function(n){
       moc.push({ ngay:n.hanChot, viec:n.noiDung, vb:n.vb, dieu:n.dieu,
-                 loai:n.loai||"nghĩa vụ", nguon:n.nguon });
+                 loai:n.loai||"nghĩa vụ", nguon:n.nguon,
+                 chuThe:n.chuThe||"trường", nguonNgay:n.nguonNgay, vbDaChet:n.vbDaChet });
     });
     (D.chuaHieuLuc||[]).forEach(function(c){
       moc.push({ ngay:c.ngay, viec:(c.loai==="áp dụng" ? "Bắt đầu áp dụng: " : "Bắt đầu có hiệu lực: ")+
-                 (c.trichYeu||c.soHieu), vb:c.soHieu, dieu:"", loai:c.loai, nguon:c.nguon });
+                 (c.trichYeu||c.soHieu), vb:c.soHieu, dieu:"", loai:c.loai, nguon:c.nguon,
+                 chuThe:"trường", nguonNgay:"chép" });
     });
     var host = document.getElementById("hanList"), cnt = document.getElementById("hanCnt");
-    var qua = moc.filter(function(m){return mucDo(m.ngay)==="qua";}).length;
-    var gan = moc.filter(function(m){return mucDo(m.ngay)==="gan";}).length;
-    var lap = moc.filter(function(m){return mucDo(m.ngay)==="lap";}).length;
+    // Ô "đã qua hạn" phải đếm RIÊNG việc của trường. Bản trước đếm gộp nên hiện 3 vạch đỏ,
+    // mà 2 trong đó là việc của Ủy ban nhân dân xã và của trường công lập (DAU là tư thục).
+    // Hiệu trưởng nhìn vạch đỏ sẽ tưởng trường đang vi phạm.
+    var laTruong = function(m){ return (m.chuThe||"trường")==="trường"; };
+    var qua  = moc.filter(function(m){return mucDo(m.ngay)==="qua" && laTruong(m);}).length;
+    var quaK = moc.filter(function(m){return mucDo(m.ngay)==="qua" && !laTruong(m);}).length;
+    var gan  = moc.filter(function(m){return mucDo(m.ngay)==="gan" && laTruong(m);}).length;
+    var lap  = moc.filter(function(m){return mucDo(m.ngay)==="lap";}).length;
+    var khac = moc.filter(function(m){return !laTruong(m);}).length;
     document.getElementById("hanTiles").innerHTML =
-      '<div class="tile"><b>'+moc.length+'</b><span>mốc bóc được từ văn bản Bộ</span></div>'+
-      '<div class="tile"><b style="color:var(--red)">'+qua+'</b><span>đã qua hạn</span></div>'+
-      '<div class="tile"><b style="color:var(--amber)">'+gan+'</b><span>còn dưới 120 ngày</span></div>'+
+      '<div class="tile"><b>'+moc.length+'</b><span>mốc bóc được từ văn bản pháp quy</span></div>'+
+      '<div class="tile"><b style="color:var(--red)">'+qua+'</b><span>trường đã quá hạn'+
+        (quaK?' <br><span style="color:var(--muted)">('+quaK+' mốc quá hạn khác không thuộc về trường)</span>':'')+'</span></div>'+
+      '<div class="tile"><b style="color:var(--amber)">'+gan+'</b><span>việc của trường, còn dưới 120 ngày</span></div>'+
+      '<div class="tile"><b>'+khac+'</b><span>mốc thuộc về cơ quan khác, không phải việc của trường</span></div>'+
       '<div class="tile"><b>'+lap+'</b><span>hạn lặp hằng năm</span></div>';
     document.getElementById("hanNote").innerHTML =
-      'Một số mốc là do <b>cộng ra</b> chứ không in trong văn bản, ví dụ "36 tháng kể từ ngày có hiệu lực". '+
-      'Các mốc đó vẫn giữ nguyên văn câu gốc ở nút xem nguyên văn để đối chiếu. '+
-      'Mốc ghi "hằng năm" thì không suy ra năm cụ thể.';
+      '<b>Hai lưu ý khi đọc mục này.</b> Thứ nhất, '+((D.diemMu||{}).mocTinhRa||0)+' mốc có ngày cụ thể là do '+
+      '<b>cộng ra</b> chứ không in trong văn bản (ví dụ "36 tháng kể từ ngày có hiệu lực"), '+
+      'các mốc đó mang nhãn <span class="tag2">tính ra</span>; mốc ghi "hằng năm" thì không suy ra năm cụ thể. '+
+      'Thứ hai, không phải mốc nào cũng là việc của trường: mốc mang nhãn xám thuộc về '+
+      'cơ quan quản lý, trường công lập, đại học quốc gia hoặc bậc học khác, và <b>không được tính</b> vào ô quá hạn ở trên.';
 
     function ve(){
       var q = fold(document.getElementById("hanTim").value.trim());
@@ -923,10 +1013,16 @@ function initApp(){
       });
       cnt.innerHTML = "<b>"+kq.length+"</b> / "+moc.length+" mốc";
       host.innerHTML = kq.length ? kq.map(function(m){
-        return '<div class="tlr '+mucDo(m.ngay)+'">'+
-          '<div class="d">'+nhanNgay(m.ngay)+conLai(m.ngay)+'</div>'+
+        var ngoai = (m.chuThe||"trường")!=="trường";
+        return '<div class="tlr '+(ngoai?"":mucDo(m.ngay))+'"'+(ngoai?' style="opacity:.72"':'')+'>'+
+          '<div class="d">'+nhanNgay(m.ngay)+(ngoai?'':conLai(m.ngay))+
+            (ngoai?'<span class="dleft">không phải việc của trường</span>':'')+
+            (m.nguonNgay==="tính"?'<span class="tag2" style="margin-left:6px">tính ra</span>':'')+'</div>'+
           '<div class="w">'+hl(m.viec,q)+'</div>'+
-          '<div class="m">'+esc(m.vb)+(m.dieu?" · "+esc(m.dieu):"")+' · '+esc(m.loai)+'</div>'+
+          '<div class="m">'+esc(m.vb)+(m.dieu?" · "+esc(m.dieu):"")+' · '+esc(m.loai)+
+            (ngoai?' · <b>'+esc(m.chuThe)+'</b>':'')+'</div>'+
+          (m.vbDaChet?'<div class="rm" style="color:var(--red)">Văn bản này đã hết hiệu lực từ '+
+            fmtDate(m.vbDaChet.tuNgay)+', xem '+esc(m.vbDaChet.thayBang.join(", "))+'</div>':'')+
           bangChung(m.nguon)+'</div>';
       }).join("") : '<div class="empty">Không có mốc nào khớp.</div>';
       noiToggle(host);
@@ -969,7 +1065,7 @@ function initApp(){
           '<div><span class="rs">'+hl(r.soHieu,q)+'</span>'+
             '<div class="rm"><span class="src '+(r.nguon==="bộ"?"bo":"truong")+'">'+
             (r.nguon==="bộ"?"BỘ":"TRƯỜNG")+'</span> '+esc(r.loai||"")+'</div></div>'+
-          '<div><div class="rt">'+hl((r.tomTat||"").slice(0,240),q)+'</div>'+
+          '<div><div class="rt">'+hl(cat((r.tomTat||""),240),q)+'</div>'+
             (r.soDieu?'<div class="rm">'+r.soDieu+' điều · '+(r.soNghiaVu||0)+' nghĩa vụ</div>':"")+
             ((r.chuDe&&r.chuDe.length)?'<div class="rm">'+esc(r.chuDe.join(" · "))+'</div>':"")+'</div>'+
           '<div class="rr">'+esc(r.ngay||"")+(r.ocr?'<br>nguồn scan':"")+'</div></div>';
@@ -998,24 +1094,36 @@ function initApp(){
     Object.keys(los).sort().forEach(function(l){
       var o=document.createElement("option"); o.value=l; o.textContent=l; selLo.appendChild(o); });
     var host=document.getElementById("nvList"), cnt=document.getElementById("nvCnt");
+    var selCt=document.getElementById("nvChuThe");
+    var nTruong=NV.filter(function(n){return (n.chuThe||"trường")==="trường";}).length;
     function ve(){
       var q=fold(document.getElementById("nvTim").value.trim());
-      var v=selVb.value, l=selLo.value;
+      var v=selVb.value, l=selLo.value, ct=selCt.value;
       var kq=NV.filter(function(n){
+        var la=(n.chuThe||"trường")==="trường";
+        if(ct==="trường" && !la) return false;
+        if(ct==="khac" && la) return false;
         if(v!=="all"&&n.vb!==v) return false;
         if(l!=="all"&&n.loai!==l) return false;
         if(!q) return true;
         return fold([n.noiDung,n.vb,n.dieu,n.loai].join(" ")).indexOf(q)>=0;
       });
-      cnt.innerHTML="<b>"+kq.length+"</b> / "+NV.length+" nghĩa vụ";
+      cnt.innerHTML="<b>"+kq.length+"</b> / "+NV.length+" nghĩa vụ"+
+        (ct==="trường"?' <span style="color:var(--muted)">('+(NV.length-nTruong)+" mục của cơ quan khác đang bị ẩn)</span>":"");
       var show=kq.slice(0,150);
       host.innerHTML = show.length ? show.map(function(n){
-        return '<div class="r" style="grid-template-columns:190px 1fr" data-vb="'+esc(n.vb)+'">'+
+        return '<div class="r r-nv" data-vb="'+esc(n.vb)+'">'+
           '<div><span class="rs">'+esc(n.vb)+'</span><div class="rm">'+esc(n.dieu||"")+'</div></div>'+
           '<div><div class="h" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:4px">'+
             '<span class="tag2">'+esc(n.loai||"khác")+'</span>'+
-            (n.hanChot?'<span class="tag2 han">hạn '+nhanNgay(n.hanChot)+'</span>':"")+'</div>'+
-            '<div class="rt">'+hl(n.noiDung,q)+'</div>'+bangChung(n.nguon)+'</div></div>';
+            ((n.chuThe&&n.chuThe!=="trường")?'<span class="tag2" style="background:var(--soft);font-weight:700">'+esc(n.chuThe)+'</span>':"")+
+            (n.hanChot?'<span class="tag2 han">hạn '+nhanNgay(n.hanChot)+'</span>':"")+
+            (n.vbDaChet?'<span class="tag2" style="background:var(--red-bg);color:var(--red);border-color:#fecaca;font-weight:700">văn bản đã hết hiệu lực</span>':"")+'</div>'+
+            '<div class="rt">'+hl(n.noiDung,q)+'</div>'+
+            (n.vbDaChet?'<div class="rm" style="color:var(--red)">'+esc(n.vb)+' đã bị thay thế từ '+
+              fmtDate(n.vbDaChet.tuNgay)+'. Nghĩa vụ này không còn là căn cứ để ban hành mới, xem '+
+              esc(n.vbDaChet.thayBang.join(", "))+'</div>':"")+
+            bangChung(n.nguon)+'</div></div>';
       }).join("") : '<div class="empty">Không có nghĩa vụ nào khớp.</div>';
       if(kq.length>show.length)
         host.innerHTML += '<div class="empty">Còn '+(kq.length-show.length)+' mục nữa, gõ thêm để thu hẹp.</div>';
@@ -1026,6 +1134,7 @@ function initApp(){
     }
     document.getElementById("nvTim").addEventListener("input", ve);
     selVb.addEventListener("change", ve); selLo.addEventListener("change", ve);
+    selCt.addEventListener("change", ve);
     ve();
   })();
 
@@ -1048,9 +1157,13 @@ function initApp(){
       cnt.innerHTML="<b>"+kq.length+"</b> / "+CS.length+" con số";
       var show=kq.slice(0,150);
       host.innerHTML = show.length ? show.map(function(c){
-        return '<div class="r" style="grid-template-columns:150px 1fr 150px" data-vb="'+esc(c.vb)+'">'+
-          '<div><span class="rs">'+hl(c.giaTri,q)+'</span></div>'+
-          '<div><div class="rt">'+hl(c.yNghia,q)+'</div>'+bangChung(c.nguon)+'</div>'+
+        return '<div class="r r-cs" data-vb="'+esc(c.vb)+'">'+
+          '<div><span class="rs">'+hl(c.giaTri,q)+'</span>'+
+            (c.nguonDoSo===false?'<div class="rm" style="color:var(--amber)">con số này không có trong câu nguyên văn kèm theo</div>':"")+'</div>'+
+          '<div><div class="rt">'+hl(c.yNghia,q)+'</div>'+
+            (c.vbDaChet?'<div class="rm" style="color:var(--red)">Văn bản đã hết hiệu lực từ '+
+              fmtDate(c.vbDaChet.tuNgay)+', xem '+esc(c.vbDaChet.thayBang.join(", "))+'</div>':"")+
+            bangChung(c.nguon)+'</div>'+
           '<div class="rr">'+esc(c.vb)+'<br>'+esc(c.dieu||"")+'</div></div>';
       }).join("") : '<div class="empty">Không có con số nào khớp.</div>';
       if(kq.length>show.length)
@@ -1078,11 +1191,11 @@ function initApp(){
       });
       cnt.innerHTML="<b>"+kq.length+"</b> / "+SK.length+" lần đổi hiệu lực";
       host.innerHTML = kq.length ? kq.map(function(s){
-        return '<div class="r" style="grid-template-columns:1fr 1fr 110px" data-vb="'+esc(s.moi)+'">'+
+        return '<div class="r r-sk" data-vb="'+esc(s.moi)+'">'+
           '<div><span class="rs" style="color:var(--red)">'+hl(s.cu||"(không nêu số hiệu)",q)+'</span>'+
-            '<div class="rm">'+esc((s.tenCu||"").slice(0,90))+'</div></div>'+
+            '<div class="rm">'+hl(cat((s.tenCu||""),90),q)+'</div></div>'+
           '<div><div class="rt">'+esc(s.lyDo)+' bởi <b style="color:var(--green)">'+hl(s.moi,q)+'</b>'+
-            (s.phamVi&&s.phamVi!=="toàn bộ"?' <span class="tag2">phạm vi: '+esc(s.phamVi)+'</span>':"")+'</div>'+
+            (s.phamVi&&s.phamVi!=="toàn bộ"?' <span class="tag2 dai">phạm vi: '+esc(s.phamVi)+'</span>':"")+'</div>'+
             bangChung(s.nguon)+'</div>'+
           '<div class="rr">'+(s.tuNgay?fmtDate(s.tuNgay):"")+'</div></div>';
       }).join("") : '<div class="empty">Không có lần đổi nào khớp.</div>';
@@ -1099,25 +1212,47 @@ function initApp(){
   (function(){
     var M = D.diemMu || {}; var host=document.getElementById("muBox");
     var ds = [];
+    ds.push(['<b>Giới hạn nặng nhất: '+(M.luotSuyLuan||0)+'/'+(M.luotTongCong||0)+' lượt viện dẫn ở mục '+
+      '"Văn bản cần rà soát" chưa có nguyên văn đối chứng.</b> Chúng là suy luận từ số hiệu, '+
+      'vì các văn bản thay thế '+esc((M.vbThayChuaCoBanGoc||[]).join(", "))+' <b>chưa có bản gốc trong kho</b>. '+
+      'Mọi mũi tên xanh trỏ tới chúng cần người kiểm trước khi dùng. '+
+      'Chỉ '+(M.luotCoNguon||0)+' lượt đã đối chiếu được nguyên văn điều khoản thi hành.']);
+    ds.push(['<b>Tỉ lệ hỏng trên phần đã rà là 100%, không phải '+
+      Math.round((D.soCanhBao||0)*100/Math.max(M.tongCorpusKhai||1,1))+'%.</b> '+
+      'Trong '+(M.daRaCanCu||0)+' văn bản bóc được danh sách căn cứ thì cả '+(D.soCanhBao||0)+' đều dính căn cứ hết hiệu lực. '+
+      '<b>'+(M.chuaKiem||0)+' văn bản chưa kiểm không có nghĩa là sạch</b>, đó là lý do nên mở rộng phạm vi rà '+
+      'chứ không phải lý do để yên tâm.']);
     if(M.thieuBanGoc) ds.push(['<b>'+M.thieuBanGoc+' văn bản</b> được tính trong tổng kho '+
       M.tongCorpusKhai+' nhưng không có bản trích xuất, nên không tra cứu được và không bị rà.']);
     if(M.khongCoCanCu) ds.push(['<b>'+M.khongCoCanCu+' văn bản</b> có bản ghi nhưng chưa bóc danh sách căn cứ, '+
       'nên nếu chúng đang viện dẫn căn cứ đã chết thì hệ thống cũng không biết.']);
+    if(M.bacCau) ds.push(['<b>'+M.bacCau+' lượt</b> đề xuất chuyển sang một căn cứ mà <b>chính nó cũng đã hết hiệu lực</b>. '+
+      'Các lượt đó đã được gắn cảnh báo đỏ tại chỗ, nhưng dây chuyền thay thế mới chạy được một bậc.']);
+    if(M.nghiaVuVbDaChet) ds.push(['<b>'+M.nghiaVuVbDaChet+' nghĩa vụ</b> ở mục Việc phải làm được bóc từ văn bản '+
+      '<b>đã hết hiệu lực</b>. Chúng vẫn hiển thị để đối chiếu lịch sử nhưng đã gắn nhãn đỏ.']);
+    if(M.nghiaVuKhongPhaiTruong) ds.push(['<b>'+M.nghiaVuKhongPhaiTruong+'/'+((D.nghiaVu||[]).length)+' nghĩa vụ</b> '+
+      'thuộc về cơ quan khác (cơ quan quản lý, trường công lập, đại học quốc gia và đại học vùng, bậc học khác). '+
+      'Trong '+(M.mocQuaHanTong||0)+' mốc đã quá hạn, <b>chỉ '+(M.mocQuaHanCuaTruong||0)+' mốc là việc của trường</b>. '+
+      'Chủ thể được nhận diện bằng cụm từ có thật ở đầu câu nguyên văn, không phải suy đoán.']);
     if((M.canCuChuaCoVBThay||[]).length) ds.push(['<b>'+M.canCuChuaCoVBThay.length+' căn cứ đã chết</b> '+
-      'chưa tìm được văn bản thay trong đợt 18 văn bản này: '+
+      'chưa tìm được văn bản thay trong đợt '+(D.soVanBanBo||0)+' văn bản này: '+
       esc(M.canCuChuaCoVBThay.join(", "))+'. Cần bổ sung văn bản nguồn mới trả lời được.']);
-    if((M.vbOCR||[]).length) ds.push(['<b>'+M.vbOCR.join(", ")+'</b> đọc từ bản scan bằng OCR. '+
+    if(M.mocTinhRa) ds.push(['<b>'+M.mocTinhRa+' mốc hạn chót</b> là do <b>cộng ra</b> chứ không in trong văn bản, '+
+      'và <b>'+(M.conSoNguonKhongDoSo||0)+' con số</b> có câu nguyên văn không chứa chính con số đó '+
+      '(ví dụ tổng số tiêu chí là do đếm). Cả hai nhóm đều đã gắn nhãn riêng.']);
+    if((M.vbOCR||[]).length) ds.push(['<b>'+esc((M.vbOCR||[]).join(", "))+'</b> đọc từ bản scan bằng OCR. '+
       'Ngày hiệu lực trong bản gốc điền bằng phông chữ nghiêng, máy đọc sai thành tháng 7; '+
-      'giá trị hiện dùng là 26/9/2026, đọc lại bằng mắt trên ảnh trang gốc. '+
+      'giá trị hiện dùng là 26/9/2026, đọc lại bằng mắt trên ảnh trang gốc và đã được kiểm chéo độc lập. '+
       'Nên đối chiếu Công báo trước khi dùng cho việc có hậu quả pháp lý.']);
-    ds.push(['Phụ lục hướng dẫn đánh giá của hai thông tư kiểm định là bảng nhiều cột, '+
-      'công cụ bóc trộn chữ giữa các cột nên <b>không lấy nguyên văn từ vùng đó</b>. '+
-      'Số điều khoản và nghĩa vụ chỉ tính phần thân thông tư.']);
-    ds.push(['Kho trường ghi số hiệu không nhất quán, ví dụ cùng một văn bản xuất hiện dưới cả '+
-      '"QĐ 43/2007/QĐ-BGDĐT" lẫn "43/2007/QĐ-BGD". Việc nối cạnh dựa trên số và năm, '+
-      'nên vài trường hợp dị dạng có thể chưa nối được.']);
+    ds.push(['Phụ lục dạng bảng nhiều cột của <b>'+((M.phuLucBocHong||[]).length)+' văn bản</b> bị công cụ bóc trộn chữ '+
+      'giữa các cột, nên <b>không lấy nguyên văn từ vùng đó</b>. Số điều khoản, nghĩa vụ và con số chỉ tính '+
+      '<b>phần thân</b> văn bản. Phụ lục hướng dẫn đánh giá của hai thông tư kiểm định nằm trong nhóm này.']);
+    ds.push(['Trường nguyên văn là bản <b>đã nối lại</b> các chỗ tệp gốc ngắt dòng giữa số hiệu, '+
+      'không phải chuỗi ký tự thô. Nội dung là phục dựng đúng, nhưng không dùng thay cho bản gốc được.']);
+    ds.push(['Điểm tin cậy trích xuất là <b>điểm tự đánh giá của bộ trích xuất</b>, không phải sai số đo được '+
+      'so với bản gốc. Phần lớn văn bản của trường đọc qua OCR.']);
     host.innerHTML = '<div class="rlist">'+ds.map(function(d){
-      return '<div class="r" style="grid-template-columns:1fr;cursor:default"><div class="rt">'+d[0]+'</div></div>';
+      return '<div class="r r-mu"><div class="rt">'+d[0]+'</div></div>';
     }).join("")+'</div>';
   })();
 
