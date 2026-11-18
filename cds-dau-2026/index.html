@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Digital Transformation in Education at DAU</title>
+<!-- Deck tiếp đoàn Thái Lan 19/11/2026, P.212. Dựng từ khuôn deck-web/khuon-html.
+     accent-vi-sao: deck đại diện Trường trước khách quốc tế nên dùng ĐỎ nhận diện DAU #CB0914
+     (lấy từ --color-brand của trang dau-unios.coregenaihub.com), không dùng xanh nhà. Hảo chốt 18/11.
+     Song ngữ: tiếng Anh màu mực ở trên, tiếng Việt màu đỏ đậm ở dưới. Chữ tiếng Anh lấy NGUYÊN VĂN
+     bản EN chính thức của ba trang /en/, /en/ums/, /en/v8/ và trang đăng nhập faculty-copilot. -->
+<link rel="stylesheet" href="lib/fonts.css">
+<style>
+:root{
+  --bg:#F6F6F4; --surface:#FFFFFF; --ink:#1B1E23; --muted:#4A5260; --line:#D6D4CE; --soft:#E9E8E4;
+  --q:#CB0914; --vi:#A3070F; --qs:#FDEEEE; --a:#4A5260; --b:#9A9FA7; --c:#C9CCD0; --ok:#1F7A4D;
+  --sky:#121418; --sky2:#2C1B1E; --onsky:#ECEDEF; --fig:#FFFFFF;
+  color-scheme:light;
+}
+:root[data-theme="dark"]{
+  --bg:#16181C; --surface:#1F2227; --ink:#ECEDEF; --muted:#A7ADB6; --line:#363A41; --soft:#262A30;
+  --q:#FF5A5F; --vi:#FF8F93; --qs:#3A1E21; --a:#A7ADB6; --b:#6F7580; --c:#4A4F57; --ok:#5BC48F; --fig:#F4F6F7; color-scheme:dark;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#16181C; --surface:#1F2227; --ink:#ECEDEF; --muted:#A7ADB6; --line:#363A41; --soft:#262A30;
+  --q:#FF5A5F; --vi:#FF8F93; --qs:#3A1E21; --a:#A7ADB6; --b:#6F7580; --c:#4A4F57; --ok:#5BC48F; --fig:#F4F6F7; color-scheme:dark;}}
+*,*::before,*::after{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);overflow:hidden;font-family:"IBM Plex Sans",-apple-system,"Segoe UI",Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+.app{display:flex;flex-direction:column;height:100%}
+.viewport{position:relative;flex:1;min-height:0;overflow:hidden}
+.stage{position:absolute;left:50%;top:50%;width:1600px;height:900px;transform-origin:0 0}
+.slide{position:absolute;inset:0;padding:54px 84px 70px;display:none;flex-direction:column;background:var(--bg);isolation:isolate}
+/* mullion: bốn cột kẻ dọc mảnh như trang của Trường */
+.slide::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background-image:linear-gradient(90deg,var(--soft) 1px,transparent 1px);background-size:358px 100%;background-position:84px 0}
+.slide.active{display:flex}
+h1,h2,h3{font-family:"IBM Plex Sans Condensed","Arial Narrow",Arial,sans-serif;margin:0;letter-spacing:-.005em}
+h2{font-size:46px;font-weight:600;line-height:1.08;max-width:1432px}
+h3{font-size:26px;font-weight:600;line-height:1.15}
+p{margin:0}
+.kick{font-size:17px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--q);margin-bottom:10px;display:flex;align-items:center;gap:10px}
+.kick::before{content:"";width:12px;height:12px;background:var(--q)}
+.hv{font-size:25px;font-weight:500;color:var(--vi);line-height:1.25;margin-top:6px;font-family:"IBM Plex Sans Condensed",sans-serif}
+/* cặp song ngữ trong thân slide */
+.en{color:var(--ink)}
+.vi{color:var(--vi)}
+p.en,div.en{font-size:21px;line-height:1.4}
+p.vi,div.vi{font-size:17px;line-height:1.35;margin-top:3px}
+.foot{position:absolute;left:84px;right:84px;bottom:22px;display:flex;justify-content:space-between;align-items:center;gap:24px;font-size:15px;color:var(--muted)}
+.foot .src{display:flex;align-items:center;gap:10px}
+.foot img{height:24px;width:auto}
+.row{display:flex;gap:40px;flex:1;min-height:0;margin-top:28px}
+.col{display:flex;flex-direction:column;gap:14px;min-width:0}
+.num,[data-so]{font-variant-numeric:tabular-nums}
+.card{background:var(--surface);border:1px solid var(--line);padding:18px 22px}
+.card h3+.vi{font-size:18px;font-weight:500;font-family:"IBM Plex Sans Condensed",sans-serif;margin-top:2px}
+.card .en{margin-top:10px;font-size:19px}
+.card .vi{font-size:16px}
+.rule{border-top:3px solid var(--ink);padding-top:12px}
+.rule.r{border-top-color:var(--q)}
+.quote{border-left:5px solid var(--q);padding:6px 0 6px 20px}
+.quote .en{font-size:24px;font-weight:500;line-height:1.35}
+.quote .vi{font-size:18px}
+.btns{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+button.b{font-family:inherit;font-size:19px;font-weight:600;padding:9px 12px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+button.b:hover{border-color:var(--ink)}
+button.b[aria-pressed="true"]{background:var(--q);color:#fff;border-color:var(--q)}
+button:focus-visible{outline:3px solid var(--q);outline-offset:2px}
+/* khung 3D: nền trời TỐI cố định ở cả hai theme */
+.view3d{position:relative;flex:1;min-height:0;background:radial-gradient(120% 90% at 60% 20%,var(--sky2),var(--sky));overflow:hidden;color:var(--onsky)}
+.view3d canvas{display:block;width:100%;height:100%;cursor:grab;touch-action:none}
+.view3d canvas:active{cursor:grabbing}
+.hint3d{position:absolute;right:16px;bottom:12px;font-size:15px;color:#B9BEC6;pointer-events:none}
+.tag3d{position:absolute;left:20px;bottom:16px;font-size:15px;color:#B9BEC6;pointer-events:none;max-width:560px;line-height:1.4}
+/* 1 bìa */
+#bia{padding:0;flex-direction:row}
+#bia .txt{width:760px;padding:64px 48px 54px 84px;display:flex;flex-direction:column}
+#bia .logo{display:flex;align-items:center;gap:14px;font-size:17px;color:var(--muted);line-height:1.3}
+#bia .logo img{height:58px;width:auto}
+#bia .logo b{display:block;color:var(--ink);font-size:20px}
+#bia h1{font-size:72px;font-weight:700;line-height:1;letter-spacing:-.015em;margin-top:64px}
+#bia h1 em{font-style:normal;color:var(--q)}
+#bia .t-vi{font:500 34px/1.2 "IBM Plex Sans Condensed",sans-serif;color:var(--vi);margin-top:16px}
+#bia .sub{margin-top:26px}
+#bia .who{margin-top:auto;border-top:3px solid var(--ink);padding-top:16px}
+#bia .who b{font-size:26px}
+#bia .who .en{font-size:20px;margin-top:4px}
+#bia .meta{font-size:17px;color:var(--muted);margin-top:12px}
+#bia .view3d{margin:0}
+/* 2 CAIRA */
+.speaker{display:grid;grid-template-columns:1fr;gap:6px}
+.speaker .name{font:700 40px/1.05 "IBM Plex Sans Condensed",sans-serif}
+.speaker .name-vi{font:600 28px/1.1 "IBM Plex Sans Condensed",sans-serif;color:var(--vi)}
+.tagline{font:500 30px/1.2 "IBM Plex Sans Condensed",sans-serif;margin-top:6px}
+.tagline b{color:var(--q)}
+.list{display:flex;flex-direction:column;gap:14px}
+.list .it{display:grid;grid-template-columns:54px 1fr;gap:14px;align-items:start}
+.list .n{font:700 30px/1 "IBM Plex Sans Condensed",sans-serif;color:var(--q)}
+.list h3{font-size:24px}
+.list .en{font-size:18px;margin-top:4px}
+.list .vi{font-size:16px}
+/* 3 vì sao */
+.drivers{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:40px}
+.drivers h3{font-size:23px}
+.drivers .en{font-size:19px;margin-top:8px}
+.drivers .vi{font-size:16px}
+.paths{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:48px}
+.paths .card{padding:24px 28px}
+.paths .card h3{font-size:25px}
+.paths .card.me{border:2px solid var(--q);background:var(--qs)}
+.paths .lab{font-size:15px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.paths .me .lab{color:var(--q)}
+/* 4 5T */
+table.t5{border-collapse:collapse;width:100%;margin-top:26px}
+table.t5 th{font:600 22px "IBM Plex Sans Condensed",sans-serif;text-align:left;padding:8px 14px;border-bottom:3px solid var(--ink)}
+table.t5 th .vi{display:block;font-size:17px;font-weight:500}
+table.t5 td{padding:15px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+table.t5 td:first-child{font:700 24px "IBM Plex Sans Condensed",sans-serif;color:var(--q);width:70px}
+table.t5 td b{font-size:26px;display:block}
+table.t5 td .vi{font-size:19px}
+/* 5 mô hình 9 lớp */
+.lay-desc{min-height:250px}
+.lay-desc .code{font:700 54px/1 "IBM Plex Sans Condensed",sans-serif;color:var(--q)}
+.lay-desc h3{font-size:30px;margin-top:8px}
+.lay-desc .en{font-size:20px;margin-top:10px}
+/* 6 copilot */
+.cops{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:34px}
+.cops .card{display:flex;flex-direction:column}
+.cops .for{font-size:15px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.cops h3{font-size:28px;margin-top:6px}
+.cops .en{font-size:20px}
+.cops .vi{font-size:16px}
+.cops .bd{margin-top:28px;border-top:2px solid var(--q);padding-top:10px}
+.cops .bd .lab{font-size:15px;font-weight:700;color:var(--q);text-transform:uppercase;letter-spacing:.05em}
+.cops .bd .en{margin-top:4px;font-weight:600}
+.shared{margin-top:34px;font-size:21px}
+/* 7 lộ trình */
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;align-items:end;margin-top:26px;height:300px}
+.steps div{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--b);padding:12px 14px;display:flex;flex-direction:column}
+.steps div:last-child{background:var(--q);border-color:var(--q);color:#fff}
+.steps div:last-child .vi,.steps div:last-child .lv,.steps div:last-child .en{color:#fff}
+.steps .lv{font:700 17px "IBM Plex Sans Condensed",sans-serif;color:var(--muted)}
+.steps b{font:600 24px/1.1 "IBM Plex Sans Condensed",sans-serif;margin-top:2px}
+.steps .vi{font-size:16px}
+.steps .en{font-size:16px;margin-top:6px}
+.tl{display:grid;grid-template-columns:repeat(5,1fr);gap:18px;margin-top:46px;position:relative}
+.tl::before{content:"";position:absolute;left:0;right:0;top:9px;height:2px;background:var(--ink)}
+.tl div{position:relative;padding-top:30px}
+.tl div::before{content:"";position:absolute;left:0;top:2px;width:16px;height:16px;background:var(--bg);border:3px solid var(--q)}
+.tl .y{font:700 24px "IBM Plex Sans Condensed",sans-serif}
+.tl .en{font-size:18px;margin-top:4px}
+.tl .vi{font-size:16px}
+.motto{margin-top:auto;margin-bottom:18px}
+/* 8 UMS */
+.track{margin-top:8px}
+.track .lab{font:600 22px "IBM Plex Sans Condensed",sans-serif}
+.track .lab span{color:var(--vi);font-weight:500;font-size:18px;margin-left:10px}
+.chips{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:12px;position:relative}
+.chips::before{content:"";position:absolute;left:10%;right:10%;top:9px;height:2px;background:var(--q)}
+.chips.ac::before{background:var(--ink)}
+.chips div{text-align:center;position:relative;padding-top:28px;font-size:17px;line-height:1.25}
+.chips div::before{content:"";position:absolute;left:calc(50% - 9px);top:0;width:18px;height:18px;background:var(--bg);border:2.5px solid var(--q)}
+.chips.ac div::before{border-color:var(--ink)}
+.chips .vi{display:block;font-size:15px}
+.big{display:grid;grid-template-columns:repeat(2,1fr);gap:22px 26px}
+.big div{border-top:3px solid var(--ink);padding-top:10px}
+.big div:first-child{border-top-color:var(--q)}
+.big b{display:block;font:700 64px "IBM Plex Sans Condensed",sans-serif;line-height:1;font-variant-numeric:tabular-nums}
+.big div:first-child b{color:var(--q)}
+.big>div>span{font-size:18px;line-height:1.35;display:block;margin-top:6px}
+.big>div>span.vi{font-size:16px;margin-top:2px}
+.rulebox{background:var(--qs);border-left:5px solid var(--q);padding:12px 18px}
+.rulebox .en{font-size:19px;font-weight:600}
+.rulebox .vi{font-size:16px}
+/* 9 tầng kiến trúc */
+.tiers{display:flex;flex-direction:column;gap:8px}
+.tiers div{display:grid;grid-template-columns:330px 1fr;gap:20px;align-items:center;padding:14px 20px;background:var(--surface);border:1px solid var(--line)}
+.tiers div.me{background:var(--q);border-color:var(--q);color:#fff}
+.tiers div.me .vi,.tiers div.me .en{color:#fff}
+.tiers b{font:600 23px/1.15 "IBM Plex Sans Condensed",sans-serif}
+.tiers b .vi{display:block;font-size:17px;font-weight:500}
+.tiers .en{font-size:17px}
+.tiers .vi{font-size:15px}
+.limits .it{display:grid;grid-template-columns:44px 1fr;gap:10px}
+.limits .n{font:700 26px/1 "IBM Plex Sans Condensed",sans-serif;color:var(--q)}
+.limits .en{font-size:19px}
+/* 10 Faculty Copilot */
+.prod{display:flex;flex-direction:column;gap:14px}
+.prod .card h3{font-size:30px}
+.prod .card h3 small{font:600 15px "IBM Plex Sans",sans-serif;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;margin-left:10px}
+.feat{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:10px}
+.feat b{font:600 21px "IBM Plex Sans Condensed",sans-serif;display:block}
+.feat .en{font-size:17px;margin-top:2px}
+.feat .vi{font-size:15px}
+.shot{margin:0;display:flex;flex-direction:column;min-height:0}
+.shot .frame{border:1px solid var(--line);background:var(--fig);box-shadow:0 18px 40px rgba(0,0,0,.12);overflow:hidden}
+.shot .bar3{height:30px;background:var(--soft);display:flex;align-items:center;gap:7px;padding:0 12px}
+.shot .bar3 i{width:11px;height:11px;border-radius:50%;background:var(--c)}
+.shot .bar3 span{font-size:15px;color:var(--muted);margin-left:10px}
+.shot img{display:block;width:100%;height:auto}
+.shot figcaption{font-size:15px;color:var(--muted);margin-top:8px}
+.slogan{font:700 34px/1.1 "IBM Plex Sans Condensed",sans-serif}
+.slogan span{color:var(--q)}
+/* 10 Faculty Copilot: hai ảnh chụp thật */
+.test{display:inline-block;vertical-align:middle;margin-left:14px;font:700 19px/1 "IBM Plex Sans",sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#fff;background:var(--q);padding:8px 12px 7px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:34px;margin-top:20px}
+.sc{margin:0;min-width:0}
+.sc .cap{font-size:20px;margin-bottom:8px}
+.sc .cap b{font:700 24px "IBM Plex Sans Condensed",sans-serif;color:var(--q);margin-right:6px}
+.sc .cap .vi{font-size:17px;display:block;margin-top:2px}
+.sc .frame{border:1px solid var(--line);background:var(--fig);box-shadow:0 14px 34px rgba(0,0,0,.12);overflow:hidden}
+.sc .frame img{display:block;width:100%;height:auto}
+ol.call{margin:12px 0 0;padding:0;list-style:none;counter-reset:k;display:flex;flex-direction:column;gap:7px}
+ol.call li{counter-increment:k;display:grid;grid-template-columns:28px 1fr;column-gap:8px;font-size:17px;line-height:1.3}
+ol.call li::before{content:counter(k);grid-row:span 2;width:24px;height:24px;background:var(--q);color:#fff;font:700 15px/24px "IBM Plex Sans",sans-serif;text-align:center}
+ol.call .vi{font-size:15px}
+/* 11 studio: thanh trọng số rubric */
+.bars{display:flex;flex-direction:column;gap:7px}
+.bar{display:grid;grid-template-columns:440px 1fr;align-items:center;gap:14px}
+.bar .lb{font-size:18px;line-height:1.2}
+.bar .lb b{color:var(--q);margin-right:8px;font-family:"IBM Plex Sans Condensed",sans-serif}
+.bar .lb .vi{display:block;font-size:15px;margin-top:0}
+.bar .track{position:relative;height:34px}
+.bar .fill{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--b);transition:width 1.1s cubic-bezier(.2,.8,.2,1)}
+.bar.top .fill{background:var(--q)}
+.bar .val{position:absolute;top:50%;transform:translateY(-50%);font:600 22px "IBM Plex Sans Condensed",sans-serif;white-space:nowrap;opacity:0;transition:opacity .4s .9s}
+.slide.active .bar .val{opacity:1}
+.grade{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:8px}
+.grade div{background:var(--surface);border:1px solid var(--line);padding:8px 10px;font-size:16px;line-height:1.25}
+.grade div b{display:block;font:700 22px "IBM Plex Sans Condensed",sans-serif;color:var(--q)}
+.grade .vi{font-size:15px;display:block}
+/* 12 kháng AI */
+.ev{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px}
+.ev .card{padding:14px 18px}
+.ev .n{font:700 22px "IBM Plex Sans Condensed",sans-serif;color:var(--q)}
+.ev h3{font-size:24px;display:inline;margin-left:8px}
+.ev .en{font-size:17px;margin-top:6px}
+.ev .vi{font-size:15px}
+table.bd{border-collapse:collapse;width:100%;margin-top:20px}
+table.bd th{font:600 19px "IBM Plex Sans Condensed",sans-serif;text-align:left;padding:7px 14px;border-bottom:3px solid var(--ink)}
+table.bd th.no{color:var(--q);border-bottom-color:var(--q)}
+table.bd td{padding:9px 14px;border-bottom:1px solid var(--line);vertical-align:top;font-size:17px;line-height:1.35}
+table.bd td:first-child{font:600 21px "IBM Plex Sans Condensed",sans-serif;white-space:nowrap}
+table.bd td .vi{display:block;font-size:15px;margin-top:3px}
+/* 13 nguyên tắc */
+.pr{display:grid;grid-template-columns:repeat(3,1fr);gap:40px 26px;margin-top:40px}
+.pr h3{font-size:24px}
+.pr h3+.vi{font:500 18px "IBM Plex Sans Condensed",sans-serif;margin-top:2px}
+.pr .en{font-size:20px;margin-top:10px}
+.pr .vi{font-size:16px}
+/* 14 hợp tác + cảm ơn */
+.coop{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:24px}
+.coop .n{font:700 34px/1 "IBM Plex Sans Condensed",sans-serif;color:var(--q)}
+.coop h3{font-size:24px;margin-top:10px}
+.coop h3+.vi{font:500 18px "IBM Plex Sans Condensed",sans-serif}
+.coop .en{font-size:19px;margin-top:10px}
+.coop .vi{font-size:16px}
+.thanks{margin-top:auto;margin-bottom:26px;display:flex;justify-content:space-between;align-items:flex-end;gap:30px;border-top:3px solid var(--ink);padding-top:18px}
+.thanks h3{font-size:56px;line-height:1}
+.thanks h3+.vi{font:500 30px "IBM Plex Sans Condensed",sans-serif;margin-top:6px}
+.thanks .ct{text-align:right;font-size:19px;line-height:1.5}
+.thanks .ct b{font-size:24px}
+/* lời thoại: nằm trong slide nhưng không bao giờ hiện trên slide */
+aside.script{display:none}
+.notes{display:none;flex:none;height:30vh;border-top:1px solid var(--line);background:var(--surface);font-size:var(--nfs,18px);line-height:1.5;overflow:auto;padding:10px 20px 16px}
+body.show-notes .notes{display:block}
+.notes .nh{display:flex;gap:12px;align-items:center;font-size:14px;color:var(--muted);margin-bottom:6px}
+.notes .nh b{color:var(--ink);font-size:16px}
+.notes .nb{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.notes .nb .vi,.notes .nb .en{font-size:inherit;color:var(--ink)}
+.notes p{margin:0 0 8px}
+/* điều hướng */
+.nav{position:fixed;right:14px;bottom:12px;display:flex;align-items:center;gap:6px;z-index:5;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px 6px;opacity:.35;transition:opacity .2s}
+.nav:hover,.nav:focus-within{opacity:1}
+body.idle .nav:not(:focus-within){opacity:0}
+body.idle .viewport{cursor:none}
+.nav button{border:0;background:transparent;color:var(--ink);font-family:inherit;font-size:15px;font-weight:500;padding:6px 10px;border-radius:999px;cursor:pointer}
+.nav button:hover{background:var(--soft)}
+.nav .count{font-size:15px;color:var(--muted);min-width:56px;text-align:center;font-variant-numeric:tabular-nums}
+.progress{position:fixed;left:0;top:0;height:3px;background:var(--q);z-index:6;transition:width .3s}
+@media (prefers-reduced-motion: reduce){.progress,.bar .fill,.bar .val{transition:none}}
+@page{size:1600px 900px;margin:0}
+@media print{
+  html,body{height:auto;overflow:visible}
+  .app,.viewport{height:auto;overflow:visible;display:block}
+  .stage{position:static;transform:none!important}
+  .slide{display:flex!important;position:relative;width:1600px;height:900px;break-after:page}
+  .nav,.progress,.hint3d,.notes{display:none!important}
+  .bar .fill{transition:none}.bar .val{opacity:1}
+}
+</style>
+<script src="lib/three.min.js"></script>
+<script>window.THREE||document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>')</script>
+
+<!-- ====== SỐ LIỆU: nguồn DUY NHẤT của mọi con số trên slide. Chép từ ba trang chính thức của Trường, đọc 18/11/2026 ====== -->
+<script type="application/json" id="so-lieu">
+{
+  "_nguon": "dau-unios.coregenaihub.com /en/ (đề án), /en/ums/ (UMS), /en/v8/ (quy trình V8.8); đọc 18/11/2026",
+  "lop": 9, "copilot": 4, "cap": 5, "nam_dich": 2031,
+  "ums_module": 14, "ums_phong": 11, "ums_quy_trinh": 120, "ums_giai_doan": 4,
+  "tc": 9, "tieu_chi": 48, "tuan": 15, "diem": 100,
+  "rubric": [
+    {"ma": "TC1", "en": "Concept and creativity", "vi": "Ý tưởng và sáng tạo", "w": 12},
+    {"ma": "TC2", "en": "Identity and local context", "vi": "Bản sắc và bản địa", "w": 10},
+    {"ma": "TC3", "en": "Space and function", "vi": "Không gian và công năng", "w": 20},
+    {"ma": "TC4", "en": "Planning and landscape", "vi": "Quy hoạch và cảnh quan", "w": 12},
+    {"ma": "TC5", "en": "Building technology and engineering", "vi": "Công nghệ kỹ thuật", "w": 10},
+    {"ma": "TC6", "en": "Materials and construction detailing", "vi": "Vật liệu và cấu tạo", "w": 10},
+    {"ma": "TC7", "en": "Green architecture", "vi": "Kiến trúc xanh", "w": 10},
+    {"ma": "TC8", "en": "Community impact", "vi": "Lan tỏa cộng đồng", "w": 8},
+    {"ma": "TC9", "en": "Design communication and oral defense", "vi": "Thể hiện và bảo vệ", "w": 8}
+  ]
+}
+</script>
+</head>
+<body>
+<div class="app">
+<div class="progress" id="progress"></div>
+<div class="viewport" id="viewport"><div class="stage" id="stage">
+
+<!-- ============ 1 BÌA ============ -->
+<section class="slide" id="bia">
+  <div class="txt">
+    <div class="logo"><img src="anh/logo-dau.png" alt="DAU"><span><b>Danang Architecture University</b>Trường Đại học Kiến trúc Đà Nẵng</span></div>
+    <h1>Digital Transformation in Education <em>at DAU</em></h1>
+    <p class="t-vi">Chuyển đổi số trong giáo dục tại DAU</p>
+    <div class="sub"><p class="en">Towards a human-centered AI-native university</p><p class="vi">Hướng tới đại học AI-native lấy con người làm trung tâm</p></div>
+    <div class="who"><b>Dr. Do Phuc Hao</b> · <span class="vi" style="font-size:22px">TS. Đỗ Phúc Hảo</span>
+      <p class="en">Director, CAIRA · <span class="vi" style="font-size:18px">Giám đốc CAIRA</span></p>
+      <p class="meta">Meeting with the Thai delegation · Room 212 · 19 November 2026</p></div>
+  </div>
+  <div class="view3d" id="v-hero"><span class="tag3d">Nine design layers, four Copilots, one 5T core · Chín lớp thiết kế, bốn Copilot, một lõi 5T</span></div>
+  <aside class="script">
+    <div class="en"><p>Good afternoon, and a warm welcome to Danang Architecture University. My name is Do Phuc Hao. I am the Director of CAIRA, our centre for innovation and for research and development of advanced technology.</p><p>Today I would like to share how DAU approaches digital transformation in education. In short: we are not adding a layer of AI on top of the university. We are redesigning the university so that data and AI support people, and people make the decisions. I will speak for about twenty minutes and then welcome your questions.</p></div>
+    <div class="vi"><p>Xin chào và chào mừng đoàn đến DAU. Tôi là Đỗ Phúc Hảo, Giám đốc CAIRA, trung tâm đổi mới sáng tạo và nghiên cứu, phát triển công nghệ tiên tiến của Trường.</p><p>Hôm nay tôi chia sẻ cách DAU tiếp cận chuyển đổi số trong giáo dục. Tóm gọn: không phải phủ thêm một lớp AI lên trường, mà thiết kế lại trường để dữ liệu và AI hỗ trợ con người, còn con người quyết định. Khoảng 20 phút, sau đó mời đoàn đặt câu hỏi.</p></div>
+  </aside>
+</section>
+
+<!-- ============ 2 CAIRA ============ -->
+<section class="slide" id="caira">
+  <p class="kick">About the speaker · Người trình bày</p>
+  <h2>CAIRA builds DAU's own data and AI systems</h2>
+  <p class="hv">CAIRA tự xây dựng hệ thống dữ liệu và AI của chính DAU</p>
+  <div class="row" style="align-items:center">
+    <div class="col" style="width:600px;flex:none">
+      <div class="speaker rule r"><span class="name">Dr. Do Phuc Hao</span><span class="name-vi">TS. Đỗ Phúc Hảo</span>
+        <p class="en" style="margin-top:6px">Director of CAIRA, Danang Architecture University</p><p class="vi">Giám đốc CAIRA, Trường Đại học Kiến trúc Đà Nẵng</p></div>
+      <div class="card" style="margin-top:14px"><p class="tagline">A center for <b>innovation</b> &amp; <b>research and development</b> of advanced technology.</p>
+        <p class="vi" style="font-size:18px;margin-top:8px">Trung tâm đổi mới sáng tạo và nghiên cứu, phát triển công nghệ tiên tiến.</p></div>
+    </div>
+    <div class="col list" style="flex:1">
+      <div class="it"><span class="n">01</span><div><h3>UMS, the University Management System</h3><p class="en">The data foundation for an AI-native university, from admissions to tuition fees.</p><p class="vi">Hệ thống Quản lý Đại học: nền dữ liệu cho đại học AI-native, từ tuyển sinh đến học phí.</p></div></div>
+      <div class="it"><span class="n">02</span><div><h3>DAU Faculty Copilot</h3><p class="en">CourseForge drafts teaching materials to school standards; CurriculumTwin reviews degree programs.</p><p class="vi">CourseForge soạn học liệu theo chuẩn Trường; CurriculumTwin rà soát chương trình đào tạo.</p></div></div>
+      <div class="it"><span class="n">03</span><div><h3>Ownership stays with the University</h3><p class="en">CAIRA owns the source code, the data and the upgrade roadmap, in line with the 2026–2031 strategy.</p><p class="vi">CAIRA làm chủ mã nguồn, dữ liệu và lộ trình nâng cấp, gắn với chiến lược 2026–2031.</p></div></div>
+    </div>
+  </div>
+  <div class="foot"><span class="src"><img src="anh/logo-dau.png" alt="">CAIRA · Danang Architecture University</span><span class="pg"></span></div>
+  <aside class="script">
+    <div class="en"><p>A word about CAIRA. Our role is simple: the University builds its own core systems instead of buying closed packages. Today I will show two of them: UMS, the management system that holds our operating data, and DAU Faculty Copilot, which supports lecturers.</p><p>The important point is the third one. CAIRA owns the source code, the data and the roadmap. Packaged software usually locks the data in, and without open, governed data there is no serious AI later.</p></div>
+    <div class="vi"><p>Vài lời về CAIRA. Vai trò của chúng tôi: Trường tự xây hệ thống lõi thay vì mua gói khép kín. Hôm nay tôi giới thiệu hai hệ: UMS giữ dữ liệu vận hành, và DAU Faculty Copilot hỗ trợ giảng viên.</p><p>Ý quan trọng là ý thứ ba: CAIRA làm chủ mã nguồn, dữ liệu và lộ trình. Phần mềm đóng gói thường khép kín dữ liệu, mà không có dữ liệu mở, có kiểm soát thì không làm được AI nghiêm túc về sau.</p></div>
+  </aside>
+</section>
+
+<!-- ============ 3 VÌ SAO ============ -->
+<section class="slide" id="vi-sao">
+  <p class="kick">Why · Vì sao</p>
+  <h2>Adding a chatbot to the LMS is AI-assisted, not AI-native</h2>
+  <p class="hv">Thêm chatbot vào LMS mới là AI-assisted, chưa phải AI-native</p>
+  <div class="drivers">
+    <div class="rule"><h3>Technology is reshaping education</h3><p class="vi">Công nghệ tái cấu trúc giáo dục</p><p class="en">AI, big data, digital twins and the green transition change how universities teach and govern.</p></div>
+    <div class="rule"><h3>The labor market demands demonstrated competence</h3><p class="vi">Thị trường cần năng lực thật</p><p class="en">Learners prove competence through work products and authentic evidence, not transcripts alone.</p></div>
+    <div class="rule"><h3>Autonomy and accountability</h3><p class="vi">Tự chủ và trách nhiệm giải trình</p><p class="en">Higher education moves toward autonomy, accreditation and transparency in quality.</p></div>
+    <div class="rule"><h3>From scale to capability</h3><p class="vi">Từ quy mô sang năng lực</p><p class="en">The focus shifts from institutional size to capability, data, quality and innovation.</p></div>
+  </div>
+  <div class="paths">
+    <div class="card"><span class="lab">Path 1 · Con đường 1</span><h3>Keep developing in silos</h3><p class="vi" style="font-size:18px">Tiếp tục phát triển rời rạc</p><p class="en">Each office its own software, each program its own outcome matrix, evidence gathered by hand every accreditation cycle. The result: data islands.</p><p class="vi">Mỗi phòng một phần mềm, mỗi chương trình một ma trận, mỗi kỳ kiểm định gom minh chứng thủ công. Kết quả: những ốc đảo dữ liệu.</p></div>
+    <div class="card me"><span class="lab">DAU's choice · Lựa chọn của DAU</span><h3>Integrate into one AI-native ecosystem</h3><p class="vi" style="font-size:18px">Tích hợp thành một hệ sinh thái AI-native</p><p class="en">Learning outcomes are the backbone, demonstrated competence is the goal, data are the infrastructure, AI supports action. People make the decisions.</p><p class="vi">Chuẩn đầu ra là xương sống, năng lực thực chứng là mục tiêu, dữ liệu là hạ tầng, AI hỗ trợ hành động. Con người quyết định.</p></div>
+  </div>
+  <div class="foot"><span class="src"><img src="anh/logo-dau.png" alt="">DAU AI-native University Initiative 2026–2031</span><span class="pg"></span></div>
+  <aside class="script">
+    <div class="en"><p>Why do this at all? Four forces: technology is reshaping education, employers want demonstrated competence, universities are moving toward autonomy and accountability, and the focus is shifting from size to capability.</p><p>We saw two paths. The easy one is to keep buying separate tools: every office its own software, every accreditation cycle a pile of documents gathered by hand. That gives you data islands. DAU chose the harder path: one integrated design, where learning outcomes are the backbone and data is the infrastructure.</p></div>
+    <div class="vi"><p>Vì sao phải làm? Bốn lực đẩy: công nghệ tái cấu trúc giáo dục, thị trường cần năng lực thật, tự chủ và giải trình, và chuyển từ quy mô sang năng lực.</p><p>Có hai con đường. Đường dễ là mua công cụ rời rạc, mỗi kỳ kiểm định lại gom hồ sơ thủ công, sinh ra ốc đảo dữ liệu. DAU chọn đường khó hơn: một thiết kế tích hợp, chuẩn đầu ra là xương sống, dữ liệu là hạ tầng.</p></div>
+  </aside>
+</section>
+
+<!-- ============ 4 5T ============ -->
+<section class="slide" id="nam-t">
+  <p class="kick">Identity · Bản sắc</p>
+  <h2>5T is our identity; AI is only the infrastructure to realize it</h2>
+  <p class="hv">5T là bản sắc của DAU; AI chỉ là hạ tầng để hiện thực hóa</p>
+  <table class="t5">
+    <tr><th></th><th>5T Philosophy<span class="vi">Triết lý 5T · nền tảng tư tưởng</span></th><th>5T Education<span class="vi">Giáo dục 5T · phương thức đào tạo</span></th><th>5T Institutional Values<span class="vi">Giá trị học hiệu · dấu ấn người học</span></th></tr>
+    <tr><td>T1</td><td><b>Tranquility</b><span class="vi">Tĩnh tại</span></td><td><b>Think</b><span class="vi">Thực học</span></td><td><b>Trailblazing</b><span class="vi">Tiên phong</span></td></tr>
+    <tr><td>T2</td><td><b>Theoria</b><span class="vi">Tuệ giác</span></td><td><b>Train</b><span class="vi">Thực hành</span></td><td><b>Tangible</b><span class="vi">Thực tiễn</span></td></tr>
+    <tr><td>T3</td><td><b>Tangibility</b><span class="vi">Thực chứng</span></td><td><b>Task</b><span class="vi">Thực nghề</span></td><td><b>Thriving</b><span class="vi">Toàn diện</span></td></tr>
+    <tr><td>T4</td><td><b>Transfluency</b><span class="vi">Thông biến</span></td><td><b>Test</b><span class="vi">Thực chiến</span></td><td><b>Togetherness</b><span class="vi">Tương tác</span></td></tr>
+    <tr><td>T5</td><td><b>Transcendence</b><span class="vi">Trường tồn</span></td><td><b>Transform</b><span class="vi">Thực sáng tạo</span></td><td><b>Trustworthy</b><span class="vi">Trách nhiệm</span></td></tr>
+  </table>
+  <div class="foot"><span class="src"><img src="anh/logo-dau.png" alt="">Motto: Substance – Proven Capability – Shaping the Future · Thực chất – Thực tài – Kiến tạo tương lai</span><span class="pg"></span></div>
+  <aside class="script">
+    <div class="en"><p>Before any technology, we start from identity. DAU calls it 5T, and it works on three levels: a philosophy, an educational approach, and the values we want to see in our graduates.</p><p>The middle column matters most for teaching: Think, Train, Task, Test, Transform. Students learn, practise, do real professional tasks, face real tests, and create something new. The AI-native architecture is only the infrastructure that helps put these values into practice.</p></div>
+    <div class="vi"><p>Trước công nghệ là bản sắc. DAU gọi là 5T, ở ba tầng: triết lý, phương thức giáo dục, và giá trị của người học.</p><p>Cột giữa quan trọng nhất với giảng dạy: Thực học, Thực hành, Thực nghề, Thực chiến, Thực sáng tạo. Kiến trúc AI-native chỉ là hạ tầng để hiện thực hóa các giá trị này.</p></div>
+  </aside>
+</section>
+
+<!-- ============ 5 MÔ HÌNH 9 LỚP (3D tương tác) ============ -->
+<section class="slide" id="mo-hinh">
+  <p class="kick">The model · Mô hình</p>
+  <h2>One integrated design with <span data-so="lop"></span> layers, not a set of disconnected tools</h2>
+  <p class="hv">Một thiết kế tích hợp chín lớp, không phải các công cụ rời rạc</p>
+  <div class="row">
+    <div class="view3d" id="v-lop" style="flex:1.45"><span class="hint3d">drag: rotate · scroll: zoom</span></div>
+    <div class="col" style="flex:1">
+      <div class="btns" id="layBtns"></div>
+      <div class="card lay-desc" id="layDesc"></div>
+      <p class="small vi" style="font-size:16px;color:var(--muted)">Click a layer, or let it cycle · Bấm chọn lớp, hoặc để tự chuyển</p>
+    </div>
+  </div>
+  <div class="foot"><span class="src"><img src="anh/logo-dau.png" alt="">From human values (5A) down to the infrastructure for intelligence and quality (5I)</span><span class="pg"></span></div>
+  <aside class="script">
+    <div class="en"><p>This is the model in one picture. Nine layers, from human values at the top to the infrastructure for intelligence and quality at the bottom.</p><p>Let me point to three. 5D, the OBE/CBE Core, is the academic data backbone of the whole university. 5F, the Second Brain, is our institutional memory and the rules on who may use which data. And 5H, Agentic Orchestration, coordinates AI agents with permissions, audit trails and a human in the loop. The four Copilots on top only work because these layers exist underneath.</p></div>
+    <div class="vi"><p>Đây là mô hình trong một hình: chín lớp, từ giá trị con người ở trên tới hạ tầng trí tuệ và chất lượng ở dưới.</p><p>Ba lớp đáng chú ý: 5D lõi OBE/CBE là xương sống dữ liệu học thuật; 5F Bộ não thứ hai là trí nhớ thể chế và quy định ai dùng dữ liệu nào; 5H điều phối tác nhân AI có phân quyền, nhật ký và con người trong vòng lặp. Bốn Copilot phía trên chỉ chạy được nhờ các lớp này.</p></div>
+  </aside>
+</section>
+
+<!-- ============ 6 BỐN COPILOT ============ -->
+<section class="slide" id="copilot">
+  <p class="kick">Copilots</p>
+  <h2>Four core Copilots, each with a written boundary</h2>
+  <p class="hv">Bốn Copilot lõi, mỗi Copilot có giới hạn ghi rõ</p>
+  <div class="cops">
+    <div class="card"><span class="for">For students · Sinh viên</span><h3>AI Tutor</h3><p class="vi" style="font-size:17px">Gia sư AI</p><p class="en">Supports learning based on the competency map, recommends practice and gives feedback.</p>
+      <div class="bd"><span class="lab">Boundary · Giới hạn</span><p class="en">Does not complete assignments on students' behalf.</p><p class="vi">Không làm bài thay sinh viên.</p></div></div>
+    <div class="card"><span class="for">For faculty · Giảng viên</span><h3>Faculty Copilot</h3><p class="vi" style="font-size:17px">Copilot cho giảng viên</p><p class="en">Supports course design, rubrics, learning materials and feedback to learners.</p>
+      <div class="bd"><span class="lab">Boundary · Giới hạn</span><p class="en">Does not override faculty members' academic judgment.</p><p class="vi">Không thay quyền chuyên môn của giảng viên.</p></div></div>
+    <div class="card"><span class="for">For researchers · Nghiên cứu</span><h3>Research Copilot</h3><p class="vi" style="font-size:17px">Copilot hỗ trợ nghiên cứu</p><p class="en">Supports literature reviews, data management and publication workflows.</p>
+      <div class="bd"><span class="lab">Boundary · Giới hạn</span><p class="en">Does not write papers on researchers' behalf or fabricate data.</p><p class="vi">Không viết bài thay, không bịa dữ liệu.</p></div></div>
+    <div class="card"><span class="for">For administration · Quản trị</span><h3>Admin Copilot</h3><p class="vi" style="font-size:17px">Copilot hỗ trợ quản trị</p><p class="en">Supports workflows, reporting, quality monitoring and accreditation.</p>
+      <div class="bd"><span class="lab">Boundary · Giới hạn</span><p class="en">Does not decide on academic affairs, finance, personnel or accreditation.</p><p class="vi">Không tự quyết học vụ, tài chính, nhân sự, kiểm định.</p></div></div>
+  </div>
+  <p class="shared"><b>All four share</b> the Second Brain, Knowledge Graph, OBE/CBE Core and Data and AI Governance. <span class="vi">Cả bốn dùng chung Second Brain, Knowledge Graph, lõi OBE/CBE và quản trị dữ liệu, AI.</span></p>
+  <div class="foot"><span class="src"><img src="anh/logo-dau.png" alt="">The Second Brain helps DAU remember accurately. People make the decisions. · Con người quyết định.</span><span class="pg"></span></div>
+  <aside class="script">
+    <div class="en"><p>Agentic AI is not one chatbot. We plan four Copilots: for students, for faculty, for researchers and for administration.</p><p>Please look at the bottom of each card. Every Copilot has a written boundary. The AI Tutor does not do the assignment for the student. The Faculty Copilot does not replace the lecturer's judgment. The Research Copilot does not write papers or invent data. The Admin Copilot does not decide on finance or personnel. We wrote the limits first, because trust from lecturers depends on them.</p></div>
+    <div class="vi"><p>Agentic AI không phải một chatbot. Có bốn Copilot: cho sinh viên, giảng viên, nhà nghiên cứu và quản trị.</p><p>Mời đoàn nhìn phần cuối mỗi thẻ: mỗi Copilot có giới hạn ghi rõ. Chúng tôi viết giới hạn trước, vì niềm tin của giảng viên phụ thuộc vào đó.</p></div>
+  </aside>
+</section>
+
+<!-- ============ 7 LỘ TRÌNH ============ -->
+<section class="slide" id="lo-trinh">
+  <p class="kick">Roadmap · Lộ trình</p>
+  <h2>Five maturity levels, step by step toward <span data-so="nam_dich"></span></h2>
+  <p class="hv">Năm cấp độ trưởng thành, đi từng bước tới năm 2031</p>
+  <div class="steps">
+    <div style="height:42%"><span class="lv">Level 1</span><b>Digitized</b><span class="vi">Số hóa</span></div>
+    <div style="height:56%"><span class="lv">Level 2</span><b>Data-informed</b><span class="vi">Dựa trên dữ liệu</span></div>
+    <div style="height:70%"><span class="lv">Level 3</span><b>AI-integrated</b><span class="vi">Tích hợp AI</span><p class="en">AI embedded in core activities.</p></div>
+    <div style="height:85%"><span class="lv">Level 4</span><b>AI-driven</b><span class="vi">Dẫn dắt bởi AI</span><p class="en">AI orchestrates workflows under human oversight.</p></div>
+    <div style="height:100%"><span class="lv">Level 5</span><b>AI-native</b><span class="vi">AI-native từ thiết kế</span><p class="en">Data and AI built into the operating model by design.</p></div>
+  </div>
+  <div class="tl">
+    <div><span class="y">100 days</span><p class="en">Steering Committee, pilot programs, Second Brain v1</p><p class="vi">Ban Chỉ đạo, chọn CTĐT thí điểm</p></div>
+    <div><span class="y">2026</span><p class="en">Pilot OBE/CBE Core and Competency Map; data and AI policies</p><p class="vi">Thí điểm lõi OBE/CBE, chính sách dữ liệu và AI</p></div>
+    <div><span class="y">2027</span><p class="en">Pilot AI Tutor, Faculty and Research Copilots; Living Portfolio</p><p class="vi">Thí điểm ba Copilot, hồ sơ năng lực sống</p></div>
+    <div><span class="y">2028–2029</span><p class="en">Expand Agentic AI; digital twins; continuous accreditation readiness</p><p class="vi">Mở rộng Agentic AI, bản sao số, kiểm định sống</p></div>
+    <div><span class="y">2030–2031</span><p class="en">Multi-agent ecosystem and a university-wide digital twin</p><p class="vi">Hệ đa tác nhân, bản sao số toàn trường</p></div>
+  </div>
+  <div class="foot"><span class="src"><img src="anh/logo-dau.png" alt="">“Start small, measure actual results, improve quickly, and scale with appropriate controls.” Milestones are proposed · Các mốc là đề xuất</span><span class="pg"></span></div>
+  <aside class="script">
+    <div class="en"><p>We describe progress in five levels: digitized, data-informed, AI-integrated, AI-driven, and finally AI-native. Each level is a condition for the next, and we aim for level five by 2031.</p><p>The timeline below is a proposed framework, not a promise. Our rule is: start small, measure actual results, improve quickly, and scale with appropriate controls. We move to the next stage only when the data and the evidence are reliable enough.</p></div>
+    <div class="vi"><p>Năm cấp độ: số hóa, dựa trên dữ liệu, tích hợp AI, dẫn dắt bởi AI, và AI-native. Mỗi cấp là điều kiện cho cấp sau, mục tiêu cấp 5 vào 2031.</p><p>Các mốc là khung đề xuất, không phải cam kết. Nguyên tắc: bắt đầu nhỏ, đo thật, cải tiến nhanh, mở rộng có kiểm soát. Chỉ chuyển giai đoạn khi dữ liệu và minh chứng đủ tin cậy.</p></div>
+  </aside>
+</section>
+
+<!-- ============ 8 UMS ============ -->
+<section class="slide" id="ums">
+  <p class="kick">CAIRA product · Sản phẩm CAIRA · UMS</p>
+  <h2>UMS: one real end-to-end flow first, then expand</h2>
+  <p class="hv">UMS: làm một luồng chạy thật từ đầu đến cuối trước, mở rộng sau</p>
+  <div class="row">
+    <div class="col" style="flex:1.35;gap:22px">
+      <div class="track"><p class="lab">Money track<span>Trục tiền</span></p>
+        <div class="chips"><div>Admissions<span class="vi">Tuyển sinh</span></div><div>Enrollment<span class="vi">Nhập học</span></div><div>Tuition<span class="vi">Học phí</span></div><div>Student ID<span class="vi">Mã sinh viên</span></div><div>Student card<span class="vi">Thẻ sinh viên</span></div></div></div>
+      <div class="track"><p class="lab">Academic track<span>Trục học thuật</span></p>
+        <div class="chips ac"><div>Curriculum<span class="vi">Chương trình</span></div><div>Course sections<span class="vi">Lớp học phần</span></div><div>Lecturers<span class="vi">Giảng viên</span></div><div>Timetable<span class="vi">Thời khóa biểu</span></div><div>Rooms<span class="vi">Phòng học</span></div></div></div>
+      <div class="rulebox"><p class="en">Core rule: no student ID is issued until Finance confirms payment. Each admitted applicant has exactly one student record.</p><p class="vi">Nguyên tắc cốt lõi: chưa có xác nhận thu tiền thì chưa cấp mã sinh viên. Mỗi thí sinh trúng tuyển chỉ có một hồ sơ.</p></div>
+      <p class="en" style="font-size:19px">Phase 1 is proven with the 2026 intake before any school-wide rollout. <span class="vi" style="font-size:16px">Giai đoạn 1 chạy thật một vòng với khóa 2026 trước khi mở rộng toàn trường.</span></p>
+    </div>
+    <div class="col big" style="flex:1;align-content:start">
+      <div><b><span data-so="ums_module"></span></b><span class="en">modules in phase 1</span><span class="vi">module ở giai đoạn 1</span></div>
+      <div><b><span data-so="ums_phong"></span></b><span class="en">departments and units</span><span class="vi">phòng ban, đơn vị</span></div>
+      <div><b><span data-so="ums_quy_trinh"></span></b><span class="en">processes to digitize</span><span class="vi">quy trình sẽ số hóa</span></div>
+      <div><b><span data-so="ums_giai_doan"></span></b><span class="en">phases to AI-native</span><span class="vi">giai đoạn đến AI-native</span></div>
+    </div>
+  </div>
+  <div class="foot"><span class="src"><img src="anh/logo-dau.png" alt="">UMS introduction report, CAIRA Center · Phase 1 committed; phases 2–4 proposed</span><span class="pg"></span></div>
+  <aside class="script">
+    <div class="en"><p>Now to what CAIRA is actually building. UMS is our University Management System. We did not try to build every feature for every office. We built one minimal flow that runs from start to finish, and we prove it with this year's intake.</p><p>Two tracks run on one data foundation. The money track: admission, enrollment, tuition, student ID, student card, often on the same day. The academic track: curriculum, course sections, lecturers, timetable, rooms. They meet at the student ID. In total, fourteen modules in phase one, eleven departments and about one hundred and twenty processes to digitize over four phases.</p></div>
+    <div class="vi"><p>Giờ là phần CAIRA đang làm thật. UMS là hệ thống quản lý đại học. Không làm đủ mọi tính năng cho mọi phòng, mà làm một luồng tối thiểu chạy trọn, kiểm chứng với khóa tuyển sinh năm nay.</p><p>Hai trục chạy trên một nền dữ liệu: trục tiền và trục học thuật, gặp nhau ở mã sinh viên. Tổng cộng 14 module giai đoạn 1, 11 phòng ban, khoảng 120 quy trình qua bốn giai đoạn.</p></div>
+  </aside>
+</section>
+
+<!-- ============ 9 UMS TRONG KIẾN TRÚC AI ============ -->
+<section class="slide" id="ums-ai">
+  <p class="kick">AI integration · Tích hợp AI</p>
+  <h2>Clean data first, AI second</h2>
+  <p class="hv">Dữ liệu sạch trước, AI sau</p>
+  <div class="row">
+    <div class="col tiers" style="flex:1.45">
+      <div><b>Users<span class="vi">Người dùng</span></b><span><span class="en">Students, lecturers, staff and leaders. People make the final decision.</span><span class="vi" style="display:block">Sinh viên, giảng viên, cán bộ, lãnh đạo. Con người quyết định cuối cùng.</span></span></div>
+      <div><b>Four AI assistants<span class="vi">Bốn trợ lý AI</span></b><span><span class="en">AI Tutor, Faculty Copilot, Research Copilot and Admin Copilot.</span></span></div>
+      <div><b>Second Brain and data governance<span class="vi">Second Brain và quản trị dữ liệu</span></b><span><span class="en">Regulations, processes, curricula; who may use which data.</span><span class="vi" style="display:block">Quy chế, quy trình, CTĐT; ai được dùng dữ liệu nào.</span></span></div>
+      <div class="me"><b>UMS and operational systems<span class="vi">UMS và các hệ nghiệp vụ</span></b><span><span class="en">Day-to-day data: students, lecturers, classes, schedules, grades, tuition.</span><span class="vi" style="display:block">Dữ liệu vận hành: sinh viên, giảng viên, lớp, lịch, điểm, học phí.</span></span></div>
+      <div class="quote" style="background:none;border:0;border-left:5px solid var(--q);display:block;padding:6px 0 6px 20px"><p class="en">AI answers correctly only when the bottom layer holds correct data. That is the job of UMS.</p><p class="vi">AI chỉ trả lời đúng khi tầng dưới cùng có dữ liệu đúng. Đó là việc của UMS.</p></div>
+    </div>
+    <div class="col limits" style="flex:1">
+      <h3>Limits on AI <span class="vi" style="font-size:20px">· Giới hạn của AI</span></h3>
+      <div class="it rule"><span class="n">01</span><div><p class="en">AI does not decide on academic standing, discipline, graduation, personnel or finance.</p><p class="vi">AI không tự quyết học vụ, kỷ luật, tốt nghiệp, nhân sự, tài chính.</p></div></div>
+      <div class="it rule"><span class="n">02</span><div><p class="en">Every sensitive decision is approved by a person, with clear permissions.</p><p class="vi">Mọi quyết định nhạy cảm do con người duyệt, có phân quyền rõ ràng.</p></div></div>
+      <div class="it rule"><span class="n">03</span><div><p class="en">UMS logs every sensitive action from phase 1, as the basis for later review.</p><p class="vi">UMS ghi lại mọi thao tác nhạy cảm ngay từ giai đoạn 1.</p></div></div>
+    </div>
+  </div>
+  <div class="foot"><span class="src"><img src="anh/logo-dau.png" alt="">Phase 1 commits to no AI features; it produces clean, consistent operating data · Giai đoạn 1 chưa cam kết tính năng AI</span><span class="pg"></span></div>
+  <aside class="script">
+    <div class="en"><p>Where does UMS sit? At the bottom, deliberately. On top are the people, then the four assistants, then the Second Brain, and underneath everything the operating data in UMS.</p><p>Phase one of UMS commits to no AI features at all. That surprises some people. But an AI assistant can only answer a student correctly about her timetable or her fees if that data is correct. So we fix the data first. And the limits on the right apply from day one: AI does not decide on discipline, graduation, personnel or finance, and every sensitive action is logged.</p></div>
+    <div class="vi"><p>UMS nằm ở tầng dưới cùng, có chủ ý. Trên là con người, rồi bốn trợ lý, rồi Second Brain, dưới cùng là dữ liệu vận hành.</p><p>Giai đoạn 1 của UMS không cam kết tính năng AI nào. Trợ lý AI chỉ trả lời đúng về lịch học, học phí khi dữ liệu đó đúng, nên sửa dữ liệu trước. Ba giới hạn bên phải áp dụng từ ngày đầu.</p></div>
+  </aside>
+</section>
+
+<!-- ============ 10 DAU FACULTY COPILOT: ảnh chụp thật, giai đoạn thử nghiệm ============ -->
+<section class="slide" id="faculty-copilot">
+  <p class="kick">CAIRA product · Sản phẩm CAIRA · DAU Faculty Copilot</p>
+  <h2>DAU Faculty Copilot today: CourseForge and CurriculumTwin <span class="test">Testing stage</span></h2>
+  <p class="hv">DAU Faculty Copilot hiện nay: CourseForge và CurriculumTwin · <b>đang ở giai đoạn thử nghiệm</b></p>
+  <div class="two">
+    <figure class="sc"><figcaption class="cap"><b>CourseForge</b> drafts teaching materials to school standards <span class="vi">Soạn học liệu theo chuẩn Trường</span></figcaption>
+      <div class="frame"><img src="anh/courseforge.png" alt="CourseForge home screen"></div>
+      <ol class="call"><li><span class="en">Choose what to create: <b>slides, syllabus or exam</b>, for a specific course.</span><span class="vi">Chọn tạo slide, đề cương hay đề kiểm tra cho một học phần.</span></li>
+        <li><span class="en">Every request carries the University's standards: <b>Bloom level, 5T, DCMS, rubric, permitted AI level, 90-minute session</b>.</span><span class="vi">Mỗi yêu cầu mang sẵn chuẩn của Trường: Bloom, 5T, DCMS, rubric, mức dùng AI.</span></li>
+        <li><span class="en">AI drafts; the lecturer reviews and decides when to <b>publish</b>.</span><span class="vi">AI soạn nháp, giảng viên duyệt rồi mới publish.</span></li></ol></figure>
+    <figure class="sc"><figcaption class="cap"><b>CurriculumTwin</b> reviews degree programs <span class="vi">Rà soát chương trình đào tạo</span></figcaption>
+      <div class="frame"><img src="anh/curriculumtwin.png" alt="CurriculumTwin home screen"></div>
+      <ol class="call"><li><span class="en">Choose a degree program and a <b>review date</b>: rules are checked as they apply on that date.</span><span class="vi">Chọn CTĐT và ngày xét: đối chiếu văn bản có hiệu lực ở ngày đó.</span></li>
+        <li><span class="en">Program data comes from <b>UMS</b>, the same data foundation.</span><span class="vi">Dữ liệu CTĐT lấy từ UMS.</span></li>
+        <li><span class="en">A draft program can be test-run; results are stamped <b>TRIAL</b>.</span><span class="vi">CTĐT nháp chạy thử được, kết quả đóng dấu DÙNG THỬ.</span></li></ol></figure>
+  </div>
+  <div class="foot"><span class="src"><img src="anh/logo-dau.png" alt="">Live screenshots, 18 Nov 2026 · Pilot with DAU lecturers, not yet in official use · AI suggests, you decide.</span><span class="pg"></span></div>
+  <aside class="script">
+    <div class="en"><p>The second CAIRA product is for lecturers: DAU Faculty Copilot. Please note: it is in the testing stage. What you see are live screenshots from yesterday, used by a small group of DAU lecturers, not yet in official use.</p><p>On the left, CourseForge. The lecturer chooses what to create, slides, a syllabus or an exam, for a specific course. The bar underneath is the key idea: every request already carries the University's standards, such as the Bloom level, our 5T approach, the rubric and the permitted level of AI use. The AI only drafts. The lecturer reviews and decides when to publish.</p><p>On the right, CurriculumTwin. A program leader chooses a degree program and a review date, and the system checks it against the rules in force on that date, using program data from UMS. A draft program can be test-run, and the result is clearly stamped as a trial.</p></div>
+    <div class="vi"><p>Sản phẩm thứ hai của CAIRA dành cho giảng viên: DAU Faculty Copilot, hiện đang ở giai đoạn thử nghiệm. Đây là ảnh chụp thật, một nhóm nhỏ giảng viên DAU đang dùng thử, chưa đưa vào sử dụng chính thức.</p><p>Bên trái là CourseForge: chọn tạo slide, đề cương hay đề kiểm tra; mỗi yêu cầu mang sẵn chuẩn của Trường (Bloom, 5T, rubric, mức dùng AI); AI soạn nháp, giảng viên duyệt và publish. Bên phải là CurriculumTwin: chọn CTĐT và ngày xét, đối chiếu với văn bản có hiệu lực ở ngày đó, dữ liệu lấy từ UMS; CTĐT nháp chạy thử được và đóng dấu DÙNG THỬ.</p></div>
+  </aside>
+</section>
+
+<!-- ============ 11 STUDIO ĐỒ ÁN V8.8 ============ -->
+<section class="slide" id="studio">
+  <p class="kick">Pilot · Thí điểm · Process V8.8</p>
+  <h2>Architectural design studio: <span data-so="tc"></span> standards, <span data-so="tieu_chi"></span> criteria, <span data-so="diem"></span> points</h2>
+  <p class="hv">Studio đồ án kiến trúc: rubric 9 tiêu chuẩn, 48 tiêu chí, 100 điểm</p>
+  <div class="row">
+    <div class="col" style="flex:1.5"><div class="bars" id="bars"></div></div>
+    <div class="col" style="flex:1">
+      <div class="big" style="grid-template-columns:1fr 1fr">
+        <div><b><span data-so="tuan"></span></b><span class="en">teaching weeks, then week 16 for the defense</span><span class="vi">tuần thực dạy, tuần 16 bảo vệ riêng</span></div>
+        <div><b><span data-so="tieu_chi"></span></b><span class="en">criteria, each with focus evidence</span><span class="vi">tiêu chí, mỗi tiêu chí có minh chứng</span></div>
+      </div>
+      <p class="en" style="font-size:19px;margin-top:6px"><b>Grading:</b> choose level M1–M5 for the standard first, then set criterion attainment in 10% steps.</p><p class="vi">Chọn mức M1–M5 ở cấp tiêu chuẩn trước, rồi nhập mức đạt tiêu chí theo bước 10%.</p>
+      <div class="grade"><div><b>M1</b>Not met<span class="vi">Không đạt</span></div><div><b>M2</b>Minimal<span class="vi">Tối thiểu</span></div><div><b>M3</b>Met<span class="vi">Đạt</span></div><div><b>M4</b>Good<span class="vi">Tốt</span></div><div><b>M5</b>Excellent<span class="vi">Xuất sắc</span></div></div>
+      <p class="en" style="font-size:17px;margin-top:6px">AI only assists; it does not replace the academic decision of faculty or the committee.</p><p class="vi">AI chỉ hỗ trợ, không thay quyết định học thuật của giảng viên, hội đồng.</p>
+    </div>
+  </div>
+  <div class="foot"><span class="src"><img src="anh/logo-dau.png" alt="">Architectural Design Studio Guidance Process V8.8, “Kiến trúc – Kiến tạo” class, August 2026 · pilot before official adoption</span><span class="pg"></span></div>
+  <aside class="script">
+    <div class="en"><p>Now inside the classroom. Our first pilot is the architectural design studio, the heart of an architecture school. The rubric has nine standards and forty-eight criteria for one hundred points. Space and function carries the most weight, twenty points, but identity and local context, green architecture and community impact are standards in their own right.</p><p>The goal is to move from grading only the final drawings to assessing design competence through process, product, evidence, reflection and an oral defense. The grader first chooses a level from M1 to M5, then fine-tunes each criterion in ten percent steps. This makes grading between lecturers more consistent.</p></div>
+    <div class="vi"><p>Vào lớp học. Thí điểm đầu tiên là studio đồ án kiến trúc. Rubric 9 tiêu chuẩn, 48 tiêu chí, 100 điểm; không gian và công năng nặng nhất, 20 điểm, nhưng bản sắc, kiến trúc xanh và cộng đồng đều là tiêu chuẩn riêng.</p><p>Mục tiêu: chuyển từ chấm sản phẩm cuối sang đánh giá năng lực qua quá trình, minh chứng, phản tư và bảo vệ. Chọn mức M1 đến M5 trước rồi mới chỉnh tiêu chí theo bước 10%, giúp chấm nhất quán giữa giảng viên.</p></div>
+  </aside>
+</section>
+
+<!-- ============ 12 KHÁNG AI ============ -->
+<section class="slide" id="khang-ai">
+  <p class="kick">AI-resistant assessment · Đánh giá kháng AI</p>
+  <h2>We do not ban AI: students must prove their own process</h2>
+  <p class="hv">Không cấm AI: sinh viên phải chứng minh quá trình của chính mình</p>
+  <div class="ev">
+    <div class="card"><span class="n">01</span><h3>Process log</h3><p class="en">Weekly: main decisions, discarded options, reasons for changes.</p><p class="vi">Nhật ký quá trình theo tuần</p></div>
+    <div class="card"><span class="n">02</span><h3>Critique log</h3><p class="en">Feedback from faculty, peers, committees and how the work was revised.</p><p class="vi">Nhật ký góp ý và cách sửa</p></div>
+    <div class="card"><span class="n">03</span><h3>Version history</h3><p class="en">Sketches, drawings, models, process photos; never only the final version.</p><p class="vi">Lưu các phiên bản, không chỉ bản cuối</p></div>
+    <div class="card"><span class="n">04</span><h3>AI-use disclosure</h3><p class="en">Tool, purpose, stage, how the output was verified and transformed.</p><p class="vi">Khai báo dùng AI</p></div>
+    <div class="card"><span class="n">05</span><h3>Defense</h3><p class="en">Explain the scheme and answer unexpected questions; no reading AI text.</p><p class="vi">Bảo vệ trực tiếp, trả lời câu hỏi bất ngờ</p></div>
+    <div class="card"><span class="n">06</span><h3>Reflection</h3><p class="en">What was learned, hard decisions, trade-offs, next improvements.</p><p class="vi">Phản tư: điều đã học, đánh đổi</p></div>
+  </div>
+  <table class="bd">
+    <tr><th></th><th>Permitted support · Được phép</th><th class="no">Boundary not to be crossed · Không được vượt</th></tr>
+    <tr><td>AI Tutor</td><td>Explains the rubric, flags missing evidence, practises the defense with open questions.<span class="vi">Giải thích rubric, nhắc minh chứng thiếu, luyện bảo vệ bằng câu hỏi gợi mở.</span></td><td>Does not produce the scheme, draw for students, write the defense, or grade.<span class="vi">Không làm phương án, không vẽ thay, không viết bài bảo vệ, không chấm điểm.</span></td></tr>
+    <tr><td>Faculty Copilot</td><td>Checks missing evidence, flags level discrepancies, drafts feedback, supports CQI.<span class="vi">Kiểm minh chứng thiếu, cảnh báo lệch mức, tổng hợp nhận xét, hỗ trợ CQI.</span></td><td>Does not grade, conclude that cheating occurred, or change grades.<span class="vi">Không chấm thay hội đồng, không kết luận gian lận, không sửa điểm.</span></td></tr>
+  </table>
+  <div class="foot"><span class="src"><img src="anh/logo-dau.png" alt="">AI-resistant evidence is embedded throughout the rubric, not a separate standard · Kháng AI lồng xuyên suốt rubric</span><span class="pg"></span></div>
+  <aside class="script">
+    <div class="en"><p>This is the question every university asks today: if students use AI, how do we still assess them fairly? Our answer is not to ban AI. It is to design assessment so that students must prove a genuine process, genuine decisions and genuine authorship.</p><p>Six kinds of evidence are mandatory: a weekly process log, a critique log, version history, an AI-use disclosure, a live defense with unexpected questions, and a reflection. A beautiful final rendering is no longer enough.</p><p>And the table shows the same boundary idea again: the AI Tutor helps the student prepare but never draws or writes for them; the Faculty Copilot checks evidence but never grades or accuses anyone of cheating.</p></div>
+    <div class="vi"><p>Câu hỏi của mọi trường hôm nay: sinh viên dùng AI thì đánh giá công bằng thế nào? Câu trả lời của DAU không phải cấm AI, mà thiết kế đánh giá buộc sinh viên chứng minh quá trình thật, quyết định thật, tác quyền thật.</p><p>Sáu loại minh chứng bắt buộc. Bản render đẹp không còn đủ. Bảng dưới lặp lại ý giới hạn: AI Tutor giúp chuẩn bị nhưng không vẽ, không viết thay; Faculty Copilot kiểm minh chứng nhưng không chấm, không kết luận gian lận.</p></div>
+  </aside>
+</section>
+
+<!-- ============ 13 NGUYÊN TẮC ============ -->
+<section class="slide" id="nguyen-tac">
+  <p class="kick">Principles · Nguyên tắc</p>
+  <h2>Six operating principles behind every decision</h2>
+  <p class="hv">Sáu nguyên tắc vận hành đứng sau mọi quyết định</p>
+  <div class="pr">
+    <div class="rule r"><h3>People make the decisions</h3><p class="vi">Con người quyết định</p><p class="en">Human-in-command is the governance principle; human-in-the-loop is the mechanism.</p></div>
+    <div class="rule"><h3>Academic priorities lead</h3><p class="vi">Học thuật dẫn dắt</p><p class="en">Technology serves academic goals, not the other way around.</p></div>
+    <div class="rule"><h3>A stable core, a flexible edge</h3><p class="vi">Lõi ổn định, biên linh hoạt</p><p class="en">The core keeps mission, 5T and OBE/VQF; the edge tests microcredentials and studios.</p></div>
+    <div class="rule"><h3>DAU owns its core knowledge</h3><p class="vi">DAU sở hữu tri thức lõi</p><p class="en">Build–Buy–Partner; DAU keeps its standards, rubrics and evidence data.</p></div>
+    <div class="rule"><h3>Clean data come first</h3><p class="vi">Dữ liệu sạch trước</p><p class="en">Do not scale while data quality is inadequate or evidence is not validated.</p></div>
+    <div class="rule"><h3>Evidence supports every public claim</h3><p class="vi">Công bố có minh chứng</p><p class="en">Report only implementation levels and results supported by evidence.</p></div>
+  </div>
+  <div class="quote" style="margin-top:auto;margin-bottom:12px"><p class="en">Every component of our design has precedents elsewhere in the world. The advantage lies in the quality of integration, not in the label.</p><p class="vi">Mọi thành phần đều đã có tiền lệ trên thế giới; lợi thế nằm ở chất lượng tích hợp, không ở tên gọi.</p></div>
+  <div class="foot"><span class="src"><img src="anh/logo-dau.png" alt="">Benchmarked against 100 organizations: 80 international, 20 Vietnamese · Đối sánh 100 đơn vị</span><span class="pg"></span></div>
+  <aside class="script">
+    <div class="en"><p>To close the strategy part, six principles. People make the decisions. Academic goals lead technology. A stable core with room for experiments. DAU owns its standards, rubrics and evidence data. Clean data come first. And we only report results we can prove.</p><p>I want to be honest about one thing. None of the components are new; each has precedents elsewhere in the world. If DAU has an advantage, it is in putting them together carefully, around one identity and one data foundation.</p></div>
+    <div class="vi"><p>Sáu nguyên tắc: con người quyết định; học thuật dẫn dắt; lõi ổn định, biên linh hoạt; DAU sở hữu chuẩn, rubric, dữ liệu minh chứng; dữ liệu sạch trước; chỉ công bố điều có minh chứng.</p><p>Nói thẳng một điều: không thành phần nào mới, đều có tiền lệ. Lợi thế nếu có là ở chỗ tích hợp cẩn thận quanh một bản sắc và một nền dữ liệu.</p></div>
+  </aside>
+</section>
+
+<!-- ============ 14 HỢP TÁC + CẢM ƠN ============ -->
+<section class="slide" id="hop-tac">
+  <p class="kick">Cooperation · Hợp tác</p>
+  <h2>Possible areas for cooperation with our Thai partners</h2>
+  <p class="hv">Các hướng có thể hợp tác với đối tác Thái Lan</p>
+  <div class="coop">
+    <div class="card"><span class="n">01</span><h3>Joint design studios</h3><p class="vi">Studio đồ án chung</p><p class="en">Shared briefs and online critiques in architecture, urban design and green building.</p><p class="vi">Đề bài chung, góp ý trực tuyến</p></div>
+    <div class="card"><span class="n">02</span><h3>AI-resistant assessment</h3><p class="vi">Đánh giá kháng AI</p><p class="en">Compare rubrics and AI-use rules; run a small joint pilot and share the results.</p><p class="vi">So sánh rubric, thí điểm chung nhỏ</p></div>
+    <div class="card"><span class="n">03</span><h3>Joint research</h3><p class="vi">Nghiên cứu chung</p><p class="en">AI in higher education, digital twins for cities and campuses, smart and green buildings.</p><p class="vi">AI trong GDĐH, bản sao số, công trình xanh</p></div>
+    <div class="card"><span class="n">04</span><h3>Faculty and student exchange</h3><p class="vi">Trao đổi giảng viên, sinh viên</p><p class="en">Short visits, guest lectures and workshops on digital tools for design education.</p><p class="vi">Thăm ngắn, giảng mời, hội thảo</p></div>
+  </div>
+  <div class="thanks"><div><h3>Thank you</h3><p class="vi">Xin cảm ơn quý vị. Mời đặt câu hỏi.</p></div>
+    <div class="ct"><b>Dr. Do Phuc Hao</b> · <span class="vi" style="font-size:19px">TS. Đỗ Phúc Hảo</span><br>Director, CAIRA · Danang Architecture University<br>haodp@dau.edu.vn · dau.edu.vn</div></div>
+  <div class="foot"><span class="src"><img src="anh/logo-dau.png" alt="">566 Nui Thanh Street, Hoa Cuong Ward, Da Nang, Vietnam</span><span class="pg"></span></div>
+  <aside class="script">
+    <div class="en"><p>Finally, where could we work together? Four ideas, as a starting point for discussion. Joint design studios with a shared brief and online critiques. Comparing our approaches to AI-resistant assessment, perhaps with a small joint pilot. Joint research on AI in higher education, digital twins and green buildings. And faculty and student exchange.</p><p>We would be very glad to hear which of these fits your university, or what you are working on. Thank you very much for your attention. I am happy to take your questions.</p></div>
+    <div class="vi"><p>Cuối cùng, bốn hướng có thể hợp tác, làm điểm khởi đầu để trao đổi: studio đồ án chung; so sánh và thí điểm chung đánh giá kháng AI; nghiên cứu chung về AI trong GDĐH, bản sao số, công trình xanh; trao đổi giảng viên, sinh viên.</p><p>Rất mong nghe đoàn chia sẻ hướng nào phù hợp. Xin cảm ơn, mời quý vị đặt câu hỏi.</p></div>
+  </aside>
+</section>
+
+</div></div>
+<nav class="nav" aria-label="Slide navigation">
+  <button id="nPrev">‹ Prev</button><span class="count" id="nCount"></span><button id="nNext">Next ›</button>
+  <button id="nNotes" title="Notes (N)">Notes</button><button id="nFull" title="Full screen (F)">Full screen</button><button id="nTheme">Theme</button>
+</nav>
+<div class="notes" id="notes">
+  <div class="nh"><b id="nTitle"></b><span>N: notes · P: presenter window · F: full screen</span><span style="flex:1"></span><button class="b" id="nfMinus">A−</button><button class="b" id="nfPlus">A+</button></div>
+  <div class="nb"><div class="en" id="nEn"></div><div class="vi" id="nVi"></div></div>
+</div>
+</div>
+<pre id="qa-out" hidden></pre>
+<script>
+/* ===== tiện ích ===== */
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const fmt=(x,d=0)=>Number(x).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d,useGrouping:false});
+
+/* ===== số liệu: điền mọi [data-so] từ khối #so-lieu ===== */
+const SO=JSON.parse(document.getElementById('so-lieu').textContent);const THIEU_SO=[];
+const laySo=k=>k.split('.').reduce((o,p)=>o==null?undefined:o[p],SO);
+function dienSo(root=document){root.querySelectorAll('[data-so]').forEach(e=>{const v=laySo(e.dataset.so);
+ if(v===undefined){THIEU_SO.push(e.dataset.so);e.textContent='??';return;}
+ e.textContent=typeof v==='number'?fmt(v,+(e.dataset.d||0)):v;});}
+
+/* ===== rubric: thanh dựng từ SO.rubric, ô số mang data-so (dựng TRƯỚC dienSo) ===== */
+{const R=SO.rubric,mx=Math.max(...R.map(r=>r.w));
+ document.getElementById('bars').innerHTML=R.map((r,i)=>`<div class="bar${r.w===mx?' top':''}"><span class="lb"><b>${r.ma}</b>${r.en}<span class="vi">${r.vi}</span></span><div class="track"><div class="fill" data-w="${r.w/mx*88}"></div><span class="val" style="left:calc(${r.w/mx*88}% + 12px)"><span data-so="rubric.${i}.w"></span> pts</span></div></div>`).join('');}
+function growBars(){const f=[...document.querySelectorAll('#bars .fill')];f.forEach(x=>x.style.width='0');void document.body.offsetWidth;f.forEach(x=>x.style.width=x.dataset.w+'%');}
+
+/* ===== sân khấu + điều hướng: mỗi slide có CTRL[id] = {enter, leave, tick} ===== */
+const slides=[...document.querySelectorAll('.slide')];let cur=0,SCALE=1;const CTRL={},VIEWS={};
+function fit(){const vp=document.getElementById('viewport');SCALE=Math.min(vp.clientWidth/1600,vp.clientHeight/900);
+ document.getElementById('stage').style.transform=`translate(${-800*SCALE}px,${-450*SCALE}px) scale(${SCALE})`;Object.values(VIEWS).forEach(v=>v.resize());}
+function go(n,force){n=Math.max(0,Math.min(slides.length-1,n));if(n===cur&&!force)return;
+ slides[cur].classList.remove('active');CTRL[slides[cur].id]?.leave?.();cur=n;const s=slides[n];s.classList.add('active');
+ document.getElementById('nCount').textContent=`${n+1} / ${slides.length}`;
+ document.getElementById('progress').style.width=`${(n+1)/slides.length*100}%`;
+ try{history.replaceState(null,'','#'+s.id);}catch(e){}
+ Object.values(VIEWS).forEach(v=>v.resize());CTRL[s.id]?.enter?.();
+ requestAnimationFrame(()=>Object.values(VIEWS).forEach(v=>v.resize()));showNotes();}
+slides.forEach((s,i)=>s.querySelectorAll('.pg').forEach(p=>p.textContent=`${i+1} / ${slides.length}`));
+document.getElementById('nPrev').onclick=()=>go(cur-1);document.getElementById('nNext').onclick=()=>go(cur+1);
+document.getElementById('nFull').onclick=()=>{try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();}catch(e){}};
+document.getElementById('nTheme').onclick=()=>{const r=document.documentElement;const dark=matchMedia('(prefers-color-scheme: dark)').matches;
+ const now=r.dataset.theme||(dark?'dark':'light');r.dataset.theme=now==='dark'?'light':'dark';try{localStorage.setItem('dk-theme',r.dataset.theme);}catch(e){}};
+try{const t=localStorage.getItem('dk-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}
+document.addEventListener('keydown',e=>{const tg=e.target.tagName;if(tg==='INPUT')return;
+ if(['ArrowRight','PageDown'].includes(e.key)||(e.key===' '&&tg!=='BUTTON')){e.preventDefault();go(cur+1);}
+ else if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();go(cur-1);}
+ else if(e.key==='Home')go(0);else if(e.key==='End')go(slides.length-1);
+ else if(e.key==='f'||e.key==='F')document.getElementById('nFull').click();
+ else if(e.key==='n'||e.key==='N')toggleNotes();
+ else if(e.key==='p'||e.key==='P')openPresenter();});
+addEventListener('resize',fit);
+let idleT;function wake(){document.body.classList.remove('idle');clearTimeout(idleT);idleT=setTimeout(()=>document.body.classList.add('idle'),2200);}
+['mousemove','pointerdown','keydown'].forEach(e=>addEventListener(e,wake,{passive:true}));
+
+/* ===== lời thoại + cửa sổ người nói: tiếng Anh trước (nói), tiếng Việt sau (đối chiếu) ===== */
+let NFS=18,POP=null,T0=Date.now();
+function notesOf(s){const a=s.querySelector('aside.script');return {vi:a?.querySelector('.vi')?.innerHTML||'',en:a?.querySelector('.en')?.innerHTML||''};}
+function showNotes(){const s=slides[cur],n=notesOf(s);document.getElementById('nTitle').textContent=`${cur+1} / ${slides.length} · ${s.querySelector('h1,h2')?.textContent||''}`;
+ document.getElementById('nVi').innerHTML=n.vi;document.getElementById('nEn').innerHTML=n.en;updPop();}
+function toggleNotes(){document.body.classList.toggle('show-notes');fit();}
+document.getElementById('nNotes').onclick=toggleNotes;
+document.getElementById('nfPlus').onclick=()=>{NFS=Math.min(32,NFS+2);document.documentElement.style.setProperty('--nfs',NFS+'px');};
+document.getElementById('nfMinus').onclick=()=>{NFS=Math.max(12,NFS-2);document.documentElement.style.setProperty('--nfs',NFS+'px');};
+function openPresenter(){POP=window.open('','nguoi-noi','width=1100,height=760');if(!POP)return;T0=Date.now();
+ POP.document.write(`<!doctype html><meta charset="utf-8"><title>Presenter</title><style>body{margin:0;font:18px/1.5 -apple-system,Arial,sans-serif;background:#16181C;color:#ECEDEF;padding:20px 28px}
+ .top{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid #363A41;padding-bottom:10px}#clk{font:700 44px monospace}#pos{font-size:22px;color:#A7ADB6}
+ h2{font-size:28px;margin:14px 0 6px}#next{color:#A7ADB6;font-size:18px;margin-bottom:12px}.nb{display:grid;grid-template-columns:1.2fr 1fr;gap:28px;font-size:22px}#vi{color:#FF8F93;font-size:19px}p{margin:0 0 10px}</style>
+ <div class="top"><span id="clk">00:00</span><span id="pos"></span></div><h2 id="cur"></h2><div id="next"></div><div class="nb"><div id="en"></div><div id="vi"></div></div>`);
+ POP.document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' ')go(cur+1);if(e.key==='ArrowLeft')go(cur-1);});updPop();}
+function updPop(){if(!POP||POP.closed)return;const d=POP.document,s=slides[cur],n=notesOf(s),nx=slides[cur+1];
+ d.getElementById('pos').textContent=`${cur+1} / ${slides.length}`;d.getElementById('cur').textContent=s.querySelector('h1,h2')?.textContent||'';
+ d.getElementById('next').textContent=nx?'Next: '+(nx.querySelector('h1,h2')?.textContent||''):'Last slide';
+ d.getElementById('vi').innerHTML=n.vi;d.getElementById('en').innerHTML=n.en;}
+setInterval(()=>{if(!POP||POP.closed)return;const t=Math.floor((Date.now()-T0)/1000);POP.document.getElementById('clk').textContent=`${String(Math.floor(t/60)).padStart(2,'0')}:${String(t%60).padStart(2,'0')}`;},1000);
+
+/* ===== bộ dựng 3D dùng chung ===== */
+const HAS3D=typeof THREE!=='undefined';
+function makeView(elm,o={}){
+ const r=new THREE.WebGLRenderer({antialias:true,alpha:true,preserveDrawingBuffer:true}); // preserve: in và chụp không trắng
+ elm.prepend(r.domElement);const scene=new THREE.Scene();const cam=new THREE.PerspectiveCamera(o.fov||36,1,0.1,300);
+ const orb={theta:o.theta??0.6,phi:o.phi??1.12,r:o.r??14,target:o.target||new THREE.Vector3(0,0,0)};
+ const place=()=>{cam.position.set(orb.target.x+orb.r*Math.sin(orb.phi)*Math.sin(orb.theta),orb.target.y+orb.r*Math.cos(orb.phi),orb.target.z+orb.r*Math.sin(orb.phi)*Math.cos(orb.theta));cam.lookAt(orb.target);};
+ let drag=false,lx=0,ly=0;const c=r.domElement;
+ c.addEventListener('pointerdown',e=>{drag=true;lx=e.clientX;ly=e.clientY;c.setPointerCapture(e.pointerId);v.touched=true;});
+ // chia cho SCALE: sân khấu bị co nên một pixel chuột không bằng một pixel slide
+ c.addEventListener('pointermove',e=>{if(!drag)return;orb.theta-=(e.clientX-lx)*0.008/SCALE;orb.phi=Math.min(1.48,Math.max(0.2,orb.phi-(e.clientY-ly)*0.006/SCALE));lx=e.clientX;ly=e.clientY;place();});
+ c.addEventListener('pointerup',()=>drag=false);c.addEventListener('pointercancel',()=>drag=false);
+ c.addEventListener('wheel',e=>{e.preventDefault();orb.r=Math.min(o.rmax||30,Math.max(o.rmin||6,orb.r*(e.deltaY>0?1.08:0.93)));place();},{passive:false});
+ scene.add(new THREE.AmbientLight(0xffffff,0.55));const dl=new THREE.DirectionalLight(0xffffff,0.75);dl.position.set(5,12,8);scene.add(dl);
+ const v={r,scene,cam,orb,place,touched:false,
+  resize(){const w=elm.clientWidth,h=elm.clientHeight;if(!w||!h)return;r.setPixelRatio(Math.min(2,(devicePixelRatio||1)*SCALE));r.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix();},
+  render(){r.render(scene,cam);},
+  spin(dt,speed=0.05){if(!v.touched&&!RM){orb.theta+=dt*speed;place();}}}; // tự xoay chậm tới khi người xem chạm vào
+ place();return v;}
+// nhãn = sprite từ canvas 2D; luôn nổi trên khối (depthTest:false + renderOrder cao)
+function label(txt,color='#ECEDEF',h=0.42,w=512){const cv=document.createElement('canvas');cv.width=w;cv.height=96;const g=cv.getContext('2d');
+ g.font='600 50px "IBM Plex Sans Condensed","IBM Plex Sans",Arial,sans-serif';g.fillStyle=color;g.textAlign='center';g.textBaseline='middle';g.fillText(txt,w/2,50);
+ const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(cv),transparent:true,depthWrite:false,depthTest:false}));sp.scale.set(h*w/96,h,1);sp.renderOrder=10;return sp;}
+function lineFrom(pts,color,opacity=1){return new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),new THREE.LineBasicMaterial({color,transparent:opacity<1,opacity}));}
+const RED3D=0xFF4D55,RED3DS=0xCB0914; // trên nền tối dùng bản SÁNG của đỏ DAU; đỏ gốc thẳng lên nền tối thì chìm
+
+/* ===== 9 lớp + 4 Copilot + lõi 5T: dùng cho bìa và slide mô hình ===== */
+const LAYERS=[
+ ['5A','Human-centered 5T','5T lấy con người làm trung tâm','People remain at the center; AI does not replace faculty members.'],
+ ['5B','OBE/VQF','Đào tạo theo chuẩn đầu ra','Outcome-based education aligned with the Vietnam Qualifications Framework.'],
+ ['5C','AI-native CBE Ecosystem','Hệ sinh thái CBE AI-native','Translates learning outcomes into competencies that can be observed, measured, demonstrated and improved.'],
+ ['5D','OBE/CBE Core','Lõi OBE/CBE','The academic data backbone of the entire university.'],
+ ['5E','Competency Map','Bản đồ năng lực','Defines competencies through observable behaviors linked to evidence, rubrics and proficiency levels.'],
+ ['5F','Second Brain and Governance','Bộ não thứ hai và quản trị','Institutional memory, the Knowledge Graph, and data and AI governance.'],
+ ['5G','AI Infrastructure Efficiency','Hiệu quả hạ tầng AI','Orchestrates models and controls costs; models can be replaced without disrupting the data foundation.'],
+ ['5H','Agentic Orchestration','Điều phối tác nhân AI','Coordinates AI agents through role-based permissions, audit trails and human-in-the-loop oversight.'],
+ ['5I','World Models, Evidence and Quality','Mô hình thế giới, minh chứng, chất lượng','Digital Twin University, Learning Analytics, Living Portfolio, PDCA/CQI and continuous accreditation readiness.']];
+const COPS=['AI Tutor','Faculty Copilot','Research Copilot','Admin Copilot'];
+function Stack(elm,o={}){const v=makeView(elm,o);VIEWS[elm.id]=v;const sc=v.scene;
+ const S=3.0,GAP=0.42,top=(LAYERS.length-1)*GAP/2;
+ // tấm lớp: hình thoi (vuông xoay 45 độ như trang của Trường), trong suốt + viền sáng
+ const plates=LAYERS.map((L,i)=>{const g=new THREE.Group();g.position.y=top-i*GAP;g.rotation.y=Math.PI/4;
+  const m=new THREE.Mesh(new THREE.BoxGeometry(S,0.05,S),new THREE.MeshBasicMaterial({color:0xFFFFFF,transparent:true,opacity:0.07,depthWrite:false}));g.add(m);
+  const ed=new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(S,0.05,S)),new THREE.LineBasicMaterial({color:0x8E949C,transparent:true,opacity:0.7}));g.add(ed);
+  const lb=label(L[0],'#C9CDD3',0.34,192);lb.position.set(S*0.5+0.25,0,S*0.5+0.25);g.add(lb);sc.add(g);
+  return {g,m,ed,lb,base:top-i*GAP,k:0};});
+ // lõi 5T: bát diện đỏ nổi trên tấm 5A
+ const core=new THREE.Mesh(new THREE.OctahedronGeometry(0.62),new THREE.MeshLambertMaterial({color:RED3DS,emissive:0x5a0006}));core.position.y=top+1.25;sc.add(core);
+ const coreE=new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.OctahedronGeometry(0.64)),new THREE.LineBasicMaterial({color:0xFF9AA0}));core.add(coreE);
+ const tl=label('5T','#FFFFFF',0.5,192);tl.position.y=top+1.25;sc.add(tl);
+ // bốn Copilot trên một vòng, nối về lõi
+ const ring=new THREE.Group();ring.position.y=top+1.25;sc.add(ring);
+ COPS.forEach((t,i)=>{const a=i*Math.PI/2;const p=new THREE.Vector3(Math.cos(a)*2.5,0,Math.sin(a)*2.5);
+  const b=new THREE.Mesh(new THREE.BoxGeometry(0.3,0.3,0.3),new THREE.MeshLambertMaterial({color:0xECEDEF}));b.position.copy(p);ring.add(b);
+  ring.add(lineFrom([new THREE.Vector3(),p],0xFF8F93,0.55));const l=label(t,'#ECEDEF',0.36);l.position.copy(p).add(new THREE.Vector3(0,0.62,0));ring.add(l);});
+ // dòng dữ liệu đi LÊN từ tầng nền: AI đi sau dữ liệu
+ const N=46,pts=[];const pg=new THREE.BufferGeometry();const pos=new Float32Array(N*3);
+ for(let i=0;i<N;i++){pts.push({a:Math.random()*6.283,r:0.2+Math.random()*1.1,y:-top-0.3+Math.random()*(2*top+1.6),s:0.35+Math.random()*0.5});}
+ pg.setAttribute('position',new THREE.BufferAttribute(pos,3));
+ const dots=new THREE.Points(pg,new THREE.PointsMaterial({color:0xFFB3B7,size:0.07,transparent:true,opacity:0.85,depthWrite:false}));sc.add(dots);
+ let sel=-1,t=0;
+ const M={sel(i){sel=i;},
+  frame(dt){t+=dt;core.rotation.y+=dt*0.6;ring.rotation.y+=dt*0.12;
+   plates.forEach((p,i)=>{const on=i===sel;p.k+=((on?1:0)-p.k)*(RM?1:Math.min(1,dt*8));
+    p.m.material.color.setHex(on?RED3D:0xFFFFFF);p.m.material.opacity=0.07+0.33*p.k;p.ed.material.color.setHex(on?RED3D:0x8E949C);
+    p.g.position.y=p.base+(sel<0?0:(i<sel?0.25:i>sel?-0.25:0))*1;p.g.scale.setScalar(1+0.12*p.k);});
+   for(let i=0;i<N;i++){const q=pts[i];q.y+=dt*q.s;if(q.y>top+0.9)q.y=-top-0.3;pos[i*3]=Math.cos(q.a+t*0.3)*q.r;pos[i*3+1]=q.y;pos[i*3+2]=Math.sin(q.a+t*0.3)*q.r;}
+   pg.attributes.position.needsUpdate=true;
+   if(o.autoRot)v.spin(dt);v.render();}};
+ return M;}
+
+let HERO=null,LOP=null;
+if(HAS3D){
+ HERO=Stack(document.getElementById('v-hero'),{autoRot:true,theta:0.7,phi:1.2,r:12.5,target:new THREE.Vector3(0,0.55,0)});
+ CTRL.bia={tick:dt=>HERO.frame(dt)};
+ LOP=Stack(document.getElementById('v-lop'),{autoRot:true,theta:0.7,phi:1.16,r:11.5,target:new THREE.Vector3(0,0.4,0)});
+}
+/* slide mô hình: nút chọn lớp, tự chuyển mỗi 4 s tới khi người nói bấm */
+const layBtns=document.getElementById('layBtns');let LSEL=0,AUTO=true,LT=0;
+layBtns.innerHTML=LAYERS.map((L,i)=>`<button class="b" data-i="${i}">${L[0]}</button>`).join('');
+function laySet(i){LSEL=i;layBtns.querySelectorAll('.b').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.i===i?'true':'false'));const L=LAYERS[i];
+ document.getElementById('layDesc').innerHTML=`<span class="code">${L[0]}</span><h3>${L[1]}</h3><p class="vi" style="font-size:20px;font-weight:500">${L[2]}</p><p class="en">${L[3]}</p>`;LOP?.sel(i);}
+layBtns.querySelectorAll('.b').forEach(b=>b.onclick=()=>{AUTO=false;laySet(+b.dataset.i);});
+laySet(0);
+CTRL['mo-hinh']={enter(){LT=0;},tick(dt){if(AUTO&&!RM){LT+=dt;if(LT>4){LT=0;laySet((LSEL+1)%LAYERS.length);}}LOP?.frame(dt);}};
+CTRL.studio={enter:growBars};
+
+/* ===== khởi động ===== */
+dienSo();
+if(!HAS3D)document.querySelectorAll('.view3d').forEach(v=>{const p=document.createElement('p');p.style.cssText='padding:40px;font-size:20px';p.textContent='three.js not loaded: check lib/three.min.js next to index.html.';v.prepend(p);});
+fit();
+{const h=location.hash.slice(1),m=/^s(\d+)$/.exec(h);let start=slides.findIndex(s=>s.id===h);if(start<0&&m)start=+m[1]-1; // nhận cả #id lẫn #sN
+ slides[0].classList.add('active');go(Math.max(0,start),true);}
+// IN: render một khung cho MỌI cảnh 3D, vì slide ẩn chưa từng được vẽ
+addEventListener('beforeprint',()=>{slides.forEach(s=>s.classList.add('active'));growBars();LOP?.sel(3);HERO?.frame(0.016);LOP?.frame(1);Object.values(VIEWS).forEach(v=>{v.resize();v.render();});});
+addEventListener('afterprint',()=>{slides.forEach((s,i)=>s.classList.toggle('active',i===cur));fit();});
+// MỘT vòng rAF cho cả deck, chỉ tick slide đang chiếu; dt kẹp 0,05 s để quay lại tab không nhảy cóc
+let last=performance.now();
+function loop(t){const dt=Math.max(0,Math.min(0.05,(t-last)/1000));last=t;try{CTRL[slides[cur].id]?.tick?.(dt);}catch(e){console.error(e);}requestAnimationFrame(loop);}
+requestAnimationFrame(loop);wake();
+
+/* ===== QA (mở với ?qa=1, kiem.py đọc #qa-out): đo trên trang ĐÃ DỰNG, không đọc mã nguồn ===== */
+if(new URLSearchParams(location.search).has('qa'))document.fonts.ready.then(()=>{
+ const loi=[],canh=[];const add=(arr,slide,ma,chi)=>arr.push({slide,ma,chi});
+ const SO_O='.big b, table.res td, .bar .val'; // ô mang số CỦA BÀI phải lấy từ data-so
+ THIEU_SO.forEach(k=>add(loi,'*','thieu-so',k));
+ slides.forEach((s,i)=>{go(i,true);Object.values(VIEWS).forEach(v=>{v.resize();v.render();});CTRL[s.id]?.tick?.(0.016);
+  const id=s.id,sr=s.getBoundingClientRect(),k=sr.width/1600;const foot=s.querySelector('.foot');const ft=foot?foot.getBoundingClientRect().top-4*k:sr.bottom; // có chân trang thì chừa 4px
+  const h=s.querySelector('h2');if(h){const n=Math.round(h.getBoundingClientRect().height/parseFloat(getComputedStyle(h).lineHeight)/k);if(n>2)add(loi,id,'tieu-de-dai',n+' dòng');else if(n>1)add(canh,id,'tieu-de-2-dong','');}
+  // xét MỌI con cháu, không chỉ con trực tiếp: slide là flex column nên con trực tiếp bị co cho vừa trong khi nội dung bên trong tràn
+  {let worst=null,wb=0;s.querySelectorAll('*').forEach(e=>{if(e.closest('.foot,aside.script,.view3d,svg,math'))return;const r=e.getBoundingClientRect();if(r.height&&r.bottom>ft+0.5&&r.bottom>wb){wb=r.bottom;worst=e;}});
+   if(worst)add(loi,id,'de-chan-trang',(worst.className||worst.tagName)+' thừa '+Math.ceil((wb-ft)/k)+'px');}
+  s.querySelectorAll('*').forEach(e=>{if(e.closest('aside.script,svg,math'))return;const r=e.getBoundingClientRect();if(!r.width)return;
+   if(r.right>sr.right+1||r.bottom>sr.bottom+1||r.left<sr.left-1)add(loi,id,'tran-khung',e.tagName+'.'+e.className);
+   const st=getComputedStyle(e);if(/(auto|scroll|hidden)/.test(st.overflowX)&&e.scrollWidth>e.clientWidth+2&&!e.closest('.view3d'))add(loi,id,'tran-trong',e.tagName+'.'+e.className);
+   const txt=[...e.childNodes].some(n=>n.nodeType===3&&n.textContent.trim());if(txt&&parseFloat(st.fontSize)<15)add(loi,id,'chu-nho',e.tagName+'.'+e.className+' '+st.fontSize);});
+  // số điền vào phải mang cỡ chữ và kiểu hiển thị của chỗ chứa nó; lệch là luật CSS của chỗ khác đè lên (đã gặp: .big span)
+  s.querySelectorAll('[data-so]').forEach(e=>{const a=getComputedStyle(e),b=getComputedStyle(e.parentElement);if(a.fontSize!==b.fontSize||a.display==='block')add(loi,id,'so-lech-co',e.dataset.so+' '+a.fontSize+' trong '+b.fontSize);});
+  s.querySelectorAll(SO_O).forEach(e=>{if(/\d/.test(e.textContent)&&!e.querySelector('[data-so]')&&!e.matches('[data-so]'))add(loi,id,'so-go-tay',e.textContent.trim().slice(0,40));});
+  s.querySelectorAll('.view3d').forEach(vw=>{if(!HAS3D){add(loi,id,'khong-3d','');return;}const c=vw.querySelector('canvas');if(!c){add(loi,id,'canh-trang','không có canvas');return;}
+   const gl=c.getContext('webgl2')||c.getContext('webgl');const px=new Uint8Array(4);let ve=0;
+   for(let a=1;a<10;a++)for(let b=1;b<10;b++){gl.readPixels(Math.floor(c.width*a/10),Math.floor(c.height*b/10),1,1,gl.RGBA,gl.UNSIGNED_BYTE,px);if(px[3]>0)ve++;}
+   if(ve<3)add(loi,id,'canh-trang',ve+'/81 điểm có hình');});
+  if(s.innerText.includes(String.fromCharCode(8212)))add(loi,id,'gach-dai','');
+  if(!s.querySelector('aside.script .vi')?.textContent.trim())add(canh,id,'thieu-loi-thoai','');});
+ go(0,true);const out=document.getElementById('qa-out');out.textContent=JSON.stringify({so_slide:slides.length,ids:slides.map(s=>s.id),loi,canh});out.dataset.xong='1';});
+</script>
+</body>
+</html>
